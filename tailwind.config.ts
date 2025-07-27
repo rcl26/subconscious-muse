@@ -27,8 +27,8 @@ export default {
 				'dream': 'var(--shadow-dream)',
 				'float': 'var(--shadow-float)',
 			},
-			transitionProperty: {
-				'magical': 'var(--transition-magical)',
+			transitionTimingFunction: {
+				'magical': 'cubic-bezier(0.4, 0, 0.2, 1)',
 			},
 			colors: {
 				border: 'hsl(var(--border))',
