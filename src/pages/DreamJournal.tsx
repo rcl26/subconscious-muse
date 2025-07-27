@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry, Dream } from "@/components/DreamEntry";
+import { DreamAnalysis } from "@/components/DreamAnalysis";
+import { ApiKeySetup } from "@/components/ApiKeySetup";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, Moon } from "lucide-react";
+import { ArrowLeft, Sparkles, Moon, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useOpenAI } from "@/hooks/useOpenAI";
 
 export const DreamJournal = () => {
   const [dreams, setDreams] = useState<Dream[]>([
@@ -25,7 +28,9 @@ export const DreamJournal = () => {
   ]);
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
+  const [showApiSetup, setShowApiSetup] = useState(false);
   const { toast } = useToast();
+  const { hasApiKey, setApiKey } = useOpenAI();
 
   const handleDreamRecorded = (dreamText: string) => {
     const newDream: Dream = {
@@ -45,11 +50,15 @@ export const DreamJournal = () => {
   };
 
   const handleExploreDream = (dream: Dream) => {
+    if (!hasApiKey) {
+      setShowApiSetup(true);
+      toast({
+        title: "API Key Required",
+        description: "Set up your OpenAI API key to analyze dreams.",
+      });
+      return;
+    }
     setSelectedDream(dream);
-    toast({
-      title: "GPT Analysis Coming Soon 🔮",
-      description: "This feature will help you explore the deeper meaning of your dreams.",
-    });
   };
 
   const handleDeleteDream = (dreamId: string) => {
@@ -77,6 +86,51 @@ export const DreamJournal = () => {
       ),
     });
   };
+
+  const handleApiKeySet = (apiKey: string) => {
+    setApiKey(apiKey);
+    setShowApiSetup(false);
+  };
+
+  // Show analysis view
+  if (selectedDream) {
+    return (
+      <div className="min-h-screen bg-gradient-morning p-4">
+        <div className="max-w-md mx-auto">
+          <DreamAnalysis 
+            dream={selectedDream} 
+            onBack={() => setSelectedDream(null)} 
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Show API setup
+  if (showApiSetup) {
+    return (
+      <div className="min-h-screen bg-gradient-morning p-4">
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="flex items-center space-x-4">
+            <Button
+              onClick={() => setShowApiSetup(false)}
+              variant="ghost"
+              size="sm"
+              className="hover:bg-background/20"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">Setup</h1>
+              <p className="text-sm text-muted-foreground">Configure your AI analysis</p>
+            </div>
+          </div>
+
+          <ApiKeySetup onApiKeySet={handleApiKeySet} />
+        </div>
+      </div>
+    );
+  }
 
   if (showRecorder) {
     return (
@@ -116,6 +170,19 @@ export const DreamJournal = () => {
           <p className="text-muted-foreground">
             Capture and explore the wisdom of your dreams
           </p>
+          
+          {/* Settings button */}
+          <div className="flex justify-center pt-2">
+            <Button
+              onClick={() => setShowApiSetup(true)}
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <Settings className="h-4 w-4 mr-1" />
+              {hasApiKey ? "API Connected" : "Setup AI Analysis"}
+            </Button>
+          </div>
         </div>
 
         {/* Record New Dream Button */}
