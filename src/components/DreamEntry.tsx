@@ -63,11 +63,11 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
           
           <Button
             onClick={() => onDelete(dream.id)}
-            variant="outline"
+            variant="ghost"
             size="sm"
-            className="bg-background/50 border-destructive/20 hover:bg-destructive/10 text-destructive hover:text-destructive transition-magical"
+            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-magical p-2"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-3.5 w-3.5" />
           </Button>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { DreamEntry, Dream } from "@/components/DreamEntry";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles, Moon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export const DreamJournal = () => {
   const [dreams, setDreams] = useState<Dream[]>([
@@ -52,10 +53,28 @@ export const DreamJournal = () => {
   };
 
   const handleDeleteDream = (dreamId: string) => {
+    const dreamToDelete = dreams.find(dream => dream.id === dreamId);
+    if (!dreamToDelete) return;
+    
     setDreams(dreams.filter(dream => dream.id !== dreamId));
+    
     toast({
       title: "Dream Deleted",
       description: "The dream entry has been removed from your journal.",
+      action: (
+        <ToastAction 
+          altText="Undo delete"
+          onClick={() => {
+            setDreams(prevDreams => [dreamToDelete, ...prevDreams.filter(d => d.id !== dreamId)]);
+            toast({
+              title: "Dream Restored",
+              description: "Your dream entry has been restored.",
+            });
+          }}
+        >
+          Undo
+        </ToastAction>
+      ),
     });
   };
 
