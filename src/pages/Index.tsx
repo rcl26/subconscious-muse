@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles, Moon, Stars } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Index = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gradient-night flex items-center justify-center p-4">
       <div className="text-center space-y-8 max-w-md mx-auto">
@@ -41,12 +39,14 @@ const Index = () => {
 
         {/* CTA */}
         <Button
-          onClick={() => navigate("/journal")}
+          asChild
           size="lg"
           className="w-full h-14 bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-dream transition-magical text-lg"
         >
-          <Sparkles className="h-5 w-5 mr-2" />
-          Begin Your Journey
+          <Link to="/journal">
+            <Sparkles className="h-5 w-5 mr-2" />
+            Begin Your Journey
+          </Link>
         </Button>
 
         <p className="text-sm text-primary-foreground/60">
