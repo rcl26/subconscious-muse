@@ -8,7 +8,7 @@ export const useOpenAI = () => {
   const [client, setClient] = useState<OpenAI | null>(null);
 
   useEffect(() => {
-    if (OPENAI_API_KEY && OPENAI_API_KEY !== "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") {
+    if (OPENAI_API_KEY && OPENAI_API_KEY !== "sk-your-api-key-here") {
       setClient(new OpenAI({
         apiKey: OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
