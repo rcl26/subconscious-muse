@@ -2,41 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Dream Journal Design System - Calming, magical, personal
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dream gradient backgrounds */
+    --background: 245 35% 98%;
+    --foreground: 245 20% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Dreamy cards with soft depth */
+    --card: 245 50% 99%;
+    --card-foreground: 245 15% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 245 50% 99%;
+    --popover-foreground: 245 15% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Mystical purple primary */
+    --primary: 270 70% 55%;
+    --primary-foreground: 245 50% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft lavender secondary */
+    --secondary: 260 30% 92%;
+    --secondary-foreground: 270 40% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Gentle muted tones */
+    --muted: 250 25% 95%;
+    --muted-foreground: 245 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Magical accent */
+    --accent: 280 60% 88%;
+    --accent-foreground: 270 50% 30%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 250 20% 88%;
+    --input: 250 20% 94%;
+    --ring: 270 70% 55%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Dreamy gradients */
+    --gradient-dream: linear-gradient(135deg, hsl(270 70% 85%), hsl(280 60% 90%), hsl(290 50% 95%));
+    --gradient-night: linear-gradient(180deg, hsl(245 40% 15%), hsl(260 50% 25%));
+    --gradient-morning: linear-gradient(135deg, hsl(280 60% 88%), hsl(245 35% 98%));
+    
+    /* Magical shadows */
+    --shadow-dream: 0 8px 32px hsl(270 70% 55% / 0.15);
+    --shadow-float: 0 4px 20px hsl(280 60% 70% / 0.2);
+    
+    /* Smooth transitions */
+    --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 

@@ -18,6 +18,18 @@ export default {
 			}
 		},
 		extend: {
+			backgroundImage: {
+				'gradient-dream': 'var(--gradient-dream)',
+				'gradient-night': 'var(--gradient-night)',
+				'gradient-morning': 'var(--gradient-morning)',
+			},
+			boxShadow: {
+				'dream': 'var(--shadow-dream)',
+				'float': 'var(--shadow-float)',
+			},
+			transitionProperty: {
+				'magical': 'var(--transition-magical)',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
