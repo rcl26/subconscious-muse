@@ -1,5 +1,5 @@
 import { formatDistance } from "date-fns";
-import { Moon, MessageCircle } from "lucide-react";
+import { Moon, MessageCircle, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -15,9 +15,10 @@ export interface Dream {
 interface DreamEntryProps {
   dream: Dream;
   onExplore: (dream: Dream) => void;
+  onDelete: (dreamId: string) => void;
 }
 
-export const DreamEntry = ({ dream, onExplore }: DreamEntryProps) => {
+export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
   return (
     <Card className="p-6 bg-card shadow-float border border-border/50 hover:shadow-dream transition-magical">
       <div className="space-y-4">
@@ -58,6 +59,15 @@ export const DreamEntry = ({ dream, onExplore }: DreamEntryProps) => {
           >
             <MessageCircle className="h-4 w-4 mr-2" />
             Explore with GPT
+          </Button>
+          
+          <Button
+            onClick={() => onDelete(dream.id)}
+            variant="outline"
+            size="sm"
+            className="bg-background/50 border-destructive/20 hover:bg-destructive/10 text-destructive hover:text-destructive transition-magical"
+          >
+            <Trash2 className="h-4 w-4" />
           </Button>
         </div>
       </div>

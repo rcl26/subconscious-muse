@@ -51,6 +51,14 @@ export const DreamJournal = () => {
     });
   };
 
+  const handleDeleteDream = (dreamId: string) => {
+    setDreams(dreams.filter(dream => dream.id !== dreamId));
+    toast({
+      title: "Dream Deleted",
+      description: "The dream entry has been removed from your journal.",
+    });
+  };
+
   if (showRecorder) {
     return (
       <div className="min-h-screen bg-gradient-morning p-4">
@@ -111,6 +119,7 @@ export const DreamJournal = () => {
                   key={dream.id}
                   dream={dream}
                   onExplore={handleExploreDream}
+                  onDelete={handleDeleteDream}
                 />
               ))}
             </>
