@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Mic, Square, Play, Pause } from "lucide-react";
+import { Mic, Square, Play, Pause, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DreamRecorderProps {
   onDreamRecorded: (dreamText: string) => void;
@@ -11,6 +13,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState<string | null>(null);
+  const [dreamText, setDreamText] = useState("");
 
   const startRecording = () => {
     setIsRecording(true);
@@ -31,6 +34,13 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
     // Placeholder: Audio playback will go here
   };
 
+  const handleTextSubmit = () => {
+    if (dreamText.trim()) {
+      onDreamRecorded(dreamText.trim());
+      setDreamText("");
+    }
+  };
+
   return (
     <Card className="p-8 bg-gradient-dream shadow-dream border-0">
       <div className="text-center space-y-6">
@@ -41,71 +51,104 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <div className="relative">
-            {!isRecording ? (
-              <Button
-                onClick={startRecording}
-                size="lg"
-                className="h-24 w-24 rounded-full bg-primary hover:bg-primary/90 shadow-float transition-magical"
-                disabled={isRecording}
-              >
-                <Mic className="h-8 w-8" />
-              </Button>
-            ) : (
-              <Button
-                onClick={stopRecording}
-                size="lg"
-                className="h-24 w-24 rounded-full bg-destructive hover:bg-destructive/90 shadow-float transition-magical animate-pulse"
-              >
-                <Square className="h-8 w-8" />
-              </Button>
-            )}
-          </div>
-        </div>
+        <Tabs defaultValue="voice" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 bg-background/50 border border-primary/20">
+            <TabsTrigger value="voice" className="flex items-center gap-2">
+              <Mic className="h-4 w-4" />
+              Voice
+            </TabsTrigger>
+            <TabsTrigger value="text" className="flex items-center gap-2">
+              <PenTool className="h-4 w-4" />
+              Type
+            </TabsTrigger>
+          </TabsList>
 
-        {isRecording && (
-          <div className="space-y-2">
-            <div className="text-sm text-muted-foreground">Recording...</div>
+          <TabsContent value="voice" className="space-y-6 mt-6">
             <div className="flex justify-center">
-              <div className="flex space-x-1">
-                {[...Array(4)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-1 bg-primary rounded-full animate-pulse"
-                    style={{
-                      height: Math.random() * 20 + 10,
-                      animationDelay: `${i * 0.1}s`,
-                    }}
-                  />
-                ))}
+              <div className="relative">
+                {!isRecording ? (
+                  <Button
+                    onClick={startRecording}
+                    size="lg"
+                    className="h-24 w-24 rounded-full bg-primary hover:bg-primary/90 shadow-float transition-magical"
+                    disabled={isRecording}
+                  >
+                    <Mic className="h-8 w-8" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={stopRecording}
+                    size="lg"
+                    className="h-24 w-24 rounded-full bg-destructive hover:bg-destructive/90 shadow-float transition-magical animate-pulse"
+                  >
+                    <Square className="h-8 w-8" />
+                  </Button>
+                )}
               </div>
             </div>
-          </div>
-        )}
 
-        {recordedAudio && !isRecording && (
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">Dream recorded successfully!</p>
-            <Button
-              onClick={togglePlayback}
-              variant="outline"
-              className="bg-background/50 border-primary/20 hover:bg-primary/10 transition-magical"
-            >
-              {isPlaying ? (
-                <>
-                  <Pause className="h-4 w-4 mr-2" />
-                  Pause Playback
-                </>
-              ) : (
-                <>
-                  <Play className="h-4 w-4 mr-2" />
-                  Play Recording
-                </>
-              )}
-            </Button>
-          </div>
-        )}
+            {isRecording && (
+              <div className="space-y-2">
+                <div className="text-sm text-muted-foreground">Recording...</div>
+                <div className="flex justify-center">
+                  <div className="flex space-x-1">
+                    {[...Array(4)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 bg-primary rounded-full animate-pulse"
+                        style={{
+                          height: Math.random() * 20 + 10,
+                          animationDelay: `${i * 0.1}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {recordedAudio && !isRecording && (
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground">Dream recorded successfully!</p>
+                <Button
+                  onClick={togglePlayback}
+                  variant="outline"
+                  className="bg-background/50 border-primary/20 hover:bg-primary/10 transition-magical"
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="h-4 w-4 mr-2" />
+                      Pause Playback
+                    </>
+                  ) : (
+                    <>
+                      <Play className="h-4 w-4 mr-2" />
+                      Play Recording
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="text" className="space-y-6 mt-6">
+            <div className="space-y-4">
+              <Textarea
+                placeholder="Describe your dream in as much detail as you can remember..."
+                value={dreamText}
+                onChange={(e) => setDreamText(e.target.value)}
+                className="min-h-[200px] bg-background/50 border-primary/20 focus:border-primary/40 transition-magical resize-none"
+              />
+              <Button
+                onClick={handleTextSubmit}
+                disabled={!dreamText.trim()}
+                className="w-full bg-primary hover:bg-primary/90 transition-magical"
+              >
+                Save Dream
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </Card>
   );
