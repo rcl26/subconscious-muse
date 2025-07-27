@@ -1,31 +1,23 @@
 import { useState, useEffect } from "react";
 import { OpenAI } from "openai";
 
+// TODO: Replace with your OpenAI API key from https://platform.openai.com/api-keys
+const OPENAI_API_KEY = "sk-your-api-key-here";
+
 export const useOpenAI = () => {
-  const [apiKey, setApiKey] = useState<string | null>(null);
   const [client, setClient] = useState<OpenAI | null>(null);
 
   useEffect(() => {
-    const savedKey = localStorage.getItem("openai_api_key");
-    if (savedKey) {
-      setApiKey(savedKey);
+    if (OPENAI_API_KEY && OPENAI_API_KEY !== "sk-your-api-key-here") {
       setClient(new OpenAI({
-        apiKey: savedKey,
-        dangerouslyAllowBrowser: true, // Note: For production, use backend
+        apiKey: OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
       }));
     }
   }, []);
 
-  const setNewApiKey = (newKey: string) => {
-    setApiKey(newKey);
-    setClient(new OpenAI({
-      apiKey: newKey,
-      dangerouslyAllowBrowser: true,
-    }));
-  };
-
   const analyzeDream = async (dreamText: string) => {
-    if (!client) throw new Error("OpenAI client not initialized");
+    if (!client) throw new Error("OpenAI client not initialized - please add your API key");
 
     const response = await client.chat.completions.create({
       model: "gpt-4.1-2025-04-14",
@@ -53,17 +45,10 @@ Keep your response thoughtful, non-judgmental, and around 300-400 words. Format 
     return response.choices[0]?.message?.content || "Unable to analyze dream.";
   };
 
-  const clearApiKey = () => {
-    localStorage.removeItem("openai_api_key");
-    setApiKey(null);
-    setClient(null);
-  };
+  const hasApiKey = !!client;
 
   return {
-    apiKey,
-    hasApiKey: !!apiKey,
-    setApiKey: setNewApiKey,
-    clearApiKey,
+    hasApiKey,
     analyzeDream,
   };
 };

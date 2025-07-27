@@ -16,19 +16,10 @@ interface DreamAnalysisProps {
 export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
   const [analysis, setAnalysis] = useState<string | null>(dream.analysis || null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const { analyzeDream, hasApiKey } = useOpenAI();
+  const { analyzeDream } = useOpenAI();
   const { toast } = useToast();
 
   const handleAnalyze = async () => {
-    if (!hasApiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please set up your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsAnalyzing(true);
     try {
       const result = await analyzeDream(dream.text);
@@ -39,13 +30,13 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
       
       toast({
         title: "Dream Analyzed",
-        description: "Your dream has been analyzed by GPT!",
+        description: "Your dream has been analyzed by AI!",
       });
     } catch (error) {
       console.error("Analysis error:", error);
       toast({
         title: "Analysis Failed",
-        description: "Failed to analyze dream. Please check your API key and try again.",
+        description: "Failed to analyze dream. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -108,7 +99,7 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
             {!analysis && (
               <Button
                 onClick={handleAnalyze}
-                disabled={isAnalyzing || !hasApiKey}
+                disabled={isAnalyzing}
                 className="bg-primary hover:bg-primary/90"
               >
                 {isAnalyzing ? (
@@ -154,11 +145,7 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              {!hasApiKey ? (
-                <p>Set up your OpenAI API key to analyze this dream</p>
-              ) : (
-                <p>Click "Analyze Dream" to get AI insights about your dream</p>
-              )}
+              <p>Click "Analyze Dream" to get AI insights about your dream</p>
             </div>
           )}
         </div>
