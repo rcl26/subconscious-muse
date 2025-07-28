@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry, Dream } from "@/components/DreamEntry";
-import { DreamAnalysis } from "@/components/DreamAnalysis";
+import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Sparkles, Moon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -26,6 +26,7 @@ export const DreamJournal = () => {
   ]);
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
   const handleDreamRecorded = (dreamText: string) => {
@@ -47,6 +48,7 @@ export const DreamJournal = () => {
 
   const handleExploreDream = (dream: Dream) => {
     setSelectedDream(dream);
+    setIsModalOpen(true);
   };
 
   const handleDeleteDream = (dreamId: string) => {
@@ -75,19 +77,10 @@ export const DreamJournal = () => {
     });
   };
 
-  // Show analysis view
-  if (selectedDream) {
-    return (
-      <div className="min-h-screen bg-gradient-morning p-4">
-        <div className="max-w-md mx-auto">
-          <DreamAnalysis 
-            dream={selectedDream} 
-            onBack={() => setSelectedDream(null)} 
-          />
-        </div>
-      </div>
-    );
-  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDream(null);
+  };
 
   if (showRecorder) {
     return (
@@ -165,6 +158,13 @@ export const DreamJournal = () => {
             </div>
           )}
         </div>
+
+        {/* Dream Conversation Modal */}
+        <DreamConversationModal
+          dream={selectedDream}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
       </div>
     </div>
   );

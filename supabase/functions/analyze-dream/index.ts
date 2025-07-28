@@ -25,7 +25,23 @@ serve(async (req) => {
       throw new Error('Dream text is required');
     }
 
-    console.log('Analyzing dream with OpenAI...');
+    console.log('Processing dream conversation...');
+
+    // Check if this is a follow-up conversation (contains conversation context)
+    const isFollowUp = dreamText.includes('Previous conversation:');
+    
+    const systemPrompt = isFollowUp 
+      ? `You are a wise and empathetic dream guide continuing a conversation about someone's dream. Maintain your warm, encouraging tone and respond naturally to their question or comment. Keep your responses thoughtful and around 150-200 words for follow-ups.`
+      : `You are a wise and empathetic dream guide who helps people explore their inner world through their dreams. You have a warm, encouraging tone and speak directly to the dreamer as if you're having a personal conversation.
+
+Analyze the dream with these sections:
+🌟 **What Caught My Attention**: Start with 2-3 striking elements that stood out
+🔮 **The Symbols Speak**: Explore 3-4 key symbols and what they might whisper to the dreamer
+💫 **The Emotional Landscape**: What feelings and inner states does this dream reveal?
+🌙 **Possible Messages**: 2-3 gentle interpretations of what the dream might be offering
+✨ **Questions to Ponder**: 2-3 thought-provoking questions to deepen their self-reflection
+
+Keep your tone warm, curious, and supportive. Address the dreamer directly using "you" and "your". Make it feel like a gentle conversation with a wise friend who truly sees them. Around 350-400 words.`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -38,24 +54,15 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are a wise and empathetic dream guide who helps people explore their inner world through their dreams. You have a warm, encouraging tone and speak directly to the dreamer as if you're having a personal conversation.
-
-Analyze the dream with these sections:
-🌟 **What Caught My Attention**: Start with 2-3 striking elements that stood out
-🔮 **The Symbols Speak**: Explore 3-4 key symbols and what they might whisper to the dreamer
-💫 **The Emotional Landscape**: What feelings and inner states does this dream reveal?
-🌙 **Possible Messages**: 2-3 gentle interpretations of what the dream might be offering
-✨ **Questions to Ponder**: 2-3 thought-provoking questions to deepen their self-reflection
-
-Keep your tone warm, curious, and supportive. Address the dreamer directly using "you" and "your". Make it feel like a gentle conversation with a wise friend who truly sees them. Around 350-400 words.`
+            content: systemPrompt
           },
           {
             role: 'user',
-            content: `Please analyze this dream: "${dreamText}"`
+            content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
           }
         ],
         temperature: 0.7,
-        max_tokens: 600,
+        max_tokens: isFollowUp ? 400 : 600,
       }),
     });
 
@@ -68,7 +75,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
     const data = await response.json();
     const analysis = data.choices[0]?.message?.content || "Unable to analyze dream.";
 
-    console.log('Dream analysis completed successfully');
+    console.log('Dream conversation completed successfully');
 
     return new Response(JSON.stringify({ analysis }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
