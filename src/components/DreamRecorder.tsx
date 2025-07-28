@@ -29,6 +29,9 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
         mimeType: 'audio/webm;codecs=opus'
       });
       
+      // Ensure we record for at least 1 second to get meaningful audio
+      const minRecordingTime = 1000; // 1 second
+      
       audioChunksRef.current = [];
       
       mediaRecorderRef.current.ondataavailable = (event) => {
@@ -38,7 +41,29 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
       };
       
       mediaRecorderRef.current.onstop = async () => {
+        if (audioChunksRef.current.length === 0) {
+          toast({
+            title: "Recording Error",
+            description: "No audio data captured. Please try recording again.",
+            variant: "destructive",
+          });
+          setIsTranscribing(false);
+          return;
+        }
+
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        
+        // Check if audio blob is meaningful size (at least 1KB)
+        if (audioBlob.size < 1000) {
+          toast({
+            title: "Recording Too Short",
+            description: "Please record for at least 2-3 seconds for better transcription.",
+            variant: "destructive",
+          });
+          setIsTranscribing(false);
+          return;
+        }
+
         const audioUrl = URL.createObjectURL(audioBlob);
         setRecordedAudio(audioUrl);
         
@@ -49,7 +74,8 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
         stream.getTracks().forEach(track => track.stop());
       };
       
-      mediaRecorderRef.current.start();
+      // Start recording in chunks for better quality
+      mediaRecorderRef.current.start(100); // 100ms chunks
       setIsRecording(true);
       
       console.log("Recording started...");
@@ -65,6 +91,8 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
+      // Record data in chunks every 100ms for better quality  
+      mediaRecorderRef.current.requestData();
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       setIsTranscribing(true);

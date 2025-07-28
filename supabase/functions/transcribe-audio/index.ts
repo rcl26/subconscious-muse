@@ -63,7 +63,7 @@ serve(async (req) => {
     const blob = new Blob([binaryAudio], { type: 'audio/webm' })
     formData.append('file', blob, 'audio.webm')
     formData.append('model', 'whisper-1')
-    formData.append('prompt', 'This is a dream journal recording. The user is describing a dream they had. Please transcribe accurately.')
+    formData.append('language', 'en')
 
     // Send to OpenAI Whisper
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
