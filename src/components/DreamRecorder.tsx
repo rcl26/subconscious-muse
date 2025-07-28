@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Mic, Square, Play, Pause, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface DreamRecorderProps {
   onDreamRecorded: (dreamText: string) => void;
@@ -11,27 +13,125 @@ interface DreamRecorderProps {
 
 export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   const [isRecording, setIsRecording] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState<string | null>(null);
   const [dreamText, setDreamText] = useState("");
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const { toast } = useToast();
 
-  const startRecording = () => {
-    setIsRecording(true);
-    // Placeholder: Real voice recording will go here
-    console.log("Starting dream recording...");
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      mediaRecorderRef.current = new MediaRecorder(stream, {
+        mimeType: 'audio/webm;codecs=opus'
+      });
+      
+      audioChunksRef.current = [];
+      
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+      
+      mediaRecorderRef.current.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        setRecordedAudio(audioUrl);
+        
+        // Convert to base64 and transcribe
+        await transcribeAudio(audioBlob);
+        
+        // Stop all audio tracks
+        stream.getTracks().forEach(track => track.stop());
+      };
+      
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+      
+      console.log("Recording started...");
+    } catch (error) {
+      console.error("Error starting recording:", error);
+      toast({
+        title: "Recording Error",
+        description: "Unable to access microphone. Please check permissions.",
+        variant: "destructive",
+      });
+    }
   };
 
   const stopRecording = () => {
-    setIsRecording(false);
-    // Placeholder: Stop recording and generate mock transcript
-    const mockDreamText = "I was flying over a vast ocean, feeling incredibly peaceful. The water was crystal clear and I could see dolphins swimming below me. There was a sense of freedom and lightness, like all my worries had disappeared.";
-    setRecordedAudio("mock-audio-url");
-    onDreamRecorded(mockDreamText);
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      setIsTranscribing(true);
+    }
+  };
+
+  const transcribeAudio = async (audioBlob: Blob) => {
+    try {
+      // Convert blob to base64
+      const arrayBuffer = await audioBlob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      let binary = '';
+      const chunkSize = 0x8000; // 32KB chunks
+      
+      for (let i = 0; i < uint8Array.length; i += chunkSize) {
+        const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
+        binary += String.fromCharCode.apply(null, Array.from(chunk));
+      }
+      
+      const base64Audio = btoa(binary);
+      
+      console.log("Sending audio for transcription...");
+      
+      // Call our edge function
+      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
+        body: { audio: base64Audio }
+      });
+      
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      if (data?.text) {
+        console.log("Transcription successful:", data.text);
+        onDreamRecorded(data.text);
+        
+        toast({
+          title: "Dream Recorded ✨",
+          description: "Your voice has been transcribed successfully!",
+        });
+      } else {
+        throw new Error("No transcription received");
+      }
+      
+    } catch (error) {
+      console.error("Transcription error:", error);
+      toast({
+        title: "Transcription Failed",
+        description: "Unable to convert speech to text. Please try typing your dream instead.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsTranscribing(false);
+    }
   };
 
   const togglePlayback = () => {
-    setIsPlaying(!isPlaying);
-    // Placeholder: Audio playback will go here
+    if (recordedAudio) {
+      const audio = new Audio(recordedAudio);
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+        audio.onended = () => setIsPlaying(false);
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const handleTextSubmit = () => {
@@ -66,14 +166,21 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
           <TabsContent value="voice" className="space-y-6 mt-6">
             <div className="flex justify-center">
               <div className="relative">
-                {!isRecording ? (
+                {!isRecording && !isTranscribing ? (
                   <Button
                     onClick={startRecording}
                     size="lg"
                     className="h-24 w-24 rounded-full bg-primary hover:bg-primary/90 shadow-float transition-magical"
-                    disabled={isRecording}
                   >
                     <Mic className="h-8 w-8" />
+                  </Button>
+                ) : isTranscribing ? (
+                  <Button
+                    size="lg"
+                    className="h-24 w-24 rounded-full bg-muted cursor-not-allowed"
+                    disabled
+                  >
+                    <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" />
                   </Button>
                 ) : (
                   <Button
@@ -89,7 +196,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
 
             {isRecording && (
               <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Recording...</div>
+                <div className="text-sm text-muted-foreground">Recording your dream...</div>
                 <div className="flex justify-center">
                   <div className="flex space-x-1">
                     {[...Array(4)].map((_, i) => (
@@ -107,9 +214,18 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
               </div>
             )}
 
-            {recordedAudio && !isRecording && (
+            {isTranscribing && (
+              <div className="space-y-2">
+                <div className="text-sm text-muted-foreground">Converting speech to text...</div>
+                <div className="flex justify-center">
+                  <div className="animate-spin h-6 w-6 border-2 border-primary border-t-transparent rounded-full" />
+                </div>
+              </div>
+            )}
+
+            {recordedAudio && !isRecording && !isTranscribing && (
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">Dream recorded successfully!</p>
+                <p className="text-sm text-muted-foreground">Dream recorded and transcribed!</p>
                 <Button
                   onClick={togglePlayback}
                   variant="outline"
