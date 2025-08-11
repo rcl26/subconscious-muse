@@ -69,21 +69,8 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
         <div className="space-y-3">
           <h3 className="font-medium text-foreground">Your Dream</h3>
           <p className="text-card-foreground leading-relaxed">
-            {dream.text}
+            {dream.content}
           </p>
-          
-          {dream.emotions && dream.emotions.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {dream.emotions.map((emotion) => (
-                <span
-                  key={emotion}
-                  className="px-2 py-1 text-xs rounded-full bg-accent text-accent-foreground"
-                >
-                  {emotion}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </Card>
 
