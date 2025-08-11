@@ -1,40 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "@/components/AuthModal";
+import { CreditsPurchaseModal } from "@/components/CreditsPurchaseModal";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry, Dream } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles, Moon } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 
 export const DreamJournal = () => {
-  const [dreams, setDreams] = useState<Dream[]>([
-    {
-      id: "1",
-      text: "I found myself in a vast library with books that glowed softly in the darkness. Each book I touched revealed memories I had forgotten, and I felt a deep sense of connection to my past self.",
-      date: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
-      emotions: ["nostalgic", "peaceful", "curious"],
-      themes: ["memory", "knowledge", "self-discovery"]
-    },
-    {
-      id: "2", 
-      text: "Flying through clouds that felt like cotton candy, I could taste the sweetness in the air. Below me was my childhood home, but it was surrounded by a garden that never existed in real life.",
-      date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
-      emotions: ["joyful", "free", "homesick"],
-      themes: ["childhood", "freedom", "home"]
-    }
-  ]);
+  const [dreams, setDreams] = useState<Dream[]>([]);
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showCreditsModal, setShowCreditsModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
+  // Check authentication on component mount
+  useEffect(() => {
+    if (!user) {
+      setShowAuthModal(true);
+    }
+  }, [user]);
+
   const handleDreamRecorded = (dreamText: string) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
     const newDream: Dream = {
       id: Date.now().toString(),
-      text: dreamText,
-      date: new Date(),
-      emotions: ["peaceful", "curious"], // Placeholder
+      content: dreamText,
+      date: new Date().toISOString(),
+      analysis: ""
     };
     
     setDreams([newDream, ...dreams]);
@@ -47,6 +51,16 @@ export const DreamJournal = () => {
   };
 
   const handleExploreDream = (dream: Dream) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    
+    if (!profile || profile.credits < 10) {
+      setShowCreditsModal(true);
+      return;
+    }
+    
     setSelectedDream(dream);
     setIsModalOpen(true);
   };
@@ -82,22 +96,27 @@ export const DreamJournal = () => {
     setSelectedDream(null);
   };
 
-  if (showRecorder) {
+  const handleSignOut = async () => {
+    await signOut();
+    setDreams([]);
+  };
+
+  if (showRecorder && user) {
     return (
-      <div className="min-h-screen bg-gradient-morning p-4">
+      <div className="min-h-screen bg-gradient-night p-4">
         <div className="max-w-md mx-auto space-y-6">
           <div className="flex items-center space-x-4">
             <Button
               onClick={() => setShowRecorder(false)}
               variant="ghost"
               size="sm"
-              className="hover:bg-background/20"
+              className="text-primary-foreground hover:bg-primary-foreground/10"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
-              <h1 className="text-xl font-semibold text-foreground">New Dream</h1>
-              <p className="text-sm text-muted-foreground">Capture your subconscious</p>
+              <h1 className="text-xl font-semibold text-primary-foreground">New Dream</h1>
+              <p className="text-sm text-primary-foreground/60">Capture your subconscious</p>
             </div>
           </div>
 
@@ -108,64 +127,128 @@ export const DreamJournal = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-morning">
-      <div className="max-w-md mx-auto p-4 space-y-6">
+    <div className="min-h-screen bg-gradient-night p-4">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center space-y-2 pt-8">
-          <div className="flex items-center justify-center space-x-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-semibold text-foreground">Dream Journal</h1>
-            <Sparkles className="h-6 w-6 text-primary" />
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <Link to="/">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Home
+              </Link>
+            </Button>
           </div>
-          <p className="text-muted-foreground">
+          
+          <div className="flex items-center space-x-3">
+            {user ? (
+              <>
+                <div className="flex items-center space-x-2 bg-primary-foreground/10 px-3 py-2 rounded-lg">
+                  <Zap className="h-4 w-4 text-yellow-500" />
+                  <span className="text-primary-foreground font-medium">
+                    {profile?.credits || 0} credits
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowCreditsModal(true)}
+                  className="text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
+                >
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Buy Credits
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAuthModal(true)}
+                className="text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
+              >
+                <User className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Title */}
+        <div className="text-center space-y-2 mb-8">
+          <div className="flex items-center justify-center space-x-2">
+            <Sparkles className="h-6 w-6 text-primary-foreground" />
+            <h1 className="text-2xl font-semibold text-primary-foreground">Dream Journal</h1>
+            <Sparkles className="h-6 w-6 text-primary-foreground" />
+          </div>
+          <p className="text-primary-foreground/70">
             Capture and explore the wisdom of your dreams
           </p>
         </div>
 
-        {/* Record New Dream Button */}
-        <Button
-          onClick={() => setShowRecorder(true)}
-          className="w-full h-14 bg-primary hover:bg-primary/90 shadow-dream transition-magical"
-          size="lg"
-        >
-          <Sparkles className="h-5 w-5 mr-2" />
-          Record New Dream
-        </Button>
-
-        {/* Dreams List */}
-        <div className="space-y-4">
-          {dreams.length > 0 ? (
-            <>
-              <h2 className="text-lg font-medium text-foreground px-2">Your Dreams</h2>
-              {dreams.map((dream) => (
-                <DreamEntry
-                  key={dream.id}
-                  dream={dream}
-                  onExplore={handleExploreDream}
-                  onDelete={handleDeleteDream}
-                />
-              ))}
-            </>
-          ) : (
-            <div className="text-center py-12 space-y-4">
-              <Moon className="h-12 w-12 text-muted-foreground mx-auto" />
-              <div>
-                <p className="text-muted-foreground">No dreams recorded yet</p>
-                <p className="text-sm text-muted-foreground/70">
-                  Start capturing your subconscious insights
-                </p>
-              </div>
-            </div>
+        {/* Record new dream button */}
+        <div className="text-center mb-8">
+          <Button
+            onClick={() => user ? setShowRecorder(true) : setShowAuthModal(true)}
+            size="lg"
+            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
+            disabled={!user}
+          >
+            <Plus className="h-5 w-5 mr-2" />
+            Record New Dream
+          </Button>
+          {!user && (
+            <p className="text-primary-foreground/60 text-sm mt-2">
+              Sign in to start recording your dreams
+            </p>
           )}
         </div>
 
-        {/* Dream Conversation Modal */}
-        <DreamConversationModal
-          dream={selectedDream}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
+        {/* Dreams list */}
+        <div className="space-y-4">
+          {dreams.length > 0 ? (
+            dreams.map((dream) => (
+              <DreamEntry 
+                key={dream.id} 
+                dream={dream} 
+                onExplore={handleExploreDream}
+                onDelete={handleDeleteDream}
+              />
+            ))
+          ) : (
+            <div className="text-center py-16">
+              <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
+              <p className="text-primary-foreground/60 text-lg">
+                {user ? "No dreams recorded yet. Start your journey by recording your first dream." : "Sign in to start your dream journey"}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Modals */}
+      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+      <CreditsPurchaseModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
+      
+      {/* Dream Conversation Modal */}
+      <DreamConversationModal
+        dream={selectedDream}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

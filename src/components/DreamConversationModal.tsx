@@ -3,9 +3,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Send, Moon, Bot, User } from "lucide-react";
+import { Loader2, Send, Moon, Bot, User, Zap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { Dream } from "@/components/DreamEntry";
 
 interface Message {
@@ -22,11 +24,12 @@ interface DreamConversationModalProps {
 }
 
 export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversationModalProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [hasStartedAnalysis, setHasStartedAnalysis] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { profile, refreshProfile } = useAuth();
   const { analyzeDream } = useOpenAI();
   const { toast } = useToast();
 
@@ -60,7 +63,7 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
     
     setIsLoading(true);
     try {
-      const analysis = await analyzeDream(dream.text);
+      const analysis = await analyzeDream(dream.content);
       
       const assistantMessage: Message = {
         id: Date.now().toString(),
@@ -83,7 +86,17 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || !dream || isLoading) return;
+    if (!inputValue.trim() || isLoading) return;
+
+    // Check if user has enough credits (10 credits per analysis)
+    if (!profile || profile.credits < 10) {
+      toast({
+        title: "Insufficient Credits",
+        description: "You need 10 credits to analyze this dream. Purchase more credits to continue.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -97,31 +110,53 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
     setIsLoading(true);
 
     try {
-      // Create conversation context for follow-up questions
-      const conversationContext = `Original dream: "${dream.text}"
-
-Previous conversation:
+      const conversationContext = hasStartedAnalysis 
+        ? `Previous conversation:
 ${messages.map(m => `${m.role === 'user' ? 'Dreamer' : 'Dream Guide'}: ${m.content}`).join('\n\n')}
 
 Dreamer: ${userMessage.content}
 
-Please respond as the warm, empathetic dream guide. Continue the conversation naturally, addressing their question or comment about their dream. Keep the same supportive tone and provide thoughtful insights.`;
+Please continue the conversation as their dream guide.`
+        : `Dream Description: ${dream?.content}
 
-      const response = await analyzeDream(conversationContext);
+${userMessage.content}
+
+Please provide a thoughtful analysis of this dream.`;
+
+      const analysis = await analyzeDream(conversationContext);
       
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: response,
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, assistantMessage]);
+      if (analysis) {
+        // Deduct 10 credits after successful analysis
+        await supabase.rpc('update_user_credits', {
+          user_id_param: profile.id,
+          credit_change: -10,
+          transaction_type: 'usage',
+          description_text: 'Dream analysis session'
+        });
+
+        // Refresh profile to update credits
+        await refreshProfile();
+
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: analysis,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, assistantMessage]);
+        setHasStartedAnalysis(true);
+
+        toast({
+          title: "Analysis Complete",
+          description: "10 credits used for this analysis",
+        });
+      }
     } catch (error) {
-      console.error('Error in conversation:', error);
+      console.error('Analysis error:', error);
       toast({
-        title: "Response Error",
-        description: "Unable to continue the conversation. Please try again.",
+        title: "Analysis Failed",
+        description: "Failed to analyze dream. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -148,7 +183,7 @@ Please respond as the warm, empathetic dream guide. Continue the conversation na
             {dream && (
               <div className="mt-2 p-3 bg-muted/50 rounded-lg">
                 <p className="text-sm text-muted-foreground line-clamp-3">
-                  "{dream.text}"
+                  "{dream.content}"
                 </p>
               </div>
             )}

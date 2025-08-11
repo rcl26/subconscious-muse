@@ -22,7 +22,7 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
     try {
-      const result = await analyzeDream(dream.text);
+      const result = await analyzeDream(dream.content);
       setAnalysis(result);
       
       // Update the dream object (in a real app, this would persist to a database)

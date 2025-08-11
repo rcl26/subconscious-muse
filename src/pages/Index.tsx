@@ -1,10 +1,41 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Moon, Stars } from "lucide-react";
+import { Sparkles, Moon, Stars, User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "@/components/AuthModal";
 
 const Index = () => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const { user, signOut } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-night flex items-center justify-center p-4">
+      {/* Auth Button in top right */}
+      <div className="fixed top-4 right-4">
+        {user ? (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={signOut}
+            className="text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Sign Out
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAuthModal(true)}
+            className="text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
+          >
+            <User className="h-4 w-4 mr-2" />
+            Sign In
+          </Button>
+        )}
+      </div>
+
       <div className="text-center space-y-8 max-w-md mx-auto">
         {/* Magical header */}
         <div className="space-y-4">
@@ -53,6 +84,8 @@ const Index = () => {
           Every dream holds a message. Start listening.
         </p>
       </div>
+
+      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
     </div>
   );
 };
