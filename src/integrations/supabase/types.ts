@@ -14,13 +14,133 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      credit_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          description: string | null
+          id: string
+          stripe_payment_intent_id: string | null
+          type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          stripe_payment_intent_id?: string | null
+          type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          stripe_payment_intent_id?: string | null
+          type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          credits: number | null
+          email: string
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credits?: number | null
+          email: string
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credits?: number | null
+          email?: string
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          credits_per_month: number | null
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          plan_type: string | null
+          status: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credits_per_month?: number | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan_type?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credits_per_month?: number | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan_type?: string | null
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_credits: {
+        Args: {
+          user_id_param: string
+          credit_change: number
+          transaction_type: string
+          description_text?: string
+          stripe_payment_intent_id_param?: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
