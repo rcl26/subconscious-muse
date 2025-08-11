@@ -21,19 +21,7 @@ export const DreamJournal = () => {
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
-  // Check authentication on component mount
-  useEffect(() => {
-    if (!user) {
-      setShowAuthModal(true);
-    }
-  }, [user]);
-
   const handleDreamRecorded = (dreamText: string) => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
     const newDream: Dream = {
       id: Date.now().toString(),
       content: dreamText,
@@ -51,11 +39,13 @@ export const DreamJournal = () => {
   };
 
   const handleExploreDream = (dream: Dream) => {
+    // First check if user is signed in
     if (!user) {
       setShowAuthModal(true);
       return;
     }
     
+    // Then check if they have enough credits
     if (!profile || profile.credits < 10) {
       setShowCreditsModal(true);
       return;
@@ -101,7 +91,7 @@ export const DreamJournal = () => {
     setDreams([]);
   };
 
-  if (showRecorder && user) {
+  if (showRecorder) {
     return (
       <div className="min-h-screen bg-gradient-night p-4">
         <div className="max-w-md mx-auto space-y-6">
@@ -202,19 +192,13 @@ export const DreamJournal = () => {
         {/* Record new dream button */}
         <div className="text-center mb-8">
           <Button
-            onClick={() => user ? setShowRecorder(true) : setShowAuthModal(true)}
+            onClick={() => setShowRecorder(true)}
             size="lg"
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
-            disabled={!user}
           >
             <Plus className="h-5 w-5 mr-2" />
             Record New Dream
           </Button>
-          {!user && (
-            <p className="text-primary-foreground/60 text-sm mt-2">
-              Sign in to start recording your dreams
-            </p>
-          )}
         </div>
 
         {/* Dreams list */}
@@ -232,7 +216,7 @@ export const DreamJournal = () => {
             <div className="text-center py-16">
               <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
               <p className="text-primary-foreground/60 text-lg">
-                {user ? "No dreams recorded yet. Start your journey by recording your first dream." : "Sign in to start your dream journey"}
+                No dreams recorded yet. Start your journey by recording your first dream.
               </p>
             </div>
           )}
