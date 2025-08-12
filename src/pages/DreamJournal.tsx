@@ -168,9 +168,9 @@ export const DreamJournal = () => {
                 variant="secondary"
                 size="sm"
                 onClick={() => setShowAuthModal(true)}
-                className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0"
+                className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0 justify-start"
               >
-                <User className="h-4 w-4 mr-2" />
+                <User className="h-4 w-4 mr-1" />
                 Sign In
               </Button>
             )}
