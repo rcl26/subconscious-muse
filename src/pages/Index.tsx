@@ -11,6 +11,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
+      {/* Floating mystical tagline that moves around screen */}
+      <div className="fixed inset-0 pointer-events-none z-10">
+        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
+          • every dream is a doorway •
+        </p>
+      </div>
+
       {/* Floating background elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-primary/30 to-transparent blur-xl animate-pulse"></div>
@@ -93,13 +100,6 @@ const Index = () => {
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
               </Link>
             </Button>
-            
-            {/* Floating mystical tagline */}
-            <div className="absolute inset-0 pointer-events-none">
-              <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
-                • every dream is a doorway •
-              </p>
-            </div>
           </div>
         </div>
       </div>
