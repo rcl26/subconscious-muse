@@ -57,103 +57,104 @@ All colors MUST be HSL.
     --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Floating animations for mystical text */
+  /* Floating animations for mystical text - expanded to cover more peripheral space */
   @keyframes float {
-    0% { transform: translate(20vw, 60vh) rotate(0deg); opacity: 0.4; }
-    25% { transform: translate(80vw, 30vh) rotate(5deg); opacity: 0.6; }
-    50% { transform: translate(70vw, 70vh) rotate(-3deg); opacity: 0.4; }
-    75% { transform: translate(10vw, 40vh) rotate(8deg); opacity: 0.5; }
-    100% { transform: translate(20vw, 60vh) rotate(0deg); opacity: 0.4; }
+    0% { transform: translate(5vw, 80vh) rotate(0deg); opacity: 0.4; }
+    25% { transform: translate(90vw, 15vh) rotate(5deg); opacity: 0.6; }
+    50% { transform: translate(85vw, 85vh) rotate(-3deg); opacity: 0.4; }
+    75% { transform: translate(3vw, 25vh) rotate(8deg); opacity: 0.5; }
+    100% { transform: translate(5vw, 80vh) rotate(0deg); opacity: 0.4; }
   }
 
   @keyframes float2 {
-    0% { transform: translate(90vw, 20vh) rotate(0deg); opacity: 0.3; }
-    25% { transform: translate(15vw, 80vh) rotate(-8deg); opacity: 0.5; }
-    50% { transform: translate(85vw, 65vh) rotate(6deg); opacity: 0.3; }
-    75% { transform: translate(30vw, 25vh) rotate(-4deg); opacity: 0.4; }
-    100% { transform: translate(90vw, 20vh) rotate(0deg); opacity: 0.3; }
+    0% { transform: translate(95vw, 10vh) rotate(0deg); opacity: 0.3; }
+    25% { transform: translate(2vw, 90vh) rotate(-8deg); opacity: 0.5; }
+    50% { transform: translate(92vw, 75vh) rotate(6deg); opacity: 0.3; }
+    75% { transform: translate(8vw, 5vh) rotate(-4deg); opacity: 0.4; }
+    100% { transform: translate(95vw, 10vh) rotate(0deg); opacity: 0.3; }
   }
 
   @keyframes float3 {
-    0% { transform: translate(50vw, 85vh) rotate(0deg); opacity: 0.35; }
-    25% { transform: translate(5vw, 35vh) rotate(10deg); opacity: 0.5; }
-    50% { transform: translate(95vw, 50vh) rotate(-5deg); opacity: 0.35; }
-    75% { transform: translate(40vw, 15vh) rotate(7deg); opacity: 0.45; }
-    100% { transform: translate(50vw, 85vh) rotate(0deg); opacity: 0.35; }
+    0% { transform: translate(50vw, 95vh) rotate(0deg); opacity: 0.35; }
+    25% { transform: translate(1vw, 20vh) rotate(10deg); opacity: 0.5; }
+    50% { transform: translate(97vw, 60vh) rotate(-5deg); opacity: 0.35; }
+    75% { transform: translate(25vw, 2vh) rotate(7deg); opacity: 0.45; }
+    100% { transform: translate(50vw, 95vh) rotate(0deg); opacity: 0.35; }
   }
 
   @keyframes float4 {
-    0% { transform: translate(75vw, 45vh) rotate(0deg); opacity: 0.25; }
-    25% { transform: translate(25vw, 75vh) rotate(-12deg); opacity: 0.4; }
-    50% { transform: translate(60vw, 20vh) rotate(4deg); opacity: 0.25; }
-    75% { transform: translate(90vw, 80vh) rotate(-6deg); opacity: 0.35; }
-    100% { transform: translate(75vw, 45vh) rotate(0deg); opacity: 0.25; }
+    0% { transform: translate(88vw, 55vh) rotate(0deg); opacity: 0.25; }
+    25% { transform: translate(12vw, 92vh) rotate(-12deg); opacity: 0.4; }
+    50% { transform: translate(75vw, 8vh) rotate(4deg); opacity: 0.25; }
+    75% { transform: translate(6vw, 45vh) rotate(-6deg); opacity: 0.35; }
+    100% { transform: translate(88vw, 55vh) rotate(0deg); opacity: 0.25; }
   }
 
   @keyframes float5 {
-    0% { transform: translate(35vw, 25vh) rotate(0deg); opacity: 0.4; }
-    25% { transform: translate(75vw, 85vh) rotate(9deg); opacity: 0.6; }
-    50% { transform: translate(10vw, 55vh) rotate(-7deg); opacity: 0.4; }
-    75% { transform: translate(65vw, 10vh) rotate(5deg); opacity: 0.5; }
-    100% { transform: translate(35vw, 25vh) rotate(0deg); opacity: 0.4; }
+    0% { transform: translate(15vw, 12vh) rotate(0deg); opacity: 0.4; }
+    25% { transform: translate(93vw, 88vh) rotate(9deg); opacity: 0.6; }
+    50% { transform: translate(4vw, 65vh) rotate(-7deg); opacity: 0.4; }
+    75% { transform: translate(82vw, 3vh) rotate(5deg); opacity: 0.5; }
+    100% { transform: translate(15vw, 12vh) rotate(0deg); opacity: 0.4; }
   }
 
   @keyframes float6 {
-    0% { transform: translate(15vw, 70vh) rotate(0deg); opacity: 0.3; }
-    25% { transform: translate(85vw, 40vh) rotate(-10deg); opacity: 0.45; }
-    50% { transform: translate(45vw, 90vh) rotate(8deg); opacity: 0.3; }
-    75% { transform: translate(5vw, 15vh) rotate(-3deg); opacity: 0.4; }
-    100% { transform: translate(15vw, 70vh) rotate(0deg); opacity: 0.3; }
+    0% { transform: translate(7vw, 88vh) rotate(0deg); opacity: 0.3; }
+    25% { transform: translate(91vw, 35vh) rotate(-10deg); opacity: 0.45; }
+    50% { transform: translate(35vw, 96vh) rotate(8deg); opacity: 0.3; }
+    75% { transform: translate(2vw, 8vh) rotate(-3deg); opacity: 0.4; }
+    100% { transform: translate(7vw, 88vh) rotate(0deg); opacity: 0.3; }
   }
 
   @keyframes float7 {
-    0% { transform: translate(60vw, 35vh) rotate(0deg); opacity: 0.35; }
-    25% { transform: translate(20vw, 60vh) rotate(11deg); opacity: 0.5; }
-    50% { transform: translate(80vw, 75vh) rotate(-9deg); opacity: 0.35; }
-    75% { transform: translate(55vw, 5vh) rotate(6deg); opacity: 0.45; }
-    100% { transform: translate(60vw, 35vh) rotate(0deg); opacity: 0.35; }
+    0% { transform: translate(78vw, 18vh) rotate(0deg); opacity: 0.35; }
+    25% { transform: translate(9vw, 78vh) rotate(11deg); opacity: 0.5; }
+    50% { transform: translate(94vw, 92vh) rotate(-9deg); opacity: 0.35; }
+    75% { transform: translate(40vw, 1vh) rotate(6deg); opacity: 0.45; }
+    100% { transform: translate(78vw, 18vh) rotate(0deg); opacity: 0.35; }
   }
 
-  /* Floating animations for mystical icons */
+  /* Floating animations for mystical icons - expanded to cover more peripheral space */
   @keyframes floatIcon1 {
-    0% { transform: translate(25vw, 30vh) rotate(0deg) scale(1); opacity: 0.3; }
-    25% { transform: translate(85vw, 70vh) rotate(15deg) scale(1.1); opacity: 0.4; }
-    50% { transform: translate(45vw, 85vh) rotate(-10deg) scale(0.9); opacity: 0.3; }
-    75% { transform: translate(5vw, 45vh) rotate(20deg) scale(1.05); opacity: 0.35; }
-    100% { transform: translate(25vw, 30vh) rotate(0deg) scale(1); opacity: 0.3; }
+    0% { transform: translate(8vw, 15vh) rotate(0deg) scale(1); opacity: 0.3; }
+    25% { transform: translate(92vw, 82vh) rotate(15deg) scale(1.1); opacity: 0.4; }
+    50% { transform: translate(25vw, 94vh) rotate(-10deg) scale(0.9); opacity: 0.3; }
+    75% { transform: translate(1vw, 35vh) rotate(20deg) scale(1.05); opacity: 0.35; }
+    100% { transform: translate(8vw, 15vh) rotate(0deg) scale(1); opacity: 0.3; }
   }
 
   @keyframes floatIcon2 {
-    0% { transform: translate(70vw, 15vh) rotate(0deg) scale(1); opacity: 0.25; }
-    25% { transform: translate(20vw, 65vh) rotate(-25deg) scale(1.2); opacity: 0.4; }
-    50% { transform: translate(90vw, 80vh) rotate(12deg) scale(0.8); opacity: 0.25; }
-    75% { transform: translate(35vw, 20vh) rotate(-8deg) scale(1.1); opacity: 0.3; }
-    100% { transform: translate(70vw, 15vh) rotate(0deg) scale(1); opacity: 0.25; }
+    0% { transform: translate(85vw, 5vh) rotate(0deg) scale(1); opacity: 0.25; }
+    25% { transform: translate(3vw, 75vh) rotate(-25deg) scale(1.2); opacity: 0.4; }
+    50% { transform: translate(96vw, 90vh) rotate(12deg) scale(0.8); opacity: 0.25; }
+    75% { transform: translate(18vw, 8vh) rotate(-8deg) scale(1.1); opacity: 0.3; }
+    100% { transform: translate(85vw, 5vh) rotate(0deg) scale(1); opacity: 0.25; }
   }
 
   @keyframes floatIcon3 {
-    0% { transform: translate(10vw, 75vh) rotate(0deg) scale(1); opacity: 0.35; }
-    25% { transform: translate(80vw, 25vh) rotate(30deg) scale(1.3); opacity: 0.5; }
-    50% { transform: translate(55vw, 90vh) rotate(-15deg) scale(0.9); opacity: 0.35; }
-    75% { transform: translate(15vw, 10vh) rotate(18deg) scale(1.15); opacity: 0.4; }
-    100% { transform: translate(10vw, 75vh) rotate(0deg) scale(1); opacity: 0.35; }
+    0% { transform: translate(4vw, 85vh) rotate(0deg) scale(1); opacity: 0.35; }
+    25% { transform: translate(88vw, 12vh) rotate(30deg) scale(1.3); opacity: 0.5; }
+    50% { transform: translate(65vw, 97vh) rotate(-15deg) scale(0.9); opacity: 0.35; }
+    75% { transform: translate(6vw, 2vh) rotate(18deg) scale(1.15); opacity: 0.4; }
+    100% { transform: translate(4vw, 85vh) rotate(0deg) scale(1); opacity: 0.35; }
   }
 
   @keyframes floatIcon4 {
-    0% { transform: translate(90vw, 55vh) rotate(0deg) scale(1); opacity: 0.2; }
-    25% { transform: translate(40vw, 10vh) rotate(-20deg) scale(0.7); opacity: 0.3; }
-    50% { transform: translate(15vw, 60vh) rotate(25deg) scale(1.1); opacity: 0.2; }
-    75% { transform: translate(75vw, 85vh) rotate(-12deg) scale(0.85); opacity: 0.25; }
-    100% { transform: translate(90vw, 55vh) rotate(0deg) scale(1); opacity: 0.2; }
+    0% { transform: translate(96vw, 68vh) rotate(0deg) scale(1); opacity: 0.2; }
+    25% { transform: translate(22vw, 4vh) rotate(-20deg) scale(0.7); opacity: 0.3; }
+    50% { transform: translate(8vw, 72vh) rotate(25deg) scale(1.1); opacity: 0.2; }
+    75% { transform: translate(89vw, 95vh) rotate(-12deg) scale(0.85); opacity: 0.25; }
+    100% { transform: translate(96vw, 68vh) rotate(0deg) scale(1); opacity: 0.2; }
   }
 
   @keyframes floatIcon5 {
-    0% { transform: translate(45vw, 5vh) rotate(0deg) scale(1); opacity: 0.3; }
-    25% { transform: translate(5vw, 80vh) rotate(22deg) scale(0.9); opacity: 0.4; }
-    50% { transform: translate(85vw, 40vh) rotate(-18deg) scale(1.2); opacity: 0.3; }
-    75% { transform: translate(60vw, 95vh) rotate(8deg) scale(0.8); opacity: 0.35; }
-    100% { transform: translate(45vw, 5vh) rotate(0deg) scale(1); opacity: 0.3; }
+    0% { transform: translate(60vw, 1vh) rotate(0deg) scale(1); opacity: 0.3; }
+    25% { transform: translate(1vw, 89vh) rotate(22deg) scale(0.9); opacity: 0.4; }
+    50% { transform: translate(91vw, 48vh) rotate(-18deg) scale(1.2); opacity: 0.3; }
+    75% { transform: translate(45vw, 98vh) rotate(8deg) scale(0.8); opacity: 0.35; }
+    100% { transform: translate(60vw, 1vh) rotate(0deg) scale(1); opacity: 0.3; }
   }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

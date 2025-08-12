@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Moon, Stars, User, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
 
 const Index = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  // Add Enter key binding to activate the main CTA
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        navigate("/journal");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
@@ -111,7 +124,7 @@ const Index = () => {
             >
               <Link to="/journal" className="flex items-center">
                 <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                Enter this way
+                Come this way
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
               </Link>
             </Button>
