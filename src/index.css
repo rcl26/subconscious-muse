@@ -352,10 +352,13 @@ All colors MUST be HSL.
     display: none !important;
   }
   
-  /* Simplify gradients on mobile for better performance */
-  .bg-gradient-dream,
+  /* Simplify gradients on mobile for better performance but maintain theme */
+  .bg-gradient-dream {
+    background: hsl(var(--card));
+  }
+  
   .bg-gradient-night {
-    background: hsl(var(--primary) / 0.1);
+    background: hsl(var(--background));
   }
   
   /* Optimize shadows for mobile */
