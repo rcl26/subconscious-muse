@@ -39,22 +39,16 @@ const Index = () => {
         <p className="absolute text-primary-foreground/25 text-xs font-light tracking-wider animate-[float4_22s_ease-in-out_infinite_8s]">
           the unconscious speaks in symbols
         </p>
-        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float5_28s_ease-in-out_infinite_12s]">
-          • where thoughts become visions •
-        </p>
         <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float6_24s_ease-in-out_infinite_15s]">
           your mind's secret language
-        </p>
-        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float7_26s_ease-in-out_infinite_18s]">
-          • wisdom lives in the shadows •
         </p>
         
         {/* Floating icons */}
         <Moon className="absolute h-8 w-8 text-primary-foreground/30 animate-[floatIcon1_30s_ease-in-out_infinite_3s]" />
-        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_35s_ease-in-out_infinite_10s]" />
+        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_35s_ease-in-out_infinite_10s] shooting-star" />
         <Sparkles className="absolute h-7 w-7 text-primary-foreground/35 animate-[floatIcon3_32s_ease-in-out_infinite_16s]" />
         <Moon className="absolute h-5 w-5 text-primary-foreground/20 animate-[floatIcon4_28s_ease-in-out_infinite_22s]" />
-        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_33s_ease-in-out_infinite_7s]" />
+        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_33s_ease-in-out_infinite_7s] shooting-star" />
       </div>
 
       {/* Floating background elements */}

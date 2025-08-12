@@ -90,14 +90,6 @@ All colors MUST be HSL.
     100% { transform: translate(88vw, 55vh) rotate(0deg); opacity: 0.25; }
   }
 
-  @keyframes float5 {
-    0% { transform: translate(15vw, 12vh) rotate(0deg); opacity: 0.4; }
-    25% { transform: translate(93vw, 88vh) rotate(9deg); opacity: 0.6; }
-    50% { transform: translate(4vw, 65vh) rotate(-7deg); opacity: 0.4; }
-    75% { transform: translate(82vw, 3vh) rotate(5deg); opacity: 0.5; }
-    100% { transform: translate(15vw, 12vh) rotate(0deg); opacity: 0.4; }
-  }
-
   @keyframes float6 {
     0% { transform: translate(7vw, 88vh) rotate(0deg); opacity: 0.3; }
     25% { transform: translate(91vw, 35vh) rotate(-10deg); opacity: 0.45; }
@@ -106,12 +98,37 @@ All colors MUST be HSL.
     100% { transform: translate(7vw, 88vh) rotate(0deg); opacity: 0.3; }
   }
 
-  @keyframes float7 {
-    0% { transform: translate(78vw, 18vh) rotate(0deg); opacity: 0.35; }
-    25% { transform: translate(9vw, 78vh) rotate(11deg); opacity: 0.5; }
-    50% { transform: translate(94vw, 92vh) rotate(-9deg); opacity: 0.35; }
-    75% { transform: translate(40vw, 1vh) rotate(6deg); opacity: 0.45; }
-    100% { transform: translate(78vw, 18vh) rotate(0deg); opacity: 0.35; }
+  /* Shooting star tail effects */
+  .shooting-star {
+    position: relative;
+  }
+  
+  .shooting-star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor 30%, transparent);
+    opacity: 0.3;
+    transform: translate(-100%, -50%) rotate(-25deg);
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor 15%, transparent);
+    opacity: 0.15;
+    transform: translate(-120%, -50%) rotate(-25deg);
+    pointer-events: none;
+    z-index: -2;
   }
 
   /* Floating animations for mystical icons - expanded to cover more peripheral space */
