@@ -334,31 +334,14 @@ All colors MUST be HSL.
 
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
-  /* Remove ALL floating animations on mobile */
-  .animate-float,
-  .animate-float2,
-  .animate-float3,
-  .animate-float4,
-  .animate-float5,
-  .animate-float6,
-  [class*="animate-[float"],
-  [class*="animate-[floatIcon"] {
-    animation: none !important;
-  }
-  
-  /* Hide floating background elements on mobile */
-  .fixed.inset-0.pointer-events-none.z-10,
-  .absolute.inset-0.opacity-20 {
-    display: none !important;
-  }
-  
-  /* Simplify gradients on mobile for better performance but maintain theme */
-  .bg-gradient-dream {
-    background: hsl(var(--card));
-  }
-  
-  .bg-gradient-night {
-    background: hsl(var(--background));
+  /* Better touch targets */
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
   }
   
   /* Optimize shadows for mobile */

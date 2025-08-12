@@ -64,44 +64,10 @@ const Index = () => {
         </div>
       )}
 
-      {/* Floating mystical taglines and icons that move around screen */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        {/* Floating text phrases */}
-        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_26s_ease-in-out_infinite]">
-          • every dream is a doorway •
-        </p>
-        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float2_33s_ease-in-out_infinite_2s]">
-          dreams are the whispers of the soul
-        </p>
-        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float3_23s_ease-in-out_infinite_5s]">
-          • in sleep, we remember who we are •
-        </p>
-        <p className="absolute text-primary-foreground/25 text-xs font-light tracking-wider animate-[float4_29s_ease-in-out_infinite_8s]">
-          the unconscious speaks in symbols
-        </p>
-        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float6_31s_ease-in-out_infinite_15s]">
-          your mind's secret language
-        </p>
-        
-        {/* Floating icons */}
-        <Moon className="absolute h-8 w-8 text-primary-foreground/30 animate-[floatIcon1_39s_ease-in-out_infinite_3s]" />
-        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_46s_ease-in-out_infinite_10s] shooting-star" />
-        <Sparkles className="absolute h-7 w-7 text-primary-foreground/35 animate-[floatIcon3_42s_ease-in-out_infinite_16s]" />
-        <Moon className="absolute h-5 w-5 text-primary-foreground/20 animate-[floatIcon4_36s_ease-in-out_infinite_22s]" />
-        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_43s_ease-in-out_infinite_7s] shooting-star" />
-      </div>
-
-      {/* Floating background elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-primary/30 to-transparent blur-xl animate-pulse"></div>
-        <div className="absolute top-40 right-16 w-24 h-24 rounded-full bg-gradient-to-br from-accent/40 to-transparent blur-lg animate-pulse delay-700"></div>
-        <div className="absolute bottom-32 left-20 w-40 h-40 rounded-full bg-gradient-to-br from-secondary/20 to-transparent blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-20 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-primary/25 to-transparent blur-xl animate-pulse delay-500"></div>
-      </div>
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
-        {/* Ethereal header with floating icons */}
-        <div className="text-center space-y-12 max-w-2xl mx-auto animate-fade-in">
+        {/* Clean header */}
+        <div className="text-center space-y-12 max-w-2xl mx-auto">
           <div className="relative">
             {/* Main title with gradient effect */}
             <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-6 tracking-wider">
