@@ -37,6 +37,8 @@ function processBase64Chunks(base64String: string, chunkSize = 32768) {
 }
 
 serve(async (req) => {
+  console.log("Transcribe audio function called with method:", req.method);
+  
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -44,19 +46,23 @@ serve(async (req) => {
   try {
     const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openAIApiKey) {
+      console.error('OpenAI API key not configured');
       throw new Error('OpenAI API key not configured');
     }
 
+    console.log("Reading request body...");
     const { audio } = await req.json()
     
     if (!audio) {
+      console.error('No audio data provided');
       throw new Error('No audio data provided')
     }
 
-    console.log('Processing voice transcription...');
+    console.log('Processing voice transcription, audio length:', audio.length);
 
     // Process audio in chunks
     const binaryAudio = processBase64Chunks(audio)
+    console.log('Binary audio size:', binaryAudio.length);
     
     // Prepare form data
     const formData = new FormData()
@@ -64,6 +70,8 @@ serve(async (req) => {
     formData.append('file', blob, 'audio.webm')
     formData.append('model', 'whisper-1')
     formData.append('language', 'en')
+
+    console.log('Sending request to OpenAI Whisper API...');
 
     // Send to OpenAI Whisper
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
@@ -74,14 +82,16 @@ serve(async (req) => {
       body: formData,
     })
 
+    console.log('OpenAI response status:', response.status);
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI Whisper API error:', errorText);
-      throw new Error(`Transcription failed: ${response.status}`);
+      throw new Error(`Transcription failed: ${response.status} - ${errorText}`);
     }
 
     const result = await response.json()
-    console.log('Transcription completed successfully');
+    console.log('Transcription completed successfully, result:', result);
 
     return new Response(
       JSON.stringify({ text: result.text }),

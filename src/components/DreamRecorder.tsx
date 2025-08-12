@@ -101,11 +101,16 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
 
   const transcribeAudio = async (audioBlob: Blob) => {
     try {
+      console.log("Starting transcription process...");
+      console.log("Audio blob size:", audioBlob.size, "type:", audioBlob.type);
+      
       // Convert blob to base64
       const arrayBuffer = await audioBlob.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
       let binary = '';
       const chunkSize = 0x8000; // 32KB chunks
+      
+      console.log("Converting audio to base64, size:", uint8Array.length);
       
       for (let i = 0; i < uint8Array.length; i += chunkSize) {
         const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
@@ -113,35 +118,49 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
       }
       
       const base64Audio = btoa(binary);
-      
+      console.log("Base64 conversion complete, length:", base64Audio.length);
       console.log("Sending audio for transcription...");
       
-      // Call our edge function
-      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
+      // Call our edge function with better error handling
+      const response = await supabase.functions.invoke('transcribe-audio', {
         body: { audio: base64Audio }
       });
       
-      if (error) {
-        throw new Error(error.message);
+      console.log("Edge function response:", response);
+      
+      if (response.error) {
+        console.error("Edge function error:", response.error);
+        throw new Error(`Edge function error: ${response.error.message || JSON.stringify(response.error)}`);
       }
       
-      if (data?.text) {
-        console.log("Transcription successful:", data.text);
-        onDreamRecorded(data.text);
+      if (!response.data) {
+        console.error("No data received from edge function");
+        throw new Error("No response data received from transcription service");
+      }
+      
+      if (response.data.error) {
+        console.error("Transcription service error:", response.data.error);
+        throw new Error(`Transcription error: ${response.data.error}`);
+      }
+      
+      if (response.data?.text) {
+        console.log("Transcription successful:", response.data.text);
+        onDreamRecorded(response.data.text);
         
         toast({
           title: "Dream Recorded ✨",
           description: "Your voice has been transcribed successfully!",
         });
       } else {
-        throw new Error("No transcription received");
+        console.error("No text in response:", response.data);
+        throw new Error("No transcription text received from service");
       }
       
     } catch (error) {
       console.error("Transcription error:", error);
       toast({
         title: "Transcription Failed",
-        description: "Unable to convert speech to text. Please try typing your dream instead.",
+        description: `Unable to convert speech to text: ${error.message}. Please try typing your dream instead.`,
         variant: "destructive",
       });
     } finally {
