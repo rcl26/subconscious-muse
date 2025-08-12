@@ -7,23 +7,48 @@ import { AuthModal } from "@/components/AuthModal";
 
 const Index = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      navigate("/journal");
+    }, 800);
+  };
 
   // Add Enter key binding to activate the main CTA
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        navigate("/journal");
+        handleNavigation();
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
+      {/* Transition overlay */}
+      {isTransitioning && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          {/* Magical swirl effect */}
+          <div className="absolute inset-0 animate-[magicalSwirl_800ms_ease-in-out_forwards]">
+            <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-accent/30 to-secondary/20 opacity-0 animate-[fadeInScale_400ms_ease-out_200ms_forwards]"></div>
+            <div className="absolute inset-0 bg-gradient-conic from-primary/30 via-transparent to-accent/30 opacity-0 animate-[spin_600ms_ease-in-out_100ms_forwards,fadeIn_300ms_ease-out_100ms_forwards]"></div>
+          </div>
+          {/* Sparkle burst */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="w-4 h-4 bg-primary/60 rounded-full animate-[sparkleExplosion_800ms_ease-out_forwards]"></div>
+            <div className="absolute w-3 h-3 bg-accent/50 rounded-full animate-[sparkleExplosion_800ms_ease-out_100ms_forwards] top-2 left-2"></div>
+            <div className="absolute w-2 h-2 bg-secondary/60 rounded-full animate-[sparkleExplosion_800ms_ease-out_200ms_forwards] -top-1 -left-1"></div>
+          </div>
+        </div>
+      )}
+
       {/* Floating mystical taglines and icons that move around screen */}
       <div className="fixed inset-0 pointer-events-none z-10">
         {/* Floating text phrases */}
@@ -84,24 +109,24 @@ const Index = () => {
 
           {/* Immersive feature cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
-            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 mx-auto">
                 <Moon className="h-6 w-6 text-primary-foreground/80" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
               <p className="text-sm text-primary-foreground/60">Voice recordings that preserve the essence of your dreams</p>
             </div>
             
-            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float delay-100">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center mb-4 mx-auto">
                 <Sparkles className="h-6 w-6 text-primary-foreground/80" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Analyze</h3>
               <p className="text-sm text-primary-foreground/60">AI-guided insights into emotions and hidden meanings</p>
             </div>
             
-            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float delay-200">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center mb-4 mx-auto">
                 <Stars className="h-6 w-6 text-primary-foreground/80" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Discover</h3>
@@ -112,15 +137,18 @@ const Index = () => {
           {/* Ethereal CTA */}
           <div className="relative">
             <Button
-              asChild
+              onClick={handleNavigation}
               size="lg"
               className="group h-16 px-12 bg-gradient-to-r from-primary-foreground/90 to-primary-foreground text-primary hover:from-primary-foreground hover:to-primary-foreground/95 shadow-dream hover:shadow-float transition-all duration-500 text-xl font-medium rounded-2xl hover:scale-105"
             >
-              <Link to="/journal" className="flex items-center">
+              <div className="flex items-center">
                 <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                Come this way
+                <div className="flex flex-col items-center">
+                  <span>Come this way</span>
+                  <span className="text-xs opacity-60 font-light tracking-wide">(press Enter)</span>
+                </div>
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
-              </Link>
+              </div>
             </Button>
           </div>
         </div>

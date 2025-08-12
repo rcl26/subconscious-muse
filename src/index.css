@@ -53,6 +53,10 @@ All colors MUST be HSL.
     --shadow-dream: 0 8px 32px hsl(270 70% 55% / 0.15);
     --shadow-float: 0 4px 20px hsl(280 60% 70% / 0.2);
     
+    /* Gradients for magical transitions */
+    --gradient-radial: radial-gradient(circle, var(--primary), var(--accent), var(--secondary));
+    --gradient-conic: conic-gradient(from 0deg, var(--primary), var(--accent), var(--secondary), var(--primary));
+    
     /* Smooth transitions */
     --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -129,6 +133,53 @@ All colors MUST be HSL.
     transform: translate(-120%, -50%) rotate(-25deg);
     pointer-events: none;
     z-index: -2;
+  }
+
+  /* Magical transition animations */
+  @keyframes magicalSwirl {
+    0% { 
+      transform: scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% { 
+      transform: scale(1.2) rotate(180deg);
+      opacity: 0.8;
+    }
+    100% { 
+      transform: scale(10) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeInScale {
+    0% { 
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% { 
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes sparkleExplosion {
+    0% { 
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+    50% { 
+      transform: scale(3) translate(var(--random-x, 20px), var(--random-y, -20px));
+      opacity: 0.6;
+    }
+    100% { 
+      transform: scale(0) translate(var(--random-x, 40px), var(--random-y, -40px));
+      opacity: 0;
+    }
   }
 
   /* Floating animations for mystical icons - expanded to cover more peripheral space */
