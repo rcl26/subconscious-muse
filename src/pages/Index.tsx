@@ -11,8 +11,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
-      {/* Floating mystical taglines that move around screen */}
+      {/* Floating mystical taglines and icons that move around screen */}
       <div className="fixed inset-0 pointer-events-none z-10">
+        {/* Floating text phrases */}
         <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
           • every dream is a doorway •
         </p>
@@ -34,6 +35,13 @@ const Index = () => {
         <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float7_26s_ease-in-out_infinite_18s]">
           • wisdom lives in the shadows •
         </p>
+        
+        {/* Floating icons */}
+        <Moon className="absolute h-8 w-8 text-primary-foreground/30 animate-[floatIcon1_30s_ease-in-out_infinite_3s]" />
+        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_35s_ease-in-out_infinite_10s]" />
+        <Sparkles className="absolute h-7 w-7 text-primary-foreground/35 animate-[floatIcon3_32s_ease-in-out_infinite_16s]" />
+        <Moon className="absolute h-5 w-5 text-primary-foreground/20 animate-[floatIcon4_28s_ease-in-out_infinite_22s]" />
+        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_33s_ease-in-out_infinite_7s]" />
       </div>
 
       {/* Floating background elements */}
@@ -48,17 +56,6 @@ const Index = () => {
         {/* Ethereal header with floating icons */}
         <div className="text-center space-y-12 max-w-2xl mx-auto animate-fade-in">
           <div className="relative">
-            {/* Floating icons around the title */}
-            <div className="absolute -top-8 -left-16 opacity-60 animate-pulse delay-300">
-              <Moon className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div className="absolute -top-6 -right-12 opacity-40 animate-pulse delay-700">
-              <Stars className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <div className="absolute -bottom-4 -left-8 opacity-50 animate-pulse delay-1000">
-              <Sparkles className="h-4 w-4 text-primary-foreground" />
-            </div>
-            
             {/* Main title with gradient effect */}
             <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-6 tracking-wider">
               Oneira
