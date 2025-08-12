@@ -135,50 +135,92 @@ All colors MUST be HSL.
     z-index: -2;
   }
 
-  /* Magical transition animations */
-  @keyframes magicalSwirl {
+  /* Full-screen magical transition animations */
+  @keyframes waveSwipeRight {
+    0% { 
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% { 
+      transform: translateX(0%);
+      opacity: 1;
+    }
+    100% { 
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes waveSwipeLeft {
+    0% { 
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    50% { 
+      transform: translateX(0%);
+      opacity: 1;
+    }
+    100% { 
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes radialBurst {
+    0% { 
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% { 
+      transform: scale(1.5);
+      opacity: 1;
+    }
+    100% { 
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fullScreenSpin {
     0% { 
       transform: scale(0) rotate(0deg);
       opacity: 0;
     }
     50% { 
-      transform: scale(1.2) rotate(180deg);
+      transform: scale(1) rotate(180deg);
+      opacity: 1;
+    }
+    100% { 
+      transform: scale(1.2) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes particleStream {
+    0% { 
+      transform: scaleX(0) translateY(0);
+      opacity: 0;
+    }
+    30% { 
+      transform: scaleX(0.5) translateY(-10px);
+      opacity: 1;
+    }
+    70% { 
+      transform: scaleX(1) translateY(-20px);
       opacity: 0.8;
     }
     100% { 
-      transform: scale(10) rotate(360deg);
+      transform: scaleX(1.2) translateY(-30px);
       opacity: 0;
     }
   }
 
-  @keyframes fadeInScale {
+  @keyframes screenTakeover {
     0% { 
-      transform: scale(0);
       opacity: 0;
     }
     100% { 
-      transform: scale(1);
       opacity: 1;
-    }
-  }
-
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes sparkleExplosion {
-    0% { 
-      transform: scale(1) translate(0, 0);
-      opacity: 1;
-    }
-    50% { 
-      transform: scale(3) translate(var(--random-x, 20px), var(--random-y, -20px));
-      opacity: 0.6;
-    }
-    100% { 
-      transform: scale(0) translate(var(--random-x, 40px), var(--random-y, -40px));
-      opacity: 0;
     }
   }
 

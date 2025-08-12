@@ -32,20 +32,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
-      {/* Transition overlay */}
+      {/* Full-screen transition overlay */}
       {isTransitioning && (
         <div className="fixed inset-0 z-50 pointer-events-none">
-          {/* Magical swirl effect */}
-          <div className="absolute inset-0 animate-[magicalSwirl_800ms_ease-in-out_forwards]">
-            <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-accent/30 to-secondary/20 opacity-0 animate-[fadeInScale_400ms_ease-out_200ms_forwards]"></div>
-            <div className="absolute inset-0 bg-gradient-conic from-primary/30 via-transparent to-accent/30 opacity-0 animate-[spin_600ms_ease-in-out_100ms_forwards,fadeIn_300ms_ease-out_100ms_forwards]"></div>
+          {/* Primary magical wave sweep */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/40 via-accent/50 to-secondary/40 opacity-0 animate-[waveSwipeRight_800ms_ease-in-out_forwards]"></div>
+          
+          {/* Secondary wave from opposite direction */}
+          <div className="absolute inset-0 bg-gradient-to-l from-secondary/30 via-primary/40 to-accent/30 opacity-0 animate-[waveSwipeLeft_800ms_ease-in-out_200ms_forwards]"></div>
+          
+          {/* Radial burst from center */}
+          <div className="absolute inset-0 bg-gradient-radial from-primary/60 via-accent/40 to-transparent opacity-0 animate-[radialBurst_600ms_ease-out_300ms_forwards]"></div>
+          
+          {/* Rotating magical circle */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-screen h-screen bg-gradient-conic from-primary/20 via-accent/30 to-secondary/20 opacity-0 animate-[fullScreenSpin_800ms_ease-in-out_100ms_forwards]"></div>
           </div>
-          {/* Sparkle burst */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="w-4 h-4 bg-primary/60 rounded-full animate-[sparkleExplosion_800ms_ease-out_forwards]"></div>
-            <div className="absolute w-3 h-3 bg-accent/50 rounded-full animate-[sparkleExplosion_800ms_ease-out_100ms_forwards] top-2 left-2"></div>
-            <div className="absolute w-2 h-2 bg-secondary/60 rounded-full animate-[sparkleExplosion_800ms_ease-out_200ms_forwards] -top-1 -left-1"></div>
+          
+          {/* Particle effects across screen */}
+          <div className="absolute inset-0">
+            {/* Top particles */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-primary/60 to-transparent animate-[particleStream_800ms_ease-out_forwards]"></div>
+            <div className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/50 to-transparent animate-[particleStream_800ms_ease-out_100ms_forwards]"></div>
+            <div className="absolute top-1/2 left-0 w-full h-2 bg-gradient-to-r from-transparent via-secondary/60 to-transparent animate-[particleStream_800ms_ease-out_200ms_forwards]"></div>
+            <div className="absolute top-3/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-[particleStream_800ms_ease-out_300ms_forwards]"></div>
+            <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-accent/60 to-transparent animate-[particleStream_800ms_ease-out_400ms_forwards]"></div>
           </div>
+          
+          {/* Final screen fade */}
+          <div className="absolute inset-0 bg-gradient-night opacity-0 animate-[screenTakeover_200ms_ease-in_600ms_forwards]"></div>
         </div>
       )}
 
