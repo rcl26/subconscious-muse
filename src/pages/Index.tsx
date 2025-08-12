@@ -42,7 +42,7 @@ const Index = () => {
             {/* Mystical subtitle */}
             <div className="relative">
               <p className="text-2xl md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
-                Step into the realm of your
+                Unlock the wisdom of your
               </p>
               <p className="text-2xl md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-4">
                 subconscious mind
@@ -51,10 +51,6 @@ const Index = () => {
               {/* Subtle line decoration */}
               <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-8"></div>
             </div>
-            
-            <p className="text-lg text-primary-foreground/70 leading-relaxed max-w-lg mx-auto">
-              Where dreams become wisdom, and the unconscious speaks in whispers only you can hear.
-            </p>
           </div>
 
           {/* Immersive feature cards */}
@@ -93,15 +89,17 @@ const Index = () => {
             >
               <Link to="/journal" className="flex items-center">
                 <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                Enter the Dream Realm
+                Enter this way
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
               </Link>
             </Button>
             
-            {/* Mystical tagline */}
-            <p className="text-primary-foreground/50 text-sm mt-6 font-light tracking-wide">
-              • Every dream is a doorway •
-            </p>
+            {/* Floating mystical tagline */}
+            <div className="absolute inset-0 pointer-events-none">
+              <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
+                • every dream is a doorway •
+              </p>
+            </div>
           </div>
         </div>
       </div>
