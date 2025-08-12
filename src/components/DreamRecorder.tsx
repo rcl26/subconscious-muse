@@ -25,9 +25,23 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
-      mediaRecorderRef.current = new MediaRecorder(stream, {
-        mimeType: 'audio/webm;codecs=opus'
-      });
+      // Enhanced mobile audio format support with fallbacks
+      let mimeType = 'audio/webm;codecs=opus';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        if (MediaRecorder.isTypeSupported('audio/webm')) {
+          mimeType = 'audio/webm';
+        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          mimeType = 'audio/mp4';
+        } else if (MediaRecorder.isTypeSupported('audio/wav')) {
+          mimeType = 'audio/wav';
+        } else {
+          mimeType = ''; // Let browser choose
+        }
+      }
+      
+      mediaRecorderRef.current = new MediaRecorder(stream, 
+        mimeType ? { mimeType } : undefined
+      );
       
       // Ensure we record for at least 1 second to get meaningful audio
       const minRecordingTime = 1000; // 1 second
@@ -81,9 +95,16 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
       console.log("Recording started...");
     } catch (error) {
       console.error("Error starting recording:", error);
+      
+      // Enhanced mobile error handling
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const errorMessage = isMobile 
+        ? "Tap and hold to allow microphone access, then try again. Check your browser settings if needed."
+        : "Unable to access microphone. Please check permissions.";
+      
       toast({
         title: "Recording Error",
-        description: "Unable to access microphone. Please check permissions.",
+        description: errorMessage,
         variant: "destructive",
       });
     }

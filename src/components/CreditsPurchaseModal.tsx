@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CreditCard, Zap } from "lucide-react";
+import { MobileDrawer } from "@/components/MobileDrawer";
 
 interface CreditsPurchaseModalProps {
   open: boolean;
@@ -88,67 +88,63 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center space-x-2">
-            <CreditCard className="h-5 w-5" />
-            <span>Purchase Credits</span>
-          </DialogTitle>
-        </DialogHeader>
-        
-        <div className="space-y-4">
-          {/* One-time purchases */}
-          <div className="space-y-3">
-            <h3 className="font-semibold text-sm text-muted-foreground">One-time Purchase</h3>
-            
-            <Button
-              onClick={() => handlePurchaseCredits(10, 100)}
-              disabled={isLoading}
-              className="w-full justify-between h-16"
-              variant="outline"
-            >
-              <div className="flex items-center space-x-3">
-                <Zap className="h-5 w-5 text-yellow-500" />
-                <div className="text-left">
-                  <div className="font-semibold">10 Credits</div>
-                  <div className="text-sm text-muted-foreground">1 Dream Analysis</div>
-                </div>
+    <MobileDrawer
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Purchase Credits"
+      className="sm:max-w-md"
+    >
+      <div className="space-y-4">
+        {/* One-time purchases */}
+        <div className="space-y-3">
+          <h3 className="font-semibold text-sm text-muted-foreground">One-time Purchase</h3>
+          
+          <Button
+            onClick={() => handlePurchaseCredits(10, 100)}
+            disabled={isLoading}
+            className="w-full justify-between h-16"
+            variant="outline"
+          >
+            <div className="flex items-center space-x-3">
+              <Zap className="h-5 w-5 text-yellow-500" />
+              <div className="text-left">
+                <div className="font-semibold">10 Credits</div>
+                <div className="text-sm text-muted-foreground">1 Dream Analysis</div>
               </div>
-              <div className="text-lg font-bold">$1.00</div>
-            </Button>
-          </div>
-
-          {/* Subscription */}
-          <div className="space-y-3">
-            <h3 className="font-semibold text-sm text-muted-foreground">Best Value • 80+% off</h3>
-            
-            <Button
-              onClick={handleSubscribe}
-              disabled={isLoading}
-              className="w-full justify-between h-16 bg-primary hover:bg-primary/90"
-            >
-              <div className="flex items-center space-x-3">
-                <div className="flex flex-col items-center justify-center w-8 h-8 rounded-full bg-primary-foreground text-primary text-xs font-bold">
-                  ∞
-                </div>
-                <div className="text-left">
-                  <div className="font-semibold">300 Credits/month</div>
-                  <div className="text-sm text-primary-foreground/80">30 Dream Analyses</div>
-                </div>
-              </div>
-              <div className="text-lg font-bold">$5.00/mo</div>
-            </Button>
-          </div>
-
-          {isLoading && (
-            <div className="flex items-center justify-center py-4">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="ml-2">Setting up payment...</span>
             </div>
-          )}
+            <div className="text-lg font-bold">$1.00</div>
+          </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        {/* Subscription */}
+        <div className="space-y-3">
+          <h3 className="font-semibold text-sm text-muted-foreground">Best Value • 80+% off</h3>
+          
+          <Button
+            onClick={handleSubscribe}
+            disabled={isLoading}
+            className="w-full justify-between h-16 bg-primary hover:bg-primary/90"
+          >
+            <div className="flex items-center space-x-3">
+              <div className="flex flex-col items-center justify-center w-8 h-8 rounded-full bg-primary-foreground text-primary text-xs font-bold">
+                ∞
+              </div>
+              <div className="text-left">
+                <div className="font-semibold">300 Credits/month</div>
+                <div className="text-sm text-primary-foreground/80">30 Dream Analyses</div>
+              </div>
+            </div>
+            <div className="text-lg font-bold">$5.00/mo</div>
+          </Button>
+        </div>
+
+        {isLoading && (
+          <div className="flex items-center justify-center py-4">
+            <Loader2 className="h-6 w-6 animate-spin" />
+            <span className="ml-2">Setting up payment...</span>
+          </div>
+        )}
+      </div>
+    </MobileDrawer>
   );
 };

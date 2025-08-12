@@ -314,3 +314,61 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Mobile-first responsive optimizations */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Performance optimizations for mobile */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Reduce complex animations on mobile */
+  .animate-float,
+  .animate-float2,
+  .animate-float3,
+  .animate-float4,
+  .animate-float5,
+  .animate-float6 {
+    animation: none;
+  }
+  
+  /* Simplify gradients on mobile for better performance */
+  .bg-gradient-dream {
+    background: hsl(var(--primary) / 0.1);
+  }
+  
+  /* Optimize shadows for mobile */
+  .shadow-dream,
+  .shadow-float {
+    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1);
+  }
+  
+  /* Better touch targets */
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Landscape phone optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .h-\[80vh\] {
+    height: 90vh;
+  }
+}

@@ -2,6 +2,7 @@ import { formatDistance } from "date-fns";
 import { Moon, MessageCircle, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
 
 export interface Dream {
   id: string;
@@ -17,8 +18,24 @@ interface DreamEntryProps {
 }
 
 export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
+  const { isTouchDevice } = useMobileDetection();
+
+  const handleExploreClick = () => {
+    if (isTouchDevice) {
+      triggerHapticFeedback('light');
+    }
+    onExplore(dream);
+  };
+
+  const handleDeleteClick = () => {
+    if (isTouchDevice) {
+      triggerHapticFeedback('medium');
+    }
+    onDelete(dream.id);
+  };
+
   return (
-    <Card className="p-6 bg-card shadow-float border border-border/50 hover:shadow-dream transition-magical">
+    <Card className="p-6 bg-card shadow-float border border-border/50 hover:shadow-dream transition-magical touch-manipulation">
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-2">
@@ -36,20 +53,21 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
         <div className="flex items-center justify-between pt-2">
           <div className="flex space-x-2">
             <Button
-              onClick={() => onExplore(dream)}
+              onClick={handleExploreClick}
               size="sm"
-              className="bg-primary/10 text-primary hover:bg-primary/20 border-0"
+              className="bg-primary/10 text-primary hover:bg-primary/20 border-0 min-h-[44px] px-4"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
-              Explore (10 credits)
+              <span className="hidden sm:inline">Explore (10 credits)</span>
+              <span className="sm:hidden">Explore</span>
             </Button>
           </div>
           
           <Button
-            onClick={() => onDelete(dream.id)}
+            onClick={handleDeleteClick}
             variant="ghost"
             size="sm"
-            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
