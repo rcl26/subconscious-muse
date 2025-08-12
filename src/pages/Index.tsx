@@ -11,10 +11,28 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
-      {/* Floating mystical tagline that moves around screen */}
+      {/* Floating mystical taglines that move around screen */}
       <div className="fixed inset-0 pointer-events-none z-10">
         <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
           • every dream is a doorway •
+        </p>
+        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float2_25s_ease-in-out_infinite_2s]">
+          dreams are the whispers of the soul
+        </p>
+        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float3_18s_ease-in-out_infinite_5s]">
+          • in sleep, we remember who we are •
+        </p>
+        <p className="absolute text-primary-foreground/25 text-xs font-light tracking-wider animate-[float4_22s_ease-in-out_infinite_8s]">
+          the unconscious speaks in symbols
+        </p>
+        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float5_28s_ease-in-out_infinite_12s]">
+          • where thoughts become visions •
+        </p>
+        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float6_24s_ease-in-out_infinite_15s]">
+          your mind's secret language
+        </p>
+        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float7_26s_ease-in-out_infinite_18s]">
+          • wisdom lives in the shadows •
         </p>
       </div>
 

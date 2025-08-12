@@ -57,29 +57,61 @@ All colors MUST be HSL.
     --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Floating animation for mystical text */
+  /* Floating animations for mystical text */
   @keyframes float {
-    0% { 
-      transform: translate(20vw, 60vh) rotate(0deg); 
-      opacity: 0.4; 
-    }
-    25% { 
-      transform: translate(80vw, 30vh) rotate(5deg); 
-      opacity: 0.6; 
-    }
-    50% { 
-      transform: translate(70vw, 70vh) rotate(-3deg); 
-      opacity: 0.4; 
-    }
-    75% { 
-      transform: translate(10vw, 40vh) rotate(8deg); 
-      opacity: 0.5; 
-    }
-    100% { 
-      transform: translate(20vw, 60vh) rotate(0deg); 
-      opacity: 0.4; 
-    }
+    0% { transform: translate(20vw, 60vh) rotate(0deg); opacity: 0.4; }
+    25% { transform: translate(80vw, 30vh) rotate(5deg); opacity: 0.6; }
+    50% { transform: translate(70vw, 70vh) rotate(-3deg); opacity: 0.4; }
+    75% { transform: translate(10vw, 40vh) rotate(8deg); opacity: 0.5; }
+    100% { transform: translate(20vw, 60vh) rotate(0deg); opacity: 0.4; }
+  }
 
+  @keyframes float2 {
+    0% { transform: translate(90vw, 20vh) rotate(0deg); opacity: 0.3; }
+    25% { transform: translate(15vw, 80vh) rotate(-8deg); opacity: 0.5; }
+    50% { transform: translate(85vw, 65vh) rotate(6deg); opacity: 0.3; }
+    75% { transform: translate(30vw, 25vh) rotate(-4deg); opacity: 0.4; }
+    100% { transform: translate(90vw, 20vh) rotate(0deg); opacity: 0.3; }
+  }
+
+  @keyframes float3 {
+    0% { transform: translate(50vw, 85vh) rotate(0deg); opacity: 0.35; }
+    25% { transform: translate(5vw, 35vh) rotate(10deg); opacity: 0.5; }
+    50% { transform: translate(95vw, 50vh) rotate(-5deg); opacity: 0.35; }
+    75% { transform: translate(40vw, 15vh) rotate(7deg); opacity: 0.45; }
+    100% { transform: translate(50vw, 85vh) rotate(0deg); opacity: 0.35; }
+  }
+
+  @keyframes float4 {
+    0% { transform: translate(75vw, 45vh) rotate(0deg); opacity: 0.25; }
+    25% { transform: translate(25vw, 75vh) rotate(-12deg); opacity: 0.4; }
+    50% { transform: translate(60vw, 20vh) rotate(4deg); opacity: 0.25; }
+    75% { transform: translate(90vw, 80vh) rotate(-6deg); opacity: 0.35; }
+    100% { transform: translate(75vw, 45vh) rotate(0deg); opacity: 0.25; }
+  }
+
+  @keyframes float5 {
+    0% { transform: translate(35vw, 25vh) rotate(0deg); opacity: 0.4; }
+    25% { transform: translate(75vw, 85vh) rotate(9deg); opacity: 0.6; }
+    50% { transform: translate(10vw, 55vh) rotate(-7deg); opacity: 0.4; }
+    75% { transform: translate(65vw, 10vh) rotate(5deg); opacity: 0.5; }
+    100% { transform: translate(35vw, 25vh) rotate(0deg); opacity: 0.4; }
+  }
+
+  @keyframes float6 {
+    0% { transform: translate(15vw, 70vh) rotate(0deg); opacity: 0.3; }
+    25% { transform: translate(85vw, 40vh) rotate(-10deg); opacity: 0.45; }
+    50% { transform: translate(45vw, 90vh) rotate(8deg); opacity: 0.3; }
+    75% { transform: translate(5vw, 15vh) rotate(-3deg); opacity: 0.4; }
+    100% { transform: translate(15vw, 70vh) rotate(0deg); opacity: 0.3; }
+  }
+
+  @keyframes float7 {
+    0% { transform: translate(60vw, 35vh) rotate(0deg); opacity: 0.35; }
+    25% { transform: translate(20vw, 60vh) rotate(11deg); opacity: 0.5; }
+    50% { transform: translate(80vw, 75vh) rotate(-9deg); opacity: 0.35; }
+    75% { transform: translate(55vw, 5vh) rotate(6deg); opacity: 0.45; }
+    100% { transform: translate(60vw, 35vh) rotate(0deg); opacity: 0.35; }
   }
 
   .dark {
