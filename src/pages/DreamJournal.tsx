@@ -138,21 +138,15 @@ export const DreamJournal = () => {
           <div className="flex items-center space-x-3">
             {user ? (
               <>
-                <div className="flex items-center space-x-2 bg-primary-foreground/10 px-3 py-2 rounded-lg">
+                <button 
+                  onClick={() => setShowCreditsModal(true)}
+                  className="flex items-center space-x-2 bg-primary-foreground/10 px-3 py-2 rounded-lg hover:bg-primary-foreground/20 transition-colors cursor-pointer"
+                >
                   <Moon className="h-4 w-4 text-blue-300" />
                   <span className="text-primary-foreground font-medium">
                     {profile?.credits || 0} credits
                   </span>
-                </div>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setShowCreditsModal(true)}
-                  className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0"
-                >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Buy Credits
-                </Button>
+                </button>
                 <Button
                   variant="ghost"
                   size="sm"
