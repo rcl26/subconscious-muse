@@ -10,54 +10,100 @@ const Index = () => {
   const { user, signOut } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gradient-night flex items-center justify-center p-4">
-      <div className="text-center space-y-8 max-w-md mx-auto">
-        {/* Magical header */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-center space-x-3">
-            <Moon className="h-8 w-8 text-primary-foreground" />
-            <Stars className="h-6 w-6 text-primary-foreground/70" />
-            <Sparkles className="h-7 w-7 text-primary-foreground" />
+    <div className="min-h-screen bg-gradient-night overflow-hidden relative">
+      {/* Floating background elements */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-primary/30 to-transparent blur-xl animate-pulse"></div>
+        <div className="absolute top-40 right-16 w-24 h-24 rounded-full bg-gradient-to-br from-accent/40 to-transparent blur-lg animate-pulse delay-700"></div>
+        <div className="absolute bottom-32 left-20 w-40 h-40 rounded-full bg-gradient-to-br from-secondary/20 to-transparent blur-2xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-20 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-primary/25 to-transparent blur-xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
+        {/* Ethereal header with floating icons */}
+        <div className="text-center space-y-12 max-w-2xl mx-auto animate-fade-in">
+          <div className="relative">
+            {/* Floating icons around the title */}
+            <div className="absolute -top-8 -left-16 opacity-60 animate-pulse delay-300">
+              <Moon className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <div className="absolute -top-6 -right-12 opacity-40 animate-pulse delay-700">
+              <Stars className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div className="absolute -bottom-4 -left-8 opacity-50 animate-pulse delay-1000">
+              <Sparkles className="h-4 w-4 text-primary-foreground" />
+            </div>
+            
+            {/* Main title with gradient effect */}
+            <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-6 tracking-wider">
+              Oneira
+            </h1>
+            
+            {/* Mystical subtitle */}
+            <div className="relative">
+              <p className="text-2xl md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
+                Step into the realm of your
+              </p>
+              <p className="text-2xl md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-4">
+                subconscious mind
+              </p>
+              
+              {/* Subtle line decoration */}
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-8"></div>
+            </div>
+            
+            <p className="text-lg text-primary-foreground/70 leading-relaxed max-w-lg mx-auto">
+              Where dreams become wisdom, and the unconscious speaks in whispers only you can hear.
+            </p>
           </div>
-          <h1 className="text-4xl font-bold text-primary-foreground mb-4">
-            Oneira
-          </h1>
-          <p className="text-xl text-primary-foreground/80 leading-relaxed">
-            Unlock the wisdom of your subconscious. Record, explore, and understand your dreams with AI-powered insights.
-          </p>
+
+          {/* Immersive feature cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
+            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <Moon className="h-6 w-6 text-primary-foreground/80" />
+              </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
+              <p className="text-sm text-primary-foreground/60">Voice recordings that preserve the essence of your dreams</p>
+            </div>
+            
+            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float delay-100">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="h-6 w-6 text-primary-foreground/80" />
+              </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Analyze</h3>
+              <p className="text-sm text-primary-foreground/60">AI-guided insights into emotions and hidden meanings</p>
+            </div>
+            
+            <div className="group p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-500 hover:scale-105 hover:shadow-float delay-200">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <Stars className="h-6 w-6 text-primary-foreground/80" />
+              </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Discover</h3>
+              <p className="text-sm text-primary-foreground/60">Patterns that reveal the deeper story of your psyche</p>
+            </div>
+          </div>
+
+          {/* Ethereal CTA */}
+          <div className="relative">
+            <Button
+              asChild
+              size="lg"
+              className="group h-16 px-12 bg-gradient-to-r from-primary-foreground/90 to-primary-foreground text-primary hover:from-primary-foreground hover:to-primary-foreground/95 shadow-dream hover:shadow-float transition-all duration-500 text-xl font-medium rounded-2xl hover:scale-105"
+            >
+              <Link to="/journal" className="flex items-center">
+                <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                Enter the Dream Realm
+                <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
+              </Link>
+            </Button>
+            
+            {/* Mystical tagline */}
+            <p className="text-primary-foreground/50 text-sm mt-6 font-light tracking-wide">
+              • Every dream is a doorway •
+            </p>
+          </div>
         </div>
-
-        {/* Feature highlights */}
-        <div className="space-y-3 text-left">
-          <div className="flex items-center space-x-3 text-primary-foreground/70">
-            <div className="w-2 h-2 rounded-full bg-primary-foreground/50"></div>
-            <span>Voice recording for fresh dream capture</span>
-          </div>
-          <div className="flex items-center space-x-3 text-primary-foreground/70">
-            <div className="w-2 h-2 rounded-full bg-primary-foreground/50"></div>
-            <span>AI-powered emotional analysis</span>
-          </div>
-          <div className="flex items-center space-x-3 text-primary-foreground/70">
-            <div className="w-2 h-2 rounded-full bg-primary-foreground/50"></div>
-            <span>Pattern recognition across dreams</span>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <Button
-          asChild
-          size="lg"
-          className="w-full h-14 bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-dream transition-magical text-lg"
-        >
-          <Link to="/journal">
-            <Sparkles className="h-5 w-5 mr-2" />
-            Begin Your Journey
-          </Link>
-        </Button>
-
-        <p className="text-sm text-primary-foreground/60">
-          Every dream holds a message. Start listening.
-        </p>
       </div>
 
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
