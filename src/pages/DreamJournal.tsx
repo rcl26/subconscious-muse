@@ -175,7 +175,7 @@ export const DreamJournal = () => {
         <div className="text-center space-y-2 mb-8">
           <div className="flex items-center justify-center space-x-2">
             <Sparkles className="h-6 w-6 text-primary-foreground" />
-            <h1 className="text-2xl font-semibold text-primary-foreground">Dream Journal</h1>
+            <h1 className="text-2xl font-semibold text-primary-foreground">Oneira</h1>
             <Sparkles className="h-6 w-6 text-primary-foreground" />
           </div>
           <p className="text-primary-foreground/70">

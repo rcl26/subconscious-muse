@@ -20,7 +20,7 @@ const Index = () => {
             <Sparkles className="h-7 w-7 text-primary-foreground" />
           </div>
           <h1 className="text-4xl font-bold text-primary-foreground mb-4">
-            Dream Journal
+            Oneira
           </h1>
           <p className="text-xl text-primary-foreground/80 leading-relaxed">
             Unlock the wisdom of your subconscious. Record, explore, and understand your dreams with AI-powered insights.
