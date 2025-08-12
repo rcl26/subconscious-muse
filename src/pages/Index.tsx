@@ -27,28 +27,28 @@ const Index = () => {
       {/* Floating mystical taglines and icons that move around screen */}
       <div className="fixed inset-0 pointer-events-none z-10">
         {/* Floating text phrases */}
-        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_20s_ease-in-out_infinite]">
+        <p className="absolute text-primary-foreground/40 text-sm font-light tracking-wider animate-[float_26s_ease-in-out_infinite]">
           • every dream is a doorway •
         </p>
-        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float2_25s_ease-in-out_infinite_2s]">
+        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float2_33s_ease-in-out_infinite_2s]">
           dreams are the whispers of the soul
         </p>
-        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float3_18s_ease-in-out_infinite_5s]">
+        <p className="absolute text-primary-foreground/35 text-sm font-light tracking-wider animate-[float3_23s_ease-in-out_infinite_5s]">
           • in sleep, we remember who we are •
         </p>
-        <p className="absolute text-primary-foreground/25 text-xs font-light tracking-wider animate-[float4_22s_ease-in-out_infinite_8s]">
+        <p className="absolute text-primary-foreground/25 text-xs font-light tracking-wider animate-[float4_29s_ease-in-out_infinite_8s]">
           the unconscious speaks in symbols
         </p>
-        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float6_24s_ease-in-out_infinite_15s]">
+        <p className="absolute text-primary-foreground/30 text-xs font-light tracking-wider animate-[float6_31s_ease-in-out_infinite_15s]">
           your mind's secret language
         </p>
         
         {/* Floating icons */}
-        <Moon className="absolute h-8 w-8 text-primary-foreground/30 animate-[floatIcon1_30s_ease-in-out_infinite_3s]" />
-        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_35s_ease-in-out_infinite_10s] shooting-star" />
-        <Sparkles className="absolute h-7 w-7 text-primary-foreground/35 animate-[floatIcon3_32s_ease-in-out_infinite_16s]" />
-        <Moon className="absolute h-5 w-5 text-primary-foreground/20 animate-[floatIcon4_28s_ease-in-out_infinite_22s]" />
-        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_33s_ease-in-out_infinite_7s] shooting-star" />
+        <Moon className="absolute h-8 w-8 text-primary-foreground/30 animate-[floatIcon1_39s_ease-in-out_infinite_3s]" />
+        <Stars className="absolute h-6 w-6 text-primary-foreground/25 animate-[floatIcon2_46s_ease-in-out_infinite_10s] shooting-star" />
+        <Sparkles className="absolute h-7 w-7 text-primary-foreground/35 animate-[floatIcon3_42s_ease-in-out_infinite_16s]" />
+        <Moon className="absolute h-5 w-5 text-primary-foreground/20 animate-[floatIcon4_36s_ease-in-out_infinite_22s]" />
+        <Stars className="absolute h-4 w-4 text-primary-foreground/30 animate-[floatIcon5_43s_ease-in-out_infinite_7s] shooting-star" />
       </div>
 
       {/* Floating background elements */}
