@@ -334,18 +334,27 @@ All colors MUST be HSL.
 
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
-  /* Reduce complex animations on mobile */
+  /* Remove ALL floating animations on mobile */
   .animate-float,
   .animate-float2,
   .animate-float3,
   .animate-float4,
   .animate-float5,
-  .animate-float6 {
-    animation: none;
+  .animate-float6,
+  [class*="animate-[float"],
+  [class*="animate-[floatIcon"] {
+    animation: none !important;
+  }
+  
+  /* Hide floating background elements on mobile */
+  .fixed.inset-0.pointer-events-none.z-10,
+  .absolute.inset-0.opacity-20 {
+    display: none !important;
   }
   
   /* Simplify gradients on mobile for better performance */
-  .bg-gradient-dream {
+  .bg-gradient-dream,
+  .bg-gradient-night {
     background: hsl(var(--primary) / 0.1);
   }
   
