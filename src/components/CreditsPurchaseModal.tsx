@@ -121,7 +121,7 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
 
           {/* Subscription */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-sm text-muted-foreground">Best Value</h3>
+            <h3 className="font-semibold text-sm text-muted-foreground">Best Value • 80+% off</h3>
             
             <Button
               onClick={handleSubscribe}
