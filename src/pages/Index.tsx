@@ -125,7 +125,7 @@ const Index = () => {
               <div className="flex items-center">
                 <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                 <div className="flex flex-col items-center">
-                  <span>Come this way</span>
+                  <span>This way...</span>
                   <span className="text-xs opacity-60 font-light tracking-wide">(Enter)</span>
                 </div>
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
