@@ -139,16 +139,16 @@ export const DreamJournal = () => {
             {user ? (
               <>
                 <div className="flex items-center space-x-2 bg-primary-foreground/10 px-3 py-2 rounded-lg">
-                  <Zap className="h-4 w-4 text-yellow-500" />
+                  <Moon className="h-4 w-4 text-blue-300" />
                   <span className="text-primary-foreground font-medium">
                     {profile?.credits || 0} credits
                   </span>
                 </div>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={() => setShowCreditsModal(true)}
-                  className="text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
+                  className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0"
                 >
                   <CreditCard className="h-4 w-4 mr-2" />
                   Buy Credits
