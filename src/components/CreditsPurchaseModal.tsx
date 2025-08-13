@@ -17,7 +17,14 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
   const { toast } = useToast();
 
   const handlePurchaseCredits = async (amount: number, price: number) => {
-    if (!user) return;
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to purchase credits.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -26,7 +33,8 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
       });
 
       if (error) {
-        throw error;
+        console.error('Supabase function error:', error);
+        throw new Error(error.message || 'Failed to create payment session');
       }
 
       if (data?.url) {
@@ -39,12 +47,14 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
           title: "Payment Processing",
           description: "Complete your payment in the new tab. Your credits will be added automatically.",
         });
+      } else {
+        throw new Error('No payment URL received');
       }
     } catch (error) {
       console.error('Payment error:', error);
       toast({
         title: "Payment Error",
-        description: "Failed to initiate payment. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to initiate payment. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -53,7 +63,14 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
   };
 
   const handleSubscribe = async () => {
-    if (!user) return;
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to purchase a subscription.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -62,7 +79,8 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
       });
 
       if (error) {
-        throw error;
+        console.error('Supabase function error:', error);
+        throw new Error(error.message || 'Failed to create subscription session');
       }
 
       if (data?.url) {
@@ -74,12 +92,14 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
           title: "Subscription Setup",
           description: "Complete your subscription setup in the new tab.",
         });
+      } else {
+        throw new Error('No subscription URL received');
       }
     } catch (error) {
       console.error('Subscription error:', error);
       toast({
         title: "Subscription Error",
-        description: "Failed to create subscription. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to create subscription. Please try again.",
         variant: "destructive",
       });
     } finally {
