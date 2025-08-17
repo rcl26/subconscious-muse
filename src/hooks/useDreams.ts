@@ -186,11 +186,35 @@ export const useDreams = () => {
     return dreamData;
   };
 
+  // Helper function to check if an ID is a temporary timestamp ID
+  const isTemporaryId = (id: string): boolean => {
+    // Temporary IDs are timestamp strings (all digits)
+    // Real UUIDs contain hyphens and letters
+    return /^\d+$/.test(id);
+  };
+
   // Delete a dream
   const deleteDream = async (dreamId: string) => {
     try {
       console.log('🗑️ Deleting dream:', dreamId);
       
+      // Check if this is a temporary ID (optimistic update) or real UUID
+      if (isTemporaryId(dreamId)) {
+        console.log('📱 Deleting temporary dream (local only)');
+        // For temporary IDs, just remove from local state and localStorage
+        setDreams(prev => prev.filter(dream => dream.id !== dreamId));
+        
+        // Also remove from localStorage if user is not authenticated
+        if (!user) {
+          const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+          const updatedLocalDreams = localDreams.filter((dream: Dream) => dream.id !== dreamId);
+          localStorage.setItem('localDreams', JSON.stringify(updatedLocalDreams));
+        }
+        
+        return true;
+      }
+      
+      // For real UUIDs, delete from database
       const { error } = await supabase
         .from('dreams')
         .delete()
@@ -201,7 +225,7 @@ export const useDreams = () => {
         throw error;
       }
 
-      console.log('✅ Dream deleted');
+      console.log('✅ Dream deleted from database');
       
       // Remove from local state
       setDreams(prev => prev.filter(dream => dream.id !== dreamId));
