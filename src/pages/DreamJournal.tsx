@@ -22,26 +22,27 @@ export const DreamJournal = () => {
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
-  const handleDreamRecorded = async (dreamText: string) => {
+  const handleDreamRecorded = async (dreamText: string): Promise<void> => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
-    try {
-      console.log('🔄 DreamJournal: Calling saveDream...');
-      const savedDream = await saveDream(dreamText);
-      console.log('💾 DreamJournal: saveDream returned:', savedDream);
-      
-      // Always close the recorder and go back to journal, regardless of save success
-      console.log('🔙 DreamJournal: Closing recorder and returning to journal');
-      setShowRecorder(false);
-      
-      if (!savedDream) {
-        console.log('⚠️ DreamJournal: Dream save failed, but still returning to journal');
+    
+    return new Promise(async (resolve) => {
+      try {
+        console.log('🔄 DreamJournal: Calling saveDream...');
+        const savedDream = await saveDream(dreamText);
+        console.log('💾 DreamJournal: saveDream returned:', savedDream);
+        
+        if (!savedDream) {
+          console.log('⚠️ DreamJournal: Dream save failed');
+        }
+      } catch (error) {
+        console.error('💥 DreamJournal: Error in handleDreamRecorded:', error);
+      } finally {
+        // Always close the recorder and resolve the promise
+        console.log('🔙 DreamJournal: Closing recorder and returning to journal');
+        setShowRecorder(false);
+        resolve(); // Always resolve to prevent hanging
       }
-    } catch (error) {
-      console.error('💥 DreamJournal: Error in handleDreamRecorded:', error);
-      // Still close the recorder even on error
-      console.log('🔙 DreamJournal: Error occurred, but still closing recorder');
-      setShowRecorder(false);
-    }
+    });
   };
 
   const handleExploreDream = (dream: Dream) => {

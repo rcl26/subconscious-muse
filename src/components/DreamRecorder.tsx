@@ -23,7 +23,15 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
     
     try {
       console.log('🚀 DreamRecorder: Calling onDreamRecorded callback');
-      await onDreamRecorded(dreamText.trim());
+      
+      // Add timeout protection to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Dream save timeout')), 10000); // 10 second timeout
+      });
+      
+      const savePromise = onDreamRecorded(dreamText.trim());
+      
+      await Promise.race([savePromise, timeoutPromise]);
       console.log('✅ DreamRecorder: Dream saved successfully');
       
       // Clear the text only on success
@@ -31,6 +39,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
       console.log('🧹 DreamRecorder: Text cleared');
     } catch (error) {
       console.error('💥 DreamRecorder: Error saving dream:', error);
+      // Don't clear text on error so user can retry
     } finally {
       setIsSubmitting(false);
       console.log('🔓 DreamRecorder: Submission state reset');
