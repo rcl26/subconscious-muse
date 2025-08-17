@@ -19,10 +19,18 @@ export const useDreams = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  // Load dreams from database
+  // Load dreams from database or localStorage
   const loadDreams = async () => {
     if (!user) {
-      setDreams([]);
+      // Load from localStorage for non-authenticated users
+      try {
+        const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+        console.log('📱 Loaded local dreams:', localDreams.length);
+        setDreams(localDreams);
+      } catch (error) {
+        console.error('Error loading local dreams:', error);
+        setDreams([]);
+      }
       setIsLoading(false);
       return;
     }
@@ -40,8 +48,16 @@ export const useDreams = () => {
         throw error;
       }
 
+      // Merge with any local dreams and sync them to database
+      const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+      if (localDreams.length > 0) {
+        console.log('🔄 Syncing local dreams to database:', localDreams.length);
+        // Sync local dreams to database in background
+        syncLocalDreamsToDatabase(localDreams);
+      }
+
       console.log('✅ Loaded dreams:', data?.length || 0);
-      setDreams(data || []);
+      setDreams([...localDreams, ...(data || [])]);
     } catch (error) {
       console.error('Error loading dreams:', error);
       toast({
@@ -51,6 +67,48 @@ export const useDreams = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Sync local dreams to database and clean up localStorage
+  const syncLocalDreamsToDatabase = async (localDreams: Dream[]) => {
+    if (!user || localDreams.length === 0) return;
+
+    try {
+      const dbData = localDreams.map(dream => ({
+        user_id: user.id,
+        content: dream.content,
+        date: dream.date,
+        analysis: dream.analysis || ""
+      }));
+
+      const { data, error } = await supabase
+        .from('dreams')
+        .insert(dbData)
+        .select();
+
+      if (error) {
+        console.error('❌ Failed to sync local dreams:', error);
+        return;
+      }
+
+      if (data) {
+        console.log('✅ Successfully synced local dreams to database');
+        // Clear localStorage after successful sync
+        localStorage.removeItem('localDreams');
+        
+        // Update dreams with database versions
+        setDreams(prev => {
+          const nonLocalDreams = prev.filter(dream => 
+            !localDreams.some(local => local.id === dream.id)
+          );
+          return [...data, ...nonLocalDreams].sort((a, b) => 
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+        });
+      }
+    } catch (error) {
+      console.error('💥 Error syncing local dreams:', error);
     }
   };
 
