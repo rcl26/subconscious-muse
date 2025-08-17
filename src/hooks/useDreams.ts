@@ -57,16 +57,26 @@ export const useDreams = () => {
   // Save a new dream
   const saveDream = async (content: string) => {
     if (!user) {
+      // For testing without auth, create a local dream
+      const localDream = {
+        id: Date.now().toString(),
+        content: content.trim(),
+        date: new Date().toISOString(),
+        analysis: ""
+      };
+      
+      setDreams(prev => [localDream, ...prev]);
+      
       toast({
-        title: "Sign In Required",
-        description: "Please sign in to save your dreams.",
-        variant: "destructive",
+        title: "Dream Recorded ✨",
+        description: "Your dream has been saved locally (sign in to save permanently).",
       });
-      return null;
+      
+      return localDream;
     }
 
     try {
-      console.log('💾 Saving dream...');
+      console.log('💾 Saving dream for user:', user.id);
       const dreamData = {
         user_id: user.id,
         content: content.trim(),
@@ -74,6 +84,7 @@ export const useDreams = () => {
         analysis: ""
       };
 
+      console.log('📤 Inserting dream data:', dreamData);
       const { data, error } = await supabase
         .from('dreams')
         .insert([dreamData])
@@ -81,11 +92,22 @@ export const useDreams = () => {
         .single();
 
       if (error) {
-        console.error('❌ Error saving dream:', error);
+        console.error('❌ Database error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint
+        });
         throw error;
       }
 
-      console.log('✅ Dream saved:', data.id);
+      if (!data) {
+        console.error('❌ No data returned from insert');
+        throw new Error('No data returned from database insert');
+      }
+
+      console.log('✅ Dream saved successfully:', data);
       
       // Add to local state
       setDreams(prev => [data, ...prev]);
@@ -97,10 +119,10 @@ export const useDreams = () => {
 
       return data;
     } catch (error) {
-      console.error('Error saving dream:', error);
+      console.error('💥 Error saving dream:', error);
       toast({
         title: "Error Saving Dream",
-        description: "Unable to save your dream. Please try again.",
+        description: `Unable to save your dream: ${error.message}. Please try again.`,
         variant: "destructive",
       });
       return null;
