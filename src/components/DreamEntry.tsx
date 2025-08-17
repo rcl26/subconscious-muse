@@ -3,14 +3,7 @@ import { Moon, MessageCircle, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
-
-export interface Dream {
-  id: string;
-  content: string;
-  date: string;
-  analysis: string;
-  user_id?: string;
-}
+import { Dream } from "@/hooks/useDreams";
 
 interface DreamEntryProps {
   dream: Dream;
@@ -59,7 +52,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
               className="bg-primary/10 text-primary hover:bg-primary/20 border-0 min-h-[44px] px-4"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Explore (10 credits)</span>
+              <span className="hidden sm:inline">Explore</span>
               <span className="sm:hidden">Explore</span>
             </Button>
           </div>

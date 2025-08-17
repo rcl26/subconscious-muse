@@ -43,9 +43,12 @@ export const DreamJournal = () => {
   };
 
   const handleDeleteDream = async (dreamId: string) => {
-    const dreamToDelete = await deleteDream(dreamId);
+    const dreamToDelete = dreams.find(dream => dream.id === dreamId);
+    if (!dreamToDelete) return;
     
-    if (dreamToDelete) {
+    const success = await deleteDream(dreamId);
+    
+    if (success) {
       toast({
         title: "Dream Deleted",
         description: "The dream entry has been removed from your journal.",

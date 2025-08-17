@@ -9,6 +9,8 @@ export interface Dream {
   date: string;
   analysis: string;
   user_id?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const useDreams = () => {
@@ -17,21 +19,16 @@ export const useDreams = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  // Load dreams when user changes or component mounts
-  useEffect(() => {
-    if (user) {
-      loadDreams();
-    } else {
+  // Load dreams from database
+  const loadDreams = async () => {
+    if (!user) {
       setDreams([]);
       setIsLoading(false);
+      return;
     }
-  }, [user]);
 
-  const loadDreams = async () => {
-    if (!user) return;
-    
     try {
-      console.log('📖 Loading dreams from database...');
+      console.log('📥 Loading dreams for user:', user.id);
       const { data, error } = await supabase
         .from('dreams')
         .select('*')
@@ -43,10 +40,10 @@ export const useDreams = () => {
         throw error;
       }
 
-      console.log(`✅ Loaded ${data?.length || 0} dreams`);
+      console.log('✅ Loaded dreams:', data?.length || 0);
       setDreams(data || []);
     } catch (error) {
-      console.error('Failed to load dreams:', error);
+      console.error('Error loading dreams:', error);
       toast({
         title: "Error Loading Dreams",
         description: "Unable to load your dreams. Please refresh the page.",
@@ -57,31 +54,29 @@ export const useDreams = () => {
     }
   };
 
-  const saveDream = async (dreamContent: string) => {
+  // Save a new dream
+  const saveDream = async (content: string) => {
     if (!user) {
-      // For unauthenticated users, store locally (temporary)
-      const newDream: Dream = {
-        id: Date.now().toString(),
-        content: dreamContent,
-        date: new Date().toISOString(),
-        analysis: ""
-      };
-      setDreams(prev => [newDream, ...prev]);
-      return newDream;
+      toast({
+        title: "Sign In Required",
+        description: "Please sign in to save your dreams.",
+        variant: "destructive",
+      });
+      return null;
     }
 
     try {
-      console.log('💾 Saving dream to database...');
+      console.log('💾 Saving dream...');
       const dreamData = {
         user_id: user.id,
-        content: dreamContent,
+        content: content.trim(),
         date: new Date().toISOString(),
         analysis: ""
       };
 
       const { data, error } = await supabase
         .from('dreams')
-        .insert(dreamData)
+        .insert([dreamData])
         .select()
         .single();
 
@@ -90,87 +85,93 @@ export const useDreams = () => {
         throw error;
       }
 
-      console.log('✅ Dream saved successfully');
-      const newDream: Dream = data;
-      setDreams(prev => [newDream, ...prev]);
-      return newDream;
+      console.log('✅ Dream saved:', data.id);
+      
+      // Add to local state
+      setDreams(prev => [data, ...prev]);
+      
+      toast({
+        title: "Dream Recorded ✨",
+        description: "Your dream has been saved to your journal.",
+      });
+
+      return data;
     } catch (error) {
-      console.error('Failed to save dream:', error);
+      console.error('Error saving dream:', error);
       toast({
         title: "Error Saving Dream",
         description: "Unable to save your dream. Please try again.",
         variant: "destructive",
       });
-      throw error;
+      return null;
     }
   };
 
+  // Delete a dream
   const deleteDream = async (dreamId: string) => {
-    const dreamToDelete = dreams.find(d => d.id === dreamId);
-    if (!dreamToDelete) return null;
+    try {
+      console.log('🗑️ Deleting dream:', dreamId);
+      
+      const { error } = await supabase
+        .from('dreams')
+        .delete()
+        .eq('id', dreamId);
 
-    // Optimistically remove from UI
-    setDreams(prev => prev.filter(d => d.id !== dreamId));
-
-    if (user) {
-      try {
-        console.log('🗑️ Deleting dream from database...');
-        const { error } = await supabase
-          .from('dreams')
-          .delete()
-          .eq('id', dreamId)
-          .eq('user_id', user.id);
-
-        if (error) {
-          console.error('❌ Error deleting dream:', error);
-          // Restore dream to UI on error
-          setDreams(prev => [dreamToDelete, ...prev]);
-          throw error;
-        }
-
-        console.log('✅ Dream deleted successfully');
-      } catch (error) {
-        console.error('Failed to delete dream:', error);
-        toast({
-          title: "Error Deleting Dream",
-          description: "Unable to delete your dream. Please try again.",
-          variant: "destructive",
-        });
+      if (error) {
+        console.error('❌ Error deleting dream:', error);
+        throw error;
       }
-    }
 
-    return dreamToDelete;
+      console.log('✅ Dream deleted');
+      
+      // Remove from local state
+      setDreams(prev => prev.filter(dream => dream.id !== dreamId));
+      
+      return true;
+    } catch (error) {
+      console.error('Error deleting dream:', error);
+      toast({
+        title: "Error Deleting Dream",
+        description: "Unable to delete the dream. Please try again.",
+        variant: "destructive",
+      });
+      return false;
+    }
   };
 
+  // Update dream analysis
   const updateDreamAnalysis = async (dreamId: string, analysis: string) => {
-    if (!user) return;
-
     try {
-      console.log('🔄 Updating dream analysis...');
+      console.log('📝 Updating dream analysis:', dreamId);
+      
       const { error } = await supabase
         .from('dreams')
         .update({ analysis })
-        .eq('id', dreamId)
-        .eq('user_id', user.id);
+        .eq('id', dreamId);
 
       if (error) {
         console.error('❌ Error updating analysis:', error);
         throw error;
       }
 
-      console.log('✅ Dream analysis updated');
+      console.log('✅ Analysis updated');
+      
+      // Update local state
       setDreams(prev => prev.map(dream => 
         dream.id === dreamId ? { ...dream, analysis } : dream
       ));
+      
+      return true;
     } catch (error) {
-      console.error('Failed to update dream analysis:', error);
-      toast({
-        title: "Error Updating Analysis",
-        description: "Unable to save the analysis. Please try again.",
-        variant: "destructive",
-      });
+      console.error('Error updating analysis:', error);
+      return false;
     }
   };
+
+  // Load dreams when user changes
+  useEffect(() => {
+    loadDreams();
+  }, [user]);
 
   return {
     dreams,
@@ -178,6 +179,6 @@ export const useDreams = () => {
     saveDream,
     deleteDream,
     updateDreamAnalysis,
-    refreshDreams: loadDreams
+    loadDreams
   };
 };

@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Dream } from "@/components/DreamEntry";
+import { Dream } from "@/hooks/useDreams";
 
 interface Message {
   id: string;

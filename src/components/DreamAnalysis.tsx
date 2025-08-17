@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Brain, Loader2 } from "lucide-react";
-import { Dream } from "@/components/DreamEntry";
+import { Dream } from "@/hooks/useDreams";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistance } from "date-fns";
