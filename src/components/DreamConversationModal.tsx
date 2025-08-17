@@ -61,6 +61,7 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
   const startInitialAnalysis = async () => {
     if (!dream) return;
     
+    console.log('🌙 Starting initial dream analysis for:', dream.content.substring(0, 50) + '...');
     setIsLoading(true);
     try {
       const analysis = await analyzeDream(dream.content);
@@ -73,11 +74,14 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
       };
       
       setMessages([assistantMessage]);
+      console.log('✨ Initial analysis complete');
     } catch (error) {
-      console.error('Error analyzing dream:', error);
+      console.error('❌ Error in initial analysis:', error);
       toast({
         title: "Analysis Error",
-        description: "Unable to analyze your dream. Please try again.",
+        description: error.message.includes('timeout') 
+          ? "The analysis is taking too long. Please try again with a shorter dream description."
+          : "Unable to analyze your dream. Please try again.",
         variant: "destructive",
       });
     } finally {
