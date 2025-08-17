@@ -29,14 +29,18 @@ export const DreamJournal = () => {
       const savedDream = await saveDream(dreamText);
       console.log('💾 DreamJournal: saveDream returned:', savedDream);
       
-      if (savedDream) {
-        console.log('✅ DreamJournal: Dream saved successfully, closing recorder');
-        setShowRecorder(false);
-      } else {
-        console.log('❌ DreamJournal: saveDream returned null/false');
+      // Always close the recorder and go back to journal, regardless of save success
+      console.log('🔙 DreamJournal: Closing recorder and returning to journal');
+      setShowRecorder(false);
+      
+      if (!savedDream) {
+        console.log('⚠️ DreamJournal: Dream save failed, but still returning to journal');
       }
     } catch (error) {
       console.error('💥 DreamJournal: Error in handleDreamRecorded:', error);
+      // Still close the recorder even on error
+      console.log('🔙 DreamJournal: Error occurred, but still closing recorder');
+      setShowRecorder(false);
     }
   };
 
