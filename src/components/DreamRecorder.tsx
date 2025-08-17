@@ -12,9 +12,14 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   const [dreamText, setDreamText] = useState("");
 
   const handleTextSubmit = () => {
+    console.log('🎯 DreamRecorder: handleTextSubmit called with text:', dreamText);
     if (dreamText.trim()) {
+      console.log('🚀 DreamRecorder: Calling onDreamRecorded with:', dreamText.trim());
       onDreamRecorded(dreamText.trim());
       setDreamText("");
+      console.log('✅ DreamRecorder: Text cleared, callback completed');
+    } else {
+      console.log('❌ DreamRecorder: No text to submit');
     }
   };
 

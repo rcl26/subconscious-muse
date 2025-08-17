@@ -23,16 +23,20 @@ export const DreamJournal = () => {
   const { toast } = useToast();
 
   const handleDreamRecorded = async (dreamText: string) => {
+    console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
     try {
-      await saveDream(dreamText);
-      setShowRecorder(false);
+      console.log('🔄 DreamJournal: Calling saveDream...');
+      const savedDream = await saveDream(dreamText);
+      console.log('💾 DreamJournal: saveDream returned:', savedDream);
       
-      toast({
-        title: "Dream Recorded ✨",
-        description: "Your dream has been captured and saved.",
-      });
+      if (savedDream) {
+        console.log('✅ DreamJournal: Dream saved successfully, closing recorder');
+        setShowRecorder(false);
+      } else {
+        console.log('❌ DreamJournal: saveDream returned null/false');
+      }
     } catch (error) {
-      // Error is already handled by useDreams hook
+      console.error('💥 DreamJournal: Error in handleDreamRecorded:', error);
     }
   };
 
