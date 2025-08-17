@@ -50,7 +50,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',

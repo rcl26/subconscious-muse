@@ -39,18 +39,7 @@ export const DreamJournal = () => {
   };
 
   const handleExploreDream = (dream: Dream) => {
-    // First check if user is signed in
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-    
-    // Then check if they have enough credits
-    if (!profile || profile.credits < 10) {
-      setShowCreditsModal(true);
-      return;
-    }
-    
+    // Allow analysis without authentication or credit requirements
     setSelectedDream(dream);
     setIsModalOpen(true);
   };

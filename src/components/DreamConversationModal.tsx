@@ -88,16 +88,6 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
-    // Check if user has enough credits (10 credits per analysis)
-    if (!profile || profile.credits < 10) {
-      toast({
-        title: "Insufficient Credits",
-        description: "You need 10 credits to analyze this dream. Purchase more credits to continue.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -126,17 +116,6 @@ Please provide a thoughtful analysis of this dream.`;
       const analysis = await analyzeDream(conversationContext);
       
       if (analysis) {
-        // Deduct 10 credits after successful analysis
-        await supabase.rpc('update_user_credits', {
-          user_id_param: profile.id,
-          credit_change: -10,
-          transaction_type: 'usage',
-          description_text: 'Dream analysis session'
-        });
-
-        // Refresh profile to update credits
-        await refreshProfile();
-
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
@@ -149,7 +128,7 @@ Please provide a thoughtful analysis of this dream.`;
 
         toast({
           title: "Analysis Complete",
-          description: "10 credits used for this analysis",
+          description: "Dream exploration completed successfully",
         });
       }
     } catch (error) {
