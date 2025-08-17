@@ -13,11 +13,19 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
 
   const handleTextSubmit = () => {
     console.log('🎯 DreamRecorder: handleTextSubmit called with text:', dreamText);
+    console.log('🔍 DreamRecorder: onDreamRecorded callback is:', typeof onDreamRecorded);
+    
     if (dreamText.trim()) {
-      console.log('🚀 DreamRecorder: Calling onDreamRecorded with:', dreamText.trim());
+      console.log('🚀 DreamRecorder: About to call onDreamRecorded with:', dreamText.trim());
+      
+      // Call the callback immediately
       onDreamRecorded(dreamText.trim());
+      
+      console.log('📞 DreamRecorder: onDreamRecorded callback completed');
+      
+      // Clear the text
       setDreamText("");
-      console.log('✅ DreamRecorder: Text cleared, callback completed');
+      console.log('✅ DreamRecorder: Text cleared');
     } else {
       console.log('❌ DreamRecorder: No text to submit');
     }
