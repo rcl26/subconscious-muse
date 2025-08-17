@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export interface Dream {
   id: string;
@@ -17,7 +17,6 @@ export const useDreams = () => {
   const [dreams, setDreams] = useState<Dream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  const { toast } = useToast();
 
   // Load dreams from database or localStorage
   const loadDreams = async () => {
@@ -60,10 +59,8 @@ export const useDreams = () => {
       setDreams([...localDreams, ...(data || [])]);
     } catch (error) {
       console.error('Error loading dreams:', error);
-      toast({
-        title: "Error Loading Dreams",
+      toast.error("Error Loading Dreams", {
         description: "Unable to load your dreams. Please refresh the page.",
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -125,10 +122,10 @@ export const useDreams = () => {
     // Optimistic update - add to UI immediately
     setDreams(prev => [dreamData, ...prev]);
     
-    // Show immediate success
-    toast({
-      title: "Dream Recorded ✨",
-      description: "Your dream has been saved to your journal.",
+    // Show subtle success notification
+    toast.success("Dream recorded ✨", {
+      description: "Saved to your journal",
+      duration: 3000,
     });
 
     if (!user) {
@@ -233,10 +230,8 @@ export const useDreams = () => {
       return true;
     } catch (error) {
       console.error('Error deleting dream:', error);
-      toast({
-        title: "Error Deleting Dream",
+      toast.error("Error Deleting Dream", {
         description: "Unable to delete the dream. Please try again.",
-        variant: "destructive",
       });
       return false;
     }
