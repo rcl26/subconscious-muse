@@ -11,17 +11,20 @@ interface DreamRecorderProps {
 export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   const [dreamText, setDreamText] = useState("");
 
-  const handleTextSubmit = () => {
+  const handleTextSubmit = async () => {
     console.log('🎯 DreamRecorder: handleTextSubmit called with text:', dreamText);
     console.log('🔍 DreamRecorder: onDreamRecorded callback is:', typeof onDreamRecorded);
     
     if (dreamText.trim()) {
       console.log('🚀 DreamRecorder: About to call onDreamRecorded with:', dreamText.trim());
       
-      // Call the callback immediately
-      onDreamRecorded(dreamText.trim());
-      
-      console.log('📞 DreamRecorder: onDreamRecorded callback completed');
+      try {
+        // Call the callback and wait for it if it's async
+        await onDreamRecorded(dreamText.trim());
+        console.log('📞 DreamRecorder: onDreamRecorded callback completed successfully');
+      } catch (error) {
+        console.error('💥 DreamRecorder: Error in onDreamRecorded callback:', error);
+      }
       
       // Clear the text
       setDreamText("");
