@@ -22,27 +22,15 @@ export const DreamJournal = () => {
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
-  const handleDreamRecorded = async (dreamText: string): Promise<void> => {
+  const handleDreamRecorded = (dreamText: string) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
     
-    return new Promise(async (resolve) => {
-      try {
-        console.log('🔄 DreamJournal: Calling saveDream...');
-        const savedDream = await saveDream(dreamText);
-        console.log('💾 DreamJournal: saveDream returned:', savedDream);
-        
-        if (!savedDream) {
-          console.log('⚠️ DreamJournal: Dream save failed');
-        }
-      } catch (error) {
-        console.error('💥 DreamJournal: Error in handleDreamRecorded:', error);
-      } finally {
-        // Always close the recorder and resolve the promise
-        console.log('🔙 DreamJournal: Closing recorder and returning to journal');
-        setShowRecorder(false);
-        resolve(); // Always resolve to prevent hanging
-      }
-    });
+    // Save dream with optimistic update (happens instantly)
+    saveDream(dreamText);
+    
+    // Close recorder immediately
+    setShowRecorder(false);
+    console.log('🔙 DreamJournal: Recorder closed, dream added to journal');
   };
 
   const handleExploreDream = (dream: Dream) => {

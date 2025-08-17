@@ -54,79 +54,78 @@ export const useDreams = () => {
     }
   };
 
-  // Save a new dream
+  // Save a new dream with optimistic updates
   const saveDream = async (content: string) => {
+    const dreamData = {
+      id: Date.now().toString(), // Temporary ID for optimistic update
+      content: content.trim(),
+      date: new Date().toISOString(),
+      analysis: "",
+      user_id: user?.id
+    };
+
+    // Optimistic update - add to UI immediately
+    setDreams(prev => [dreamData, ...prev]);
+    
+    // Show immediate success
+    toast({
+      title: "Dream Recorded ✨",
+      description: "Your dream has been saved to your journal.",
+    });
+
     if (!user) {
-      // For testing without auth, create a local dream
-      const localDream = {
-        id: Date.now().toString(),
-        content: content.trim(),
-        date: new Date().toISOString(),
-        analysis: ""
-      };
-      
-      setDreams(prev => [localDream, ...prev]);
-      
-      toast({
-        title: "Dream Recorded ✨",
-        description: "Your dream has been saved locally (sign in to save permanently).",
-      });
-      
-      return localDream;
+      // Store in localStorage for non-authenticated users
+      const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+      localStorage.setItem('localDreams', JSON.stringify([dreamData, ...localDreams]));
+      return dreamData;
     }
 
+    // Background sync to database
     try {
-      console.log('💾 Saving dream for user:', user.id);
-      const dreamData = {
+      console.log('💾 Background sync: Saving dream for user:', user.id);
+      const dbData = {
         user_id: user.id,
         content: content.trim(),
         date: new Date().toISOString(),
         analysis: ""
       };
 
-      console.log('📤 Inserting dream data:', dreamData);
       const { data, error } = await supabase
         .from('dreams')
-        .insert([dreamData])
+        .insert([dbData])
         .select()
         .single();
 
       if (error) {
-        console.error('❌ Database error:', error);
-        console.error('Error details:', {
-          message: error.message,
-          code: error.code,
-          details: error.details,
-          hint: error.hint
-        });
-        throw error;
+        console.error('❌ Background sync failed:', error);
+        // Update the dream with retry option
+        setDreams(prev => prev.map(dream => 
+          dream.id === dreamData.id 
+            ? { ...dream, syncStatus: 'failed' }
+            : dream
+        ));
+        return dreamData;
       }
 
-      if (!data) {
-        console.error('❌ No data returned from insert');
-        throw new Error('No data returned from database insert');
+      if (data) {
+        console.log('✅ Background sync successful:', data);
+        // Replace temporary dream with real database dream
+        setDreams(prev => prev.map(dream => 
+          dream.id === dreamData.id ? data : dream
+        ));
+        return data;
       }
-
-      console.log('✅ Dream saved successfully:', data);
-      
-      // Add to local state
-      setDreams(prev => [data, ...prev]);
-      
-      toast({
-        title: "Dream Recorded ✨",
-        description: "Your dream has been saved to your journal.",
-      });
-
-      return data;
     } catch (error) {
-      console.error('💥 Error saving dream:', error);
-      toast({
-        title: "Error Saving Dream",
-        description: `Unable to save your dream: ${error.message}. Please try again.`,
-        variant: "destructive",
-      });
-      return null;
+      console.error('💥 Background sync error:', error);
+      // Mark as failed but don't remove from UI
+      setDreams(prev => prev.map(dream => 
+        dream.id === dreamData.id 
+          ? { ...dream, syncStatus: 'failed' }
+          : dream
+      ));
     }
+
+    return dreamData;
   };
 
   // Delete a dream

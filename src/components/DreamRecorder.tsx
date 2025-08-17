@@ -10,40 +10,18 @@ interface DreamRecorderProps {
 
 export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   const [dreamText, setDreamText] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleTextSubmit = async () => {
-    if (isSubmitting || !dreamText.trim()) {
-      console.log('❌ DreamRecorder: Submission blocked - isSubmitting:', isSubmitting, 'hasText:', !!dreamText.trim());
-      return;
-    }
-
-    console.log('🎯 DreamRecorder: Starting dream submission with text:', dreamText.trim());
-    setIsSubmitting(true);
+  const handleTextSubmit = () => {
+    if (!dreamText.trim()) return;
     
-    try {
-      console.log('🚀 DreamRecorder: Calling onDreamRecorded callback');
-      
-      // Add timeout protection to prevent hanging
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Dream save timeout')), 10000); // 10 second timeout
-      });
-      
-      const savePromise = onDreamRecorded(dreamText.trim());
-      
-      await Promise.race([savePromise, timeoutPromise]);
-      console.log('✅ DreamRecorder: Dream saved successfully');
-      
-      // Clear the text only on success
-      setDreamText("");
-      console.log('🧹 DreamRecorder: Text cleared');
-    } catch (error) {
-      console.error('💥 DreamRecorder: Error saving dream:', error);
-      // Don't clear text on error so user can retry
-    } finally {
-      setIsSubmitting(false);
-      console.log('🔓 DreamRecorder: Submission state reset');
-    }
+    console.log('🚀 DreamRecorder: Starting dream submission');
+    
+    // Call the callback synchronously - no more async chains!
+    onDreamRecorded(dreamText.trim());
+    
+    // Clear the text immediately
+    setDreamText("");
+    console.log('✅ DreamRecorder: Dream submitted and text cleared');
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -78,10 +56,10 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
           <div className="space-y-2">
           <Button
             onClick={handleTextSubmit}
-            disabled={!dreamText.trim() || isSubmitting}
+            disabled={!dreamText.trim()}
             className="w-full bg-primary hover:bg-primary/90 transition-magical"
           >
-            {isSubmitting ? "Saving..." : "Save Dream"}
+            Save Dream
           </Button>
             <p className="text-xs text-muted-foreground">
               Tip: Press Cmd/Ctrl + Enter to save quickly
