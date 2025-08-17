@@ -9,6 +9,7 @@ export interface Dream {
   content: string;
   date: string;
   analysis: string;
+  user_id?: string;
 }
 
 interface DreamEntryProps {

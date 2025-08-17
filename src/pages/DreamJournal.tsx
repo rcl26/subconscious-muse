@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -8,11 +8,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
 import { CreditsPurchaseModal } from "@/components/CreditsPurchaseModal";
 import { DreamRecorder } from "@/components/DreamRecorder";
-import { DreamEntry, Dream } from "@/components/DreamEntry";
+import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
+import { useDreams, Dream } from "@/hooks/useDreams";
 
 export const DreamJournal = () => {
-  const [dreams, setDreams] = useState<Dream[]>([]);
+  const { dreams, isLoading, saveDream, deleteDream } = useDreams();
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -21,21 +22,18 @@ export const DreamJournal = () => {
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
-  const handleDreamRecorded = (dreamText: string) => {
-    const newDream: Dream = {
-      id: Date.now().toString(),
-      content: dreamText,
-      date: new Date().toISOString(),
-      analysis: ""
-    };
-    
-    setDreams([newDream, ...dreams]);
-    setShowRecorder(false);
-    
-    toast({
-      title: "Dream Recorded ✨",
-      description: "Your dream has been captured and is ready for exploration.",
-    });
+  const handleDreamRecorded = async (dreamText: string) => {
+    try {
+      await saveDream(dreamText);
+      setShowRecorder(false);
+      
+      toast({
+        title: "Dream Recorded ✨",
+        description: "Your dream has been captured and saved.",
+      });
+    } catch (error) {
+      // Error is already handled by useDreams hook
+    }
   };
 
   const handleExploreDream = (dream: Dream) => {
@@ -44,30 +42,37 @@ export const DreamJournal = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteDream = (dreamId: string) => {
-    const dreamToDelete = dreams.find(dream => dream.id === dreamId);
-    if (!dreamToDelete) return;
+  const handleDeleteDream = async (dreamId: string) => {
+    const dreamToDelete = await deleteDream(dreamId);
     
-    setDreams(dreams.filter(dream => dream.id !== dreamId));
-    
-    toast({
-      title: "Dream Deleted",
-      description: "The dream entry has been removed from your journal.",
-      action: (
-        <ToastAction 
-          altText="Undo delete"
-          onClick={() => {
-            setDreams(prevDreams => [dreamToDelete, ...prevDreams.filter(d => d.id !== dreamId)]);
-            toast({
-              title: "Dream Restored",
-              description: "Your dream entry has been restored.",
-            });
-          }}
-        >
-          Undo
-        </ToastAction>
-      ),
-    });
+    if (dreamToDelete) {
+      toast({
+        title: "Dream Deleted",
+        description: "The dream entry has been removed from your journal.",
+        action: (
+          <ToastAction 
+            altText="Undo delete"
+            onClick={async () => {
+              try {
+                await saveDream(dreamToDelete.content);
+                toast({
+                  title: "Dream Restored",
+                  description: "Your dream entry has been restored.",
+                });
+              } catch (error) {
+                toast({
+                  title: "Error",
+                  description: "Unable to restore dream. Please try again.",
+                  variant: "destructive",
+                });
+              }
+            }}
+          >
+            Undo
+          </ToastAction>
+        ),
+      });
+    }
   };
 
   const handleCloseModal = () => {
@@ -77,7 +82,7 @@ export const DreamJournal = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    setDreams([]);
+    // Dreams will be cleared automatically by useDreams hook when user becomes null
   };
 
   if (showRecorder) {
@@ -186,7 +191,12 @@ export const DreamJournal = () => {
 
         {/* Dreams list */}
         <div className="space-y-4">
-          {dreams.length > 0 ? (
+          {isLoading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4" />
+              <p className="text-primary-foreground/60">Loading your dreams...</p>
+            </div>
+          ) : dreams.length > 0 ? (
             dreams.map((dream) => (
               <DreamEntry 
                 key={dream.id} 
