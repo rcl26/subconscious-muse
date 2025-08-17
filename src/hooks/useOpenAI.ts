@@ -6,9 +6,9 @@ export const useOpenAI = () => {
     const startTime = Date.now();
     
     try {
-      // Set a timeout for the request (30 seconds)
+      // Set a timeout for the request (45 seconds for faster model)
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Request timeout - analysis taking too long')), 30000);
+        setTimeout(() => reject(new Error('Request timeout - please try again')), 45000);
       });
       
       const analysisPromise = supabase.functions.invoke('analyze-dream', {

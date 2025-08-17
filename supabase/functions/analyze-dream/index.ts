@@ -43,14 +43,19 @@ Analyze the dream with these sections:
 
 Keep your tone warm, curious, and supportive. Address the dreamer directly using "you" and "your". Make it feel like a gentle conversation with a wise friend who truly sees them. Around 350-400 words.`;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Set a timeout for the OpenAI API call (25 seconds)
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('OpenAI API timeout')), 25000);
+    });
+
+    const apiCall = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-5-mini-2025-08-07',
         messages: [
           {
             role: 'system',
@@ -61,10 +66,11 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
             content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
           }
         ],
-        temperature: 0.7,
-        max_tokens: isFollowUp ? 400 : 600,
+        max_completion_tokens: isFollowUp ? 400 : 600,
       }),
     });
+
+    const response = await Promise.race([apiCall, timeoutPromise]) as Response;
 
     if (!response.ok) {
       const errorText = await response.text();
