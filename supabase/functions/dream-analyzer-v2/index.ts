@@ -59,7 +59,25 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
       setTimeout(() => reject(new Error('OpenAI API timeout')), 25000);
     });
 
-    console.log('🔄 Making OpenAI API call with gpt-5-mini...');
+    console.log('🔄 Making OpenAI API call with gpt-4o-mini...');
+    
+    const requestBody = {
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt
+        },
+        {
+          role: 'user',
+          content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
+        }
+      ],
+      max_tokens: isFollowUp ? 400 : 600,
+      temperature: 0.7,
+    };
+
+    console.log('📝 Request body:', JSON.stringify(requestBody, null, 2));
     
     const apiCall = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -67,32 +85,30 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
         'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'gpt-5-mini-2025-08-07',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt
-          },
-          {
-            role: 'user',
-            content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
-          }
-        ],
-        max_completion_tokens: isFollowUp ? 400 : 600,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     const response = await Promise.race([apiCall, timeoutPromise]) as Response;
 
+    console.log('📊 OpenAI API response status:', response.status);
+    console.log('📊 OpenAI API response headers:', Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenAI API error:', errorText);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      console.error('❌ OpenAI API error response:', errorText);
+      console.error('❌ OpenAI API error status:', response.status);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    const analysis = data.choices[0]?.message?.content || "Unable to analyze dream.";
+    console.log('✅ OpenAI API response data:', JSON.stringify(data, null, 2));
+    
+    const analysis = data.choices?.[0]?.message?.content;
+    
+    if (!analysis) {
+      console.error('❌ No analysis content in OpenAI response:', data);
+      throw new Error('No analysis content received from OpenAI');
+    }
 
     console.log('✅ Dream analysis completed successfully');
 
