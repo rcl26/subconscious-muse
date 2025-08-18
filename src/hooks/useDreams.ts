@@ -36,11 +36,21 @@ export const useDreams = () => {
 
     try {
       console.log('📥 Loading dreams for user:', user.id);
-      const { data, error } = await supabase
+      
+      // Add timeout to prevent infinite loading
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Query timeout - please refresh the page')), 10000);
+      });
+      
+      const queryPromise = supabase
         .from('dreams')
         .select('*')
         .eq('user_id', user.id)
         .order('date', { ascending: false });
+
+      console.log('🔄 Executing dreams query...');
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
+      console.log('📋 Query completed. Data:', data?.length || 0, 'Error:', error);
 
       if (error) {
         console.error('❌ Error loading dreams:', error);
