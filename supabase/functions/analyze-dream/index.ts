@@ -55,7 +55,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-5-mini-2025-08-07',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
@@ -66,7 +66,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
             content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
           }
         ],
-        max_completion_tokens: isFollowUp ? 400 : 600,
+        max_tokens: isFollowUp ? 400 : 600,
       }),
     });
 

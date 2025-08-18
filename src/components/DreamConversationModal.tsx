@@ -81,7 +81,7 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
         title: "Analysis Error",
         description: error.message.includes('timeout') 
           ? "The analysis is taking too long. Please try again with a shorter dream description."
-          : "Unable to analyze your dream. Please try again.",
+          : `Unable to analyze your dream: ${error.message || 'Please try again.'}`,
         variant: "destructive",
       });
     } finally {
@@ -136,12 +136,14 @@ Please provide a thoughtful analysis of this dream.`;
         });
       }
     } catch (error) {
-      console.error('Analysis error:', error);
+      console.error('❌ Analysis error:', error);
       toast({
         title: "Analysis Failed",
-        description: "Failed to analyze dream. Please try again.",
+        description: `Failed to analyze dream: ${error.message || 'Please try again.'}`,
         variant: "destructive",
       });
+      // Remove the user message if analysis failed
+      setMessages(prev => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
     }
