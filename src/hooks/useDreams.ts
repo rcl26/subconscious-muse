@@ -39,7 +39,7 @@ export const useDreams = () => {
       
       // Add timeout to prevent infinite loading
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Query timeout - please refresh the page')), 10000);
+        setTimeout(() => reject(new Error('Database query timeout')), 20000); // Increased to 20 seconds
       });
       
       const queryPromise = supabase
@@ -69,9 +69,19 @@ export const useDreams = () => {
       setDreams([...localDreams, ...(data || [])]);
     } catch (error) {
       console.error('Error loading dreams:', error);
-      toast.error("Error Loading Dreams", {
-        description: "Unable to load your dreams. Please refresh the page.",
-      });
+      
+      // Try to fallback to local dreams before showing error
+      const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+      if (localDreams.length > 0) {
+        console.log('📱 Fallback: Using local dreams only');
+        setDreams(localDreams);
+      } else {
+        // Only show error toast if no local fallback available
+        toast.error("Error Loading Dreams", {
+          description: "Unable to connect to database. Please check your connection.",
+        });
+        setDreams([]);
+      }
     } finally {
       setIsLoading(false);
     }
