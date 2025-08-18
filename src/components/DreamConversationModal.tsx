@@ -59,11 +59,17 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
   }, [isOpen]);
 
   const startInitialAnalysis = async () => {
-    if (!dream) return;
+    console.log('🎯 startInitialAnalysis called');
+    if (!dream) {
+      console.log('❌ No dream object found');
+      return;
+    }
     
     console.log('🌙 Starting initial dream analysis for:', dream.content.substring(0, 50) + '...');
+    console.log('🔧 analyzeDream function:', typeof analyzeDream);
     setIsLoading(true);
     try {
+      console.log('📞 About to call analyzeDream...');
       const analysis = await analyzeDream(dream.content);
       
       const assistantMessage: Message = {
