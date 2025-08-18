@@ -2,6 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const useOpenAI = () => {
   const analyzeDream = async (dreamText: string) => {
+    console.log('🚀 analyzeDream function called with text:', dreamText.substring(0, 50));
     console.log('🔄 Starting dream analysis...');
     console.log('💭 Dream text length:', dreamText?.length || 0);
     const startTime = Date.now();
