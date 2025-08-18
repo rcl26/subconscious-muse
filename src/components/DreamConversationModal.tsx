@@ -171,12 +171,12 @@ Please provide a thoughtful analysis of this dream.`;
             <Moon className="h-5 w-5 text-primary" />
             <span>Dream Exploration</span>
           </DialogTitle>
-          <DialogDescription className="text-left">
+          <DialogDescription asChild className="text-left">
             {dream && (
               <div className="mt-2 p-3 bg-muted/50 rounded-lg">
-                <p className="text-sm text-muted-foreground line-clamp-3">
+                <span className="text-sm text-muted-foreground line-clamp-3">
                   "{dream.content}"
-                </p>
+                </span>
               </div>
             )}
           </DialogDescription>
