@@ -13,13 +13,13 @@ export const useOpenAI = () => {
         setTimeout(() => reject(new Error('Request timeout after 30 seconds - the AI service is taking too long to respond')), 30000);
       });
       
-      console.log('📡 Calling analyze-dream edge function via direct HTTP...');
+      console.log('📡 Calling NEW dream-analyzer-v2 edge function via direct HTTP...');
       console.log('🌐 Supabase URL:', 'https://ibsxglkvcfenutoqkfvb.supabase.co');
       console.log('📝 Sending dream text length:', dreamText.length);
       
       // Direct HTTP call instead of supabase.functions.invoke
       const response = await Promise.race([
-        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
+        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/dream-analyzer-v2', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
