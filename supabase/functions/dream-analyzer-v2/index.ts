@@ -12,7 +12,9 @@ const corsHeaders = {
 serve(async (req) => {
   console.log('🟢 NEW Dream Analyzer V2 Function Started!');
   console.log('📊 Request method:', req.method);
-  console.log('🔑 OpenAI API key configured:', !!openAIApiKey);
+  console.log('🔑 OpenAI API key length:', openAIApiKey ? openAIApiKey.length : 0);
+  console.log('🔑 OpenAI API key starts with sk-:', openAIApiKey ? openAIApiKey.startsWith('sk-') : false);
+  console.log('🔑 All env vars:', JSON.stringify(Object.keys(Deno.env.toObject()), null, 2));
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -25,6 +27,7 @@ serve(async (req) => {
     
     if (!openAIApiKey) {
       console.error('❌ OpenAI API key not found in environment variables');
+      console.error('❌ Available env vars:', Object.keys(Deno.env.toObject()));
       throw new Error('OpenAI API key not configured');
     }
     
