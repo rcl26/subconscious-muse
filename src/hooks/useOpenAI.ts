@@ -12,17 +12,13 @@ export const useOpenAI = () => {
         setTimeout(() => reject(new Error('Request timeout - please try again')), 45000);
       });
       
-      
-      console.log('🔑 Getting auth session...');
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      console.log('📋 Session data:', sessionData?.session ? 'Found' : 'None', sessionError);
-      
-      const analysisPromise = supabase.functions.invoke('analyze-dream', {
-        body: { dreamText }
-      });
-      
       console.log('📡 Calling analyze-dream edge function...');
-      const { data, error } = await Promise.race([analysisPromise, timeoutPromise]) as any;
+      const { data, error } = await Promise.race([
+        supabase.functions.invoke('analyze-dream', {
+          body: { dreamText }
+        }),
+        timeoutPromise
+      ]) as any;
       
       const duration = Date.now() - startTime;
       console.log(`⏱️ Analysis completed in ${duration}ms`);
