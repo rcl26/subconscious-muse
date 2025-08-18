@@ -11,11 +11,13 @@ export const useOpenAI = () => {
         setTimeout(() => reject(new Error('Request timeout - please try again')), 45000);
       });
       
+      
+      console.log('🔑 Getting auth session...');
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      console.log('📋 Session data:', sessionData?.session ? 'Found' : 'None', sessionError);
+      
       const analysisPromise = supabase.functions.invoke('analyze-dream', {
-        body: { dreamText },
-        headers: {
-          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
-        }
+        body: { dreamText }
       });
       
       console.log('📡 Calling analyze-dream edge function...');
