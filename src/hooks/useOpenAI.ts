@@ -12,7 +12,10 @@ export const useOpenAI = () => {
       });
       
       const analysisPromise = supabase.functions.invoke('analyze-dream', {
-        body: { dreamText }
+        body: { dreamText },
+        headers: {
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
+        }
       });
       
       console.log('📡 Calling analyze-dream edge function...');
