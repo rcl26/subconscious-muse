@@ -9,15 +9,25 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  console.log('🟢 Edge function analyze-dream invoked successfully!');
+  console.log('📊 Request method:', req.method);
+  console.log('🔑 OpenAI API key configured:', !!openAIApiKey);
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
+    console.log('⚡ Handling CORS preflight');
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    console.log('🚀 Starting dream analysis process...');
+    
     if (!openAIApiKey) {
+      console.error('❌ OpenAI API key not found in environment variables');
       throw new Error('OpenAI API key not configured');
     }
+    
+    console.log('✅ OpenAI API key verified');
 
     const { dreamText } = await req.json();
 
