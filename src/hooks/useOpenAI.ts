@@ -13,37 +13,44 @@ export const useOpenAI = () => {
         setTimeout(() => reject(new Error('Request timeout after 30 seconds - the AI service is taking too long to respond')), 30000);
       });
       
-      console.log('📡 Calling analyze-dream edge function...');
+      console.log('📡 Calling analyze-dream edge function via direct HTTP...');
       console.log('🌐 Supabase URL:', 'https://ibsxglkvcfenutoqkfvb.supabase.co');
       console.log('📝 Sending dream text length:', dreamText.length);
       
-      const { data, error } = await Promise.race([
-        supabase.functions.invoke('analyze-dream', {
-          body: { dreamText }
+      // Direct HTTP call instead of supabase.functions.invoke
+      const response = await Promise.race([
+        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlic3hnbGt2Y2ZlbnV0b3FrZnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2NTkyNDUsImV4cCI6MjA2OTIzNTI0NX0.lk9kCQ1aiiiMgmuG5HZjSXf-I9M4KrHHaIu9b23iYBk`,
+          },
+          body: JSON.stringify({ dreamText })
         }),
         timeoutPromise
-      ]) as any;
+      ]) as Response;
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
       
       const duration = Date.now() - startTime;
       console.log(`⏱️ Analysis completed in ${duration}ms`);
 
-      if (error) {
-        console.error('❌ Edge function error:', error);
-        throw new Error(error.message);
+      if (result.error) {
+        console.error('❌ Analysis service error:', result.error);
+        throw new Error(result.error);
       }
 
-      if (!data) {
-        console.error('❌ No data received from edge function');
+      if (!result.analysis) {
+        console.error('❌ No analysis received from edge function');
         throw new Error('No response received from analysis service');
       }
 
-      if (data.error) {
-        console.error('❌ Analysis service error:', data.error);
-        throw new Error(data.error);
-      }
-
       console.log('✅ Analysis successful');
-      return data.analysis;
+      return result.analysis;
     } catch (error) {
       const duration = Date.now() - startTime;
       console.error(`❌ Error analyzing dream after ${duration}ms:`, error);
