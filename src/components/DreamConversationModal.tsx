@@ -44,10 +44,11 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
   // Auto-start analysis when modal opens with a dream
   useEffect(() => {
     if (dream && isOpen && !hasStartedAnalysis) {
+      console.log('🎯 useEffect triggered - starting analysis');
       startInitialAnalysis();
       setHasStartedAnalysis(true);
     }
-  }, [dream, isOpen]);
+  }, [dream, isOpen, hasStartedAnalysis]);
 
   // Reset state when modal closes
   useEffect(() => {
