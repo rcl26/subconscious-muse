@@ -1,4 +1,4 @@
-// Dream Analysis Edge Function - v2.1 - API Key Fix
+// Dream Analysis Edge Function - v2.2 - Secret Refresh
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
