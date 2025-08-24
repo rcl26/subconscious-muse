@@ -14,79 +14,30 @@ let cacheTimestamp = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 async function getOpenAIApiKey(): Promise<string> {
-  const now = Date.now();
-  
-  // Return cached key if still valid
-  if (cachedApiKey && (now - cacheTimestamp) < CACHE_DURATION) {
-    console.log('🔄 Using cached OpenAI API key');
-    return cachedApiKey;
-  }
-  
   console.log('🔑 Retrieving OpenAI API key...');
   
-  // Try environment variable first (fallback)
+  // Get the API key from environment
   const envKey = Deno.env.get('OPENAI_API_KEY');
   console.log('🔍 Env key exists:', !!envKey);
   console.log('🔍 Env key length:', envKey?.length || 0);
-  console.log('🔍 Env key valid format:', envKey?.startsWith('sk-') || false);
+  console.log('🔍 Env key starts with sk-:', envKey?.startsWith('sk-') || false);
   
-  if (envKey && envKey.trim() && envKey.startsWith('sk-')) {
-    console.log('✅ Got valid API key from environment');
-    cachedApiKey = envKey;
-    cacheTimestamp = now;
-    return envKey;
+  // Log all environment variables for debugging
+  const allEnvVars = Object.keys(Deno.env.toObject());
+  console.log('🔍 Available env vars:', allEnvVars.filter(k => k.includes('OPENAI') || k.includes('API')));
+  
+  if (!envKey || !envKey.trim()) {
+    console.error('❌ OpenAI API key is empty or missing');
+    throw new Error('OpenAI API key not configured in environment variables');
   }
   
-  console.log('⚠️ Environment key invalid, trying Supabase vault...');
-  
-  // Try Supabase vault access with retry logic
-  const supabaseUrl = Deno.env.get('SUPABASE_URL');
-  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-  
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error('Supabase configuration missing for vault access');
+  if (!envKey.startsWith('sk-')) {
+    console.error('❌ OpenAI API key has invalid format (should start with sk-)');
+    throw new Error('OpenAI API key has invalid format');
   }
   
-  const supabase = createClient(supabaseUrl, serviceRoleKey);
-  
-  // Retry logic with exponential backoff
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      console.log(`🔄 Vault access attempt ${attempt}/3`);
-      
-      // Try to get the secret directly from vault.secrets table
-      const { data, error } = await supabase
-        .from('vault.secrets')
-        .select('secret')
-        .eq('name', 'OPENAI_API_KEY')
-        .single();
-      
-      if (error) {
-        console.error(`❌ Vault error attempt ${attempt}:`, error.message);
-        if (attempt === 3) throw error;
-        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-        continue;
-      }
-      
-      if (data?.secret && data.secret.startsWith('sk-')) {
-        console.log('✅ Got valid API key from vault');
-        cachedApiKey = data.secret;
-        cacheTimestamp = now;
-        return data.secret;
-      }
-      
-      console.error(`❌ Invalid key from vault attempt ${attempt}:`, data?.secret?.substring(0, 10) + '...');
-      if (attempt === 3) throw new Error('Invalid API key format from vault');
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-      
-    } catch (vaultError) {
-      console.error(`❌ Vault access failed attempt ${attempt}:`, vaultError);
-      if (attempt === 3) throw vaultError;
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
-    }
-  }
-  
-  throw new Error('Failed to retrieve OpenAI API key from all sources');
+  console.log('✅ Got valid API key from environment');
+  return envKey;
 }
 
 serve(async (req) => {
