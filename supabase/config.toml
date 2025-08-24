@@ -64,6 +64,9 @@ verify_jwt = false
 [functions.dream-analyzer-v2]
 verify_jwt = false
 
+[functions.dream-analyzer-v3]
+verify_jwt = false
+
 [functions.create-payment]
 verify_jwt = true
 
