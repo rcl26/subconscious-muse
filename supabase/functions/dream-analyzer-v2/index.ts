@@ -62,10 +62,10 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
       setTimeout(() => reject(new Error('OpenAI API timeout')), 25000);
     });
 
-    console.log('🔄 Making OpenAI API call with gpt-4o-mini...');
+    console.log('🔄 Making OpenAI API call with gpt-5-mini-2025-08-07...');
     
     const requestBody = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-5-mini-2025-08-07',
       messages: [
         {
           role: 'system',
@@ -76,8 +76,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
           content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
         }
       ],
-      max_tokens: isFollowUp ? 400 : 600,
-      temperature: 0.7,
+      max_completion_tokens: isFollowUp ? 400 : 600,
     };
 
     console.log('📝 Request body:', JSON.stringify(requestBody, null, 2));
