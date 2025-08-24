@@ -19,7 +19,7 @@ export const useOpenAI = () => {
       
       // Direct HTTP call instead of supabase.functions.invoke
       const response = await Promise.race([
-        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/test-function', {
+        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -30,17 +30,11 @@ export const useOpenAI = () => {
         timeoutPromise
       ]) as Response;
       
-      console.log('📊 Response status:', response.status);
-      console.log('📊 Response ok:', response.ok);
-      
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Response error text:', errorText);
-        throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
       const result = await response.json();
-      console.log('📊 Raw response:', result);
       
       const duration = Date.now() - startTime;
       console.log(`⏱️ Analysis completed in ${duration}ms`);

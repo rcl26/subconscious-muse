@@ -73,26 +73,6 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
     });
 
     console.log('🔄 Making OpenAI API call with gpt-5-mini-2025-08-07...');
-    console.log('📤 Sending dream text:', dreamText);
-    console.log('📤 System prompt length:', systemPrompt.length);
-    console.log('📤 Is follow-up:', isFollowUp);
-    
-    const requestBody = {
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt
-        },
-        {
-          role: 'user',
-          content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
-        }
-      ],
-      max_tokens: isFollowUp ? 400 : 600,
-    };
-    
-    console.log('📤 Full request body:', JSON.stringify(requestBody, null, 2));
     
     const apiCall = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -100,7 +80,20 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
         'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        model: 'gpt-5-mini-2025-08-07',
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt
+          },
+          {
+            role: 'user',
+            content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
+          }
+        ],
+        max_completion_tokens: isFollowUp ? 400 : 600,
+      }),
     });
 
     const response = await Promise.race([apiCall, timeoutPromise]) as Response;
@@ -112,9 +105,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
     }
 
     const data = await response.json();
-    console.log('📥 Full OpenAI response:', JSON.stringify(data, null, 2));
     const analysis = data.choices[0]?.message?.content || "Unable to analyze dream.";
-    console.log('📥 Extracted analysis:', analysis);
 
     console.log('Dream conversation completed successfully');
 
