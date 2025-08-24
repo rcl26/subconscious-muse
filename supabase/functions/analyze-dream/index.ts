@@ -1,31 +1,98 @@
-// Dream Analysis Edge Function - v5.0 - GPT-5 Mini Upgrade
+// Dream Analysis Edge Function - v6.0 - Robust Secret Access
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-// Enhanced environment variable retrieval with multiple fallbacks
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY') || Deno.env.get('OPENAI_KEY');
-const deploymentTimestamp = new Date().toISOString();
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Enhanced logging function
-function logDebugInfo(req: Request) {
-  const timestamp = new Date().toISOString();
-  console.log(`🚀 [${timestamp}] Dream Analysis Function v5.0 Started`);
-  console.log(`📊 Request method: ${req.method}`);
-  console.log(`🔑 OpenAI API key exists: ${!!openAIApiKey}`);
-  console.log(`🔑 OpenAI API key length: ${openAIApiKey ? openAIApiKey.length : 0}`);
-  console.log(`🔑 OpenAI API key starts with sk-: ${openAIApiKey ? openAIApiKey.startsWith('sk-') : false}`);
-  console.log(`🔍 Deployment timestamp: ${deploymentTimestamp}`);
-  console.log(`🔍 Available env vars: ${JSON.stringify(Object.keys(Deno.env.toObject()).filter(k => k.includes('OPENAI') || k.includes('API')), null, 2)}`);
+// Cache for API key to avoid repeated vault calls
+let cachedApiKey: string | null = null;
+let cacheTimestamp = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+async function getOpenAIApiKey(): Promise<string> {
+  const now = Date.now();
+  
+  // Return cached key if still valid
+  if (cachedApiKey && (now - cacheTimestamp) < CACHE_DURATION) {
+    console.log('🔄 Using cached OpenAI API key');
+    return cachedApiKey;
+  }
+  
+  console.log('🔑 Retrieving OpenAI API key...');
+  
+  // Try environment variable first (fallback)
+  const envKey = Deno.env.get('OPENAI_API_KEY');
+  console.log('🔍 Env key exists:', !!envKey);
+  console.log('🔍 Env key length:', envKey?.length || 0);
+  console.log('🔍 Env key valid format:', envKey?.startsWith('sk-') || false);
+  
+  if (envKey && envKey.trim() && envKey.startsWith('sk-')) {
+    console.log('✅ Got valid API key from environment');
+    cachedApiKey = envKey;
+    cacheTimestamp = now;
+    return envKey;
+  }
+  
+  console.log('⚠️ Environment key invalid, trying Supabase vault...');
+  
+  // Try Supabase vault access with retry logic
+  const supabaseUrl = Deno.env.get('SUPABASE_URL');
+  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error('Supabase configuration missing for vault access');
+  }
+  
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  
+  // Retry logic with exponential backoff
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      console.log(`🔄 Vault access attempt ${attempt}/3`);
+      
+      // Try to get the secret directly from vault.secrets table
+      const { data, error } = await supabase
+        .from('vault.secrets')
+        .select('secret')
+        .eq('name', 'OPENAI_API_KEY')
+        .single();
+      
+      if (error) {
+        console.error(`❌ Vault error attempt ${attempt}:`, error.message);
+        if (attempt === 3) throw error;
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        continue;
+      }
+      
+      if (data?.secret && data.secret.startsWith('sk-')) {
+        console.log('✅ Got valid API key from vault');
+        cachedApiKey = data.secret;
+        cacheTimestamp = now;
+        return data.secret;
+      }
+      
+      console.error(`❌ Invalid key from vault attempt ${attempt}:`, data?.secret?.substring(0, 10) + '...');
+      if (attempt === 3) throw new Error('Invalid API key format from vault');
+      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      
+    } catch (vaultError) {
+      console.error(`❌ Vault access failed attempt ${attempt}:`, vaultError);
+      if (attempt === 3) throw vaultError;
+      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+    }
+  }
+  
+  throw new Error('Failed to retrieve OpenAI API key from all sources');
 }
 
 serve(async (req) => {
-  logDebugInfo(req);
-  
+  console.log('🚀 Dream Analysis Function v6.0 - Robust Secret Access');
+  console.log('📊 Request method:', req.method);
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     console.log('⚡ Handling CORS preflight');
@@ -35,13 +102,8 @@ serve(async (req) => {
   try {
     console.log('🚀 Starting dream analysis process...');
     
-    if (!openAIApiKey) {
-      console.error('❌ OpenAI API key not found in environment variables');
-      console.error('❌ All env vars:', JSON.stringify(Object.keys(Deno.env.toObject()), null, 2));
-      throw new Error('OpenAI API key not configured');
-    }
-    
-    console.log('✅ OpenAI API key verified');
+    const openAIApiKey = await getOpenAIApiKey();
+    console.log('✅ OpenAI API key retrieved successfully');
 
     const { dreamText } = await req.json();
 
