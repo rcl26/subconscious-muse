@@ -1,21 +1,30 @@
-// Dream Analysis Edge Function - v3.0 - Complete Redeploy
+// Dream Analysis Edge Function - v4.0 - Force New Deployment
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+// Enhanced environment variable retrieval with multiple fallbacks
+const openAIApiKey = Deno.env.get('OPENAI_API_KEY') || Deno.env.get('OPENAI_KEY');
+const deploymentTimestamp = new Date().toISOString();
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Enhanced logging function
+function logDebugInfo(req: Request) {
+  const timestamp = new Date().toISOString();
+  console.log(`🚀 [${timestamp}] Dream Analysis Function v4.0 Started`);
+  console.log(`📊 Request method: ${req.method}`);
+  console.log(`🔑 OpenAI API key exists: ${!!openAIApiKey}`);
+  console.log(`🔑 OpenAI API key length: ${openAIApiKey ? openAIApiKey.length : 0}`);
+  console.log(`🔑 OpenAI API key starts with sk-: ${openAIApiKey ? openAIApiKey.startsWith('sk-') : false}`);
+  console.log(`🔍 Deployment timestamp: ${deploymentTimestamp}`);
+  console.log(`🔍 Available env vars: ${JSON.stringify(Object.keys(Deno.env.toObject()).filter(k => k.includes('OPENAI') || k.includes('API')), null, 2)}`);
+}
+
 serve(async (req) => {
-  console.log('🟢 Edge function analyze-dream invoked successfully!');
-  console.log('📊 Request method:', req.method);
-  console.log('🔑 OpenAI API key exists:', !!openAIApiKey);
-  console.log('🔑 OpenAI API key length:', openAIApiKey ? openAIApiKey.length : 0);
-  console.log('🔑 OpenAI API key starts with sk-:', openAIApiKey ? openAIApiKey.startsWith('sk-') : false);
-  console.log('🔍 Available env vars:', JSON.stringify(Object.keys(Deno.env.toObject()).filter(k => k.includes('OPENAI') || k.includes('API')), null, 2));
+  logDebugInfo(req);
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
