@@ -19,7 +19,7 @@ export const useOpenAI = () => {
       
       // Direct HTTP call instead of supabase.functions.invoke
       const response = await Promise.race([
-        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/dream-analyzer-v3', {
+        fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/test-function', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
