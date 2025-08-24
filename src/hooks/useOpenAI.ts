@@ -30,11 +30,17 @@ export const useOpenAI = () => {
         timeoutPromise
       ]) as Response;
       
+      console.log('📊 Response status:', response.status);
+      console.log('📊 Response ok:', response.ok);
+      
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const errorText = await response.text();
+        console.error('❌ Response error text:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
       }
       
       const result = await response.json();
+      console.log('📊 Raw response:', result);
       
       const duration = Date.now() - startTime;
       console.log(`⏱️ Analysis completed in ${duration}ms`);
