@@ -74,40 +74,73 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
 
     console.log('🔄 Making OpenAI API call with gpt-5-mini-2025-08-07...');
     
+    const requestPayload = {
+      model: 'gpt-5-mini-2025-08-07',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt
+        },
+        {
+          role: 'user',
+          content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
+        }
+      ],
+      max_completion_tokens: isFollowUp ? 400 : 600,
+    };
+    
+    console.log('📤 Request payload:', JSON.stringify(requestPayload, null, 2));
+    
     const apiCall = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'gpt-5-mini-2025-08-07',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt
-          },
-          {
-            role: 'user',
-            content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
-          }
-        ],
-        max_completion_tokens: isFollowUp ? 400 : 600,
-      }),
+      body: JSON.stringify(requestPayload),
     });
 
     const response = await Promise.race([apiCall, timeoutPromise]) as Response;
 
+    console.log('📥 OpenAI API response status:', response.status);
+    console.log('📥 OpenAI API response headers:', JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenAI API error:', errorText);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      console.error('❌ OpenAI API error response:', errorText);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    const analysis = data.choices[0]?.message?.content || "Unable to analyze dream.";
-
-    console.log('Dream conversation completed successfully');
+    console.log('📋 Full OpenAI API response:', JSON.stringify(data, null, 2));
+    
+    // Enhanced response validation
+    if (!data.choices || data.choices.length === 0) {
+      console.error('❌ No choices in OpenAI response');
+      throw new Error('OpenAI API returned no choices');
+    }
+    
+    const choice = data.choices[0];
+    console.log('🎯 First choice object:', JSON.stringify(choice, null, 2));
+    
+    if (!choice.message) {
+      console.error('❌ No message in first choice');
+      throw new Error('OpenAI API returned choice without message');
+    }
+    
+    const content = choice.message.content;
+    console.log('📝 Message content type:', typeof content);
+    console.log('📝 Message content length:', content ? content.length : 0);
+    console.log('📝 Message content preview:', content ? content.substring(0, 200) + '...' : 'null/undefined');
+    
+    if (!content || content.trim() === '') {
+      console.error('❌ Empty or null content from OpenAI');
+      console.error('❌ Full message object:', JSON.stringify(choice.message, null, 2));
+      throw new Error('OpenAI API returned empty content');
+    }
+    
+    const analysis = content.trim();
+    console.log('✅ Dream conversation completed successfully with', analysis.length, 'characters');
 
     return new Response(JSON.stringify({ analysis }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
