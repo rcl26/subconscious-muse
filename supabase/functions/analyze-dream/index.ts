@@ -99,7 +99,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
           content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
         }
       ],
-      max_completion_tokens: isFollowUp ? 400 : 600,
+      max_completion_tokens: isFollowUp ? 600 : 1200,
     };
     
     console.log('📤 Request payload:', JSON.stringify(requestPayload, null, 2));
@@ -127,6 +127,12 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
     const data = await response.json();
     console.log('📋 Full OpenAI API response:', JSON.stringify(data, null, 2));
     
+    // Log token usage for monitoring
+    if (data.usage) {
+      console.log('📊 Token usage:', JSON.stringify(data.usage, null, 2));
+      console.log(`📊 Tokens: ${data.usage.prompt_tokens} prompt + ${data.usage.completion_tokens} completion = ${data.usage.total_tokens} total`);
+    }
+    
     // Enhanced response validation
     if (!data.choices || data.choices.length === 0) {
       console.error('❌ No choices in OpenAI response');
@@ -141,15 +147,23 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
       throw new Error('OpenAI API returned choice without message');
     }
     
+    // Check for specific finish reasons that indicate issues
+    if (choice.finish_reason === 'length') {
+      console.error('❌ Response was cut off due to length limit');
+      throw new Error('The dream analysis was too long and got cut off. Please try with a shorter dream description or contact support.');
+    }
+    
     const content = choice.message.content;
     console.log('📝 Message content type:', typeof content);
     console.log('📝 Message content length:', content ? content.length : 0);
     console.log('📝 Message content preview:', content ? content.substring(0, 200) + '...' : 'null/undefined');
+    console.log('📝 Finish reason:', choice.finish_reason);
     
     if (!content || content.trim() === '') {
       console.error('❌ Empty or null content from OpenAI');
       console.error('❌ Full message object:', JSON.stringify(choice.message, null, 2));
-      throw new Error('OpenAI API returned empty content');
+      console.error('❌ Finish reason was:', choice.finish_reason);
+      throw new Error('OpenAI API returned empty content - this might be due to content filtering or token limits');
     }
     
     const analysis = content.trim();
