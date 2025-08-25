@@ -99,7 +99,7 @@ Keep your tone warm, curious, and supportive. Address the dreamer directly using
           content: isFollowUp ? dreamText : `Please analyze this dream: "${dreamText}"`
         }
       ],
-      max_completion_tokens: isFollowUp ? 600 : 1200,
+      max_completion_tokens: isFollowUp ? 1000 : 2000,
     };
     
     console.log('📤 Request payload:', JSON.stringify(requestPayload, null, 2));
