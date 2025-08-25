@@ -89,7 +89,7 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
     setMessages([aiMessage]);
     
     try {
-      // Call streaming analysis
+      // Call dream analysis
       const response = await fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
         method: 'POST',
         headers: {
@@ -103,47 +103,20 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      if (!response.body) {
-        throw new Error('No response body received');
+      const result = await response.json();
+      
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulatedContent = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        
-        if (done) {
-          break;
-        }
-        
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-        
-        for (const line of lines) {
-          const trimmedLine = line.trim();
-          if (trimmedLine.startsWith('data: ')) {
-            const dataStr = trimmedLine.slice(6);
-            
-            try {
-              const data = JSON.parse(dataStr);
-              if (data.content) {
-                accumulatedContent += data.content;
-                
-                // Update the message content in real-time
-                setMessages(prev => prev.map(msg => 
-                  msg.id === aiMessage.id 
-                    ? { ...msg, content: accumulatedContent }
-                    : msg
-                ));
-              }
-            } catch (parseError) {
-              console.log('Could not parse SSE data:', dataStr);
-            }
-          }
-        }
-      }
+      const accumulatedContent = result.analysis;
+      
+      // Update the message content
+      setMessages(prev => prev.map(msg => 
+        msg.id === aiMessage.id 
+          ? { ...msg, content: accumulatedContent }
+          : msg
+      ));
       
       console.log('✨ Initial analysis complete');
       
@@ -207,7 +180,7 @@ ${userMessage.content}
 
 Please provide a thoughtful analysis of this dream.`;
 
-      // Call streaming analysis
+      // Call dream analysis
       const response = await fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
         method: 'POST',
         headers: {
@@ -221,47 +194,20 @@ Please provide a thoughtful analysis of this dream.`;
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      if (!response.body) {
-        throw new Error('No response body received');
+      const result = await response.json();
+      
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulatedContent = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        
-        if (done) {
-          break;
-        }
-        
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-        
-        for (const line of lines) {
-          const trimmedLine = line.trim();
-          if (trimmedLine.startsWith('data: ')) {
-            const dataStr = trimmedLine.slice(6);
-            
-            try {
-              const data = JSON.parse(dataStr);
-              if (data.content) {
-                accumulatedContent += data.content;
-                
-                // Update the message content in real-time
-                setMessages(prev => prev.map(msg => 
-                  msg.id === aiMessage.id 
-                    ? { ...msg, content: accumulatedContent }
-                    : msg
-                ));
-              }
-            } catch (parseError) {
-              console.log('Could not parse SSE data:', dataStr);
-            }
-          }
-        }
-      }
+      const accumulatedContent = result.analysis;
+      
+      // Update the message content
+      setMessages(prev => prev.map(msg => 
+        msg.id === aiMessage.id 
+          ? { ...msg, content: accumulatedContent }
+          : msg
+      ));
       
       setHasStartedAnalysis(true);
 

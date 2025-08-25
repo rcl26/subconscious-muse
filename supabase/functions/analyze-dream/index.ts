@@ -84,7 +84,7 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
       setTimeout(() => reject(new Error('OpenAI API timeout')), 25000);
     });
 
-    console.log('🔄 Making streaming OpenAI API call with gpt-5-mini-2025-08-07...');
+    console.log('🔄 Making OpenAI API call with gpt-5-mini-2025-08-07...');
     
     const requestPayload = {
       model: 'gpt-5-mini-2025-08-07',
@@ -99,7 +99,6 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
         }
       ],
       max_completion_tokens: isFollowUp ? 1000 : 2000,
-      stream: true,
     };
     
     console.log('📤 Request payload:', JSON.stringify(requestPayload, null, 2));
@@ -121,73 +120,13 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
       throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
 
-    if (!response.body) {
-      throw new Error('No response body received from OpenAI');
-    }
+    const data = await response.json();
+    const analysis = data.choices[0].message.content;
 
-    console.log('🌊 Setting up streaming response...');
+    console.log('✅ OpenAI API call completed successfully');
 
-    // Create a readable stream to forward chunks to the client
-    const readable = new ReadableStream({
-      async start(controller) {
-        const reader = response.body!.getReader();
-        const decoder = new TextDecoder();
-        
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            
-            if (done) {
-              console.log('✅ Stream completed');
-              controller.close();
-              break;
-            }
-            
-            const chunk = decoder.decode(value, { stream: true });
-            console.log('📦 Raw chunk:', chunk);
-            
-            // Process each line in the chunk
-            const lines = chunk.split('\n');
-            for (const line of lines) {
-              const trimmedLine = line.trim();
-              if (trimmedLine.startsWith('data: ')) {
-                const dataStr = trimmedLine.slice(6);
-                
-                if (dataStr === '[DONE]') {
-                  console.log('🏁 Received [DONE] signal');
-                  continue;
-                }
-                
-                try {
-                  const data = JSON.parse(dataStr);
-                  if (data.choices?.[0]?.delta?.content) {
-                    const content = data.choices[0].delta.content;
-                    console.log('📝 Streaming content:', content);
-                    
-                    // Forward the content to the client
-                    const sseData = `data: ${JSON.stringify({ content })}\n\n`;
-                    controller.enqueue(new TextEncoder().encode(sseData));
-                  }
-                } catch (parseError) {
-                  console.log('⚠️ Could not parse data line:', dataStr, parseError);
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.error('❌ Error in stream processing:', error);
-          controller.error(error);
-        }
-      }
-    });
-
-    return new Response(readable, {
-      headers: {
-        ...corsHeaders,
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
+    return new Response(JSON.stringify({ analysis }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('Error in analyze-dream function:', error);
