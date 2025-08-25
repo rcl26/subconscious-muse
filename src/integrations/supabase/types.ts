@@ -56,6 +56,7 @@ export type Database = {
         Row: {
           analysis: string | null
           content: string
+          conversations: Json | null
           created_at: string
           date: string
           id: string
@@ -65,6 +66,7 @@ export type Database = {
         Insert: {
           analysis?: string | null
           content: string
+          conversations?: Json | null
           created_at?: string
           date: string
           id?: string
@@ -74,6 +76,7 @@ export type Database = {
         Update: {
           analysis?: string | null
           content?: string
+          conversations?: Json | null
           created_at?: string
           date?: string
           id?: string
