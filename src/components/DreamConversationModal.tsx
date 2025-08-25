@@ -8,22 +8,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Dream } from "@/hooks/useDreams";
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
+import { Dream, Message } from "@/hooks/useDreams";
 
 interface DreamConversationModalProps {
   dream: Dream | null;
   isOpen: boolean;
   onClose: () => void;
+  onUpdateConversation: (dreamId: string, conversations: Message[]) => void;
 }
 
-export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversationModalProps) => {
+export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConversation }: DreamConversationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -41,12 +35,21 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
     scrollToBottom();
   }, [messages]);
 
-  // Auto-start analysis when modal opens with a dream
+  // Load existing conversation or start analysis when modal opens
   useEffect(() => {
     if (dream && isOpen && !hasStartedAnalysis) {
-      console.log('🎯 useEffect triggered - starting analysis');
-      startInitialAnalysis();
-      setHasStartedAnalysis(true);
+      console.log('🎯 useEffect triggered - checking for existing conversation');
+      
+      // Check if dream has existing conversations
+      if (dream.conversations && dream.conversations.length > 0) {
+        console.log('📜 Loading existing conversation');
+        setMessages(dream.conversations);
+        setHasStartedAnalysis(true);
+      } else {
+        console.log('🎯 Starting new analysis');
+        startInitialAnalysis();
+        setHasStartedAnalysis(true);
+      }
     }
   }, [dream, isOpen, hasStartedAnalysis]);
 
@@ -82,6 +85,11 @@ export const DreamConversationModal = ({ dream, isOpen, onClose }: DreamConversa
       
       setMessages([assistantMessage]);
       console.log('✨ Initial analysis complete');
+      
+      // Save conversation to database
+      if (dream?.id) {
+        onUpdateConversation(dream.id, [assistantMessage]);
+      }
     } catch (error) {
       console.error('❌ Error in initial analysis:', error);
       toast({
@@ -134,8 +142,14 @@ Please provide a thoughtful analysis of this dream.`;
           timestamp: new Date()
         };
         
-        setMessages(prev => [...prev, assistantMessage]);
+        const updatedMessages = [...messages, userMessage, assistantMessage];
+        setMessages(updatedMessages);
         setHasStartedAnalysis(true);
+
+        // Save conversation to database
+        if (dream?.id) {
+          onUpdateConversation(dream.id, updatedMessages);
+        }
 
         toast({
           title: "Analysis Complete",

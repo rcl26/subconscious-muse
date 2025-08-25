@@ -13,7 +13,7 @@ import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { useDreams, Dream } from "@/hooks/useDreams";
 
 export const DreamJournal = () => {
-  const { dreams, isLoading, saveDream, deleteDream } = useDreams();
+  const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -225,6 +225,7 @@ export const DreamJournal = () => {
         dream={selectedDream}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+        onUpdateConversation={updateDreamConversation}
       />
     </div>
   );

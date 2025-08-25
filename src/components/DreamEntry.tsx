@@ -49,11 +49,25 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
             <Button
               onClick={handleExploreClick}
               size="sm"
-              className="bg-primary/10 text-primary hover:bg-primary/20 border-0 min-h-[44px] px-4"
+              className={`border-0 min-h-[44px] px-4 ${
+                dream.analysis || (dream.conversations && dream.conversations.length > 0)
+                  ? "bg-secondary/10 text-secondary hover:bg-secondary/20"
+                  : "bg-primary/10 text-primary hover:bg-primary/20"
+              }`}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Explore</span>
-              <span className="sm:hidden">Explore</span>
+              <span className="hidden sm:inline">
+                {dream.analysis || (dream.conversations && dream.conversations.length > 0) 
+                  ? "View Analysis" 
+                  : "Explore"
+                }
+              </span>
+              <span className="sm:hidden">
+                {dream.analysis || (dream.conversations && dream.conversations.length > 0) 
+                  ? "View" 
+                  : "Explore"
+                }
+              </span>
             </Button>
           </div>
           

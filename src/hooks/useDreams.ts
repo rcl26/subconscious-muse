@@ -3,11 +3,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
+export interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
 export interface Dream {
   id: string;
   content: string;
   date: string;
   analysis: string;
+  conversations?: Message[];
   user_id?: string;
   created_at?: string;
   updated_at?: string;
@@ -66,7 +74,12 @@ export const useDreams = () => {
       }
 
       console.log('✅ Loaded dreams:', data?.length || 0);
-      setDreams([...localDreams, ...(data || [])]);
+      // Parse conversations from JSON strings
+      const parsedData = (data || []).map(dream => ({
+        ...dream,
+        conversations: dream.conversations ? JSON.parse(typeof dream.conversations === 'string' ? dream.conversations : JSON.stringify(dream.conversations)) : []
+      }));
+      setDreams([...localDreams, ...parsedData]);
     } catch (error) {
       console.error('Error loading dreams:', error);
       
@@ -96,7 +109,8 @@ export const useDreams = () => {
         user_id: user.id,
         content: dream.content,
         date: dream.date,
-        analysis: dream.analysis || ""
+        analysis: dream.analysis || "",
+        conversations: dream.conversations ? JSON.stringify(dream.conversations) : '[]'
       }));
 
       const { data, error } = await supabase
@@ -119,7 +133,11 @@ export const useDreams = () => {
           const nonLocalDreams = prev.filter(dream => 
             !localDreams.some(local => local.id === dream.id)
           );
-          return [...data, ...nonLocalDreams].sort((a, b) => 
+          const parsedData = data.map(dream => ({
+            ...dream,
+            conversations: dream.conversations ? JSON.parse(typeof dream.conversations === 'string' ? dream.conversations : JSON.stringify(dream.conversations)) : []
+          }));
+          return [...parsedData, ...nonLocalDreams].sort((a, b) => 
             new Date(b.date).getTime() - new Date(a.date).getTime()
           );
         });
@@ -162,7 +180,8 @@ export const useDreams = () => {
         user_id: user.id,
         content: content.trim(),
         date: new Date().toISOString(),
-        analysis: ""
+        analysis: "",
+        conversations: '[]'
       };
 
       const { data, error } = await supabase
@@ -185,8 +204,12 @@ export const useDreams = () => {
       if (data) {
         console.log('✅ Background sync successful:', data);
         // Replace temporary dream with real database dream
+        const parsedData = {
+          ...data,
+          conversations: data.conversations ? JSON.parse(typeof data.conversations === 'string' ? data.conversations : JSON.stringify(data.conversations)) : []
+        };
         setDreams(prev => prev.map(dream => 
-          dream.id === dreamData.id ? data : dream
+          dream.id === dreamData.id ? parsedData : dream
         ));
         return data;
       }
@@ -286,6 +309,56 @@ export const useDreams = () => {
     }
   };
 
+  // Update dream conversation
+  const updateDreamConversation = async (dreamId: string, conversations: Message[]) => {
+    try {
+      console.log('💬 Updating dream conversation:', dreamId);
+      
+      // Check if this is a temporary ID (optimistic update) or real UUID
+      if (isTemporaryId(dreamId)) {
+        console.log('📱 Updating temporary dream conversation (local only)');
+        // For temporary IDs, just update local state and localStorage
+        setDreams(prev => prev.map(dream => 
+          dream.id === dreamId ? { ...dream, conversations } : dream
+        ));
+        
+        // Also update localStorage if user is not authenticated
+        if (!user) {
+          const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
+          const updatedLocalDreams = localDreams.map((dream: Dream) => 
+            dream.id === dreamId ? { ...dream, conversations } : dream
+          );
+          localStorage.setItem('localDreams', JSON.stringify(updatedLocalDreams));
+        }
+        
+        return true;
+      }
+      
+      // For real UUIDs, update database
+      const { error } = await supabase
+        .from('dreams')
+        .update({ conversations: JSON.stringify(conversations) })
+        .eq('id', dreamId);
+
+      if (error) {
+        console.error('❌ Error updating conversation:', error);
+        throw error;
+      }
+
+      console.log('✅ Conversation updated');
+      
+      // Update local state
+      setDreams(prev => prev.map(dream => 
+        dream.id === dreamId ? { ...dream, conversations } : dream
+      ));
+      
+      return true;
+    } catch (error) {
+      console.error('Error updating conversation:', error);
+      return false;
+    }
+  };
+
   // Load dreams when user changes
   useEffect(() => {
     loadDreams();
@@ -297,6 +370,7 @@ export const useDreams = () => {
     saveDream,
     deleteDream,
     updateDreamAnalysis,
+    updateDreamConversation,
     loadDreams
   };
 };
