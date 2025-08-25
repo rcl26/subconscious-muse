@@ -76,26 +76,81 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
     }
     
     console.log('🌙 Starting initial dream analysis for:', dream.content.substring(0, 50) + '...');
-    console.log('🔧 analyzeDream function:', typeof analyzeDream);
     setIsLoading(true);
+    
+    // Create an empty AI message to stream into
+    const aiMessage: Message = {
+      id: Date.now().toString(),
+      role: 'assistant',
+      content: '',
+      timestamp: new Date(),
+    };
+    
+    setMessages([aiMessage]);
+    
     try {
-      console.log('📞 About to call analyzeDream...');
-      const analysis = await analyzeDream(dream.content);
+      // Call streaming analysis
+      const response = await fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlic3hnbGt2Y2ZlbnV0b3FrZnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2NTkyNDUsImV4cCI6MjA2OTIzNTI0NX0.lk9kCQ1aiiiMgmuG5HZjSXf-I9M4KrHHaIu9b23iYBk`,
+        },
+        body: JSON.stringify({ dreamText: dream.content })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      if (!response.body) {
+        throw new Error('No response body received');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
+          break;
+        }
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (trimmedLine.startsWith('data: ')) {
+            const dataStr = trimmedLine.slice(6);
+            
+            try {
+              const data = JSON.parse(dataStr);
+              if (data.content) {
+                accumulatedContent += data.content;
+                
+                // Update the message content in real-time
+                setMessages(prev => prev.map(msg => 
+                  msg.id === aiMessage.id 
+                    ? { ...msg, content: accumulatedContent }
+                    : msg
+                ));
+              }
+            } catch (parseError) {
+              console.log('Could not parse SSE data:', dataStr);
+            }
+          }
+        }
+      }
       
-      const assistantMessage: Message = {
-        id: Date.now().toString(),
-        role: 'assistant',
-        content: analysis,
-        timestamp: new Date()
-      };
-      
-      setMessages([assistantMessage]);
       console.log('✨ Initial analysis complete');
       
-      // Save conversation to database
-      if (dream?.id) {
-        onUpdateConversation(dream.id, [assistantMessage]);
-      }
+      // Save the final conversation to the dream
+      const finalMessage = { ...aiMessage, content: accumulatedContent };
+      onUpdateConversation(dream.id, [finalMessage]);
+      
     } catch (error) {
       console.error('❌ Error in initial analysis:', error);
       toast({
@@ -105,6 +160,9 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
           : `Unable to analyze your dream: ${error.message || 'Please try again.'}`,
         variant: "destructive",
       });
+      
+      // Remove the empty message on error
+      setMessages(prev => prev.filter(msg => msg.id !== aiMessage.id));
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +183,16 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
     setIsLoading(true);
     shouldScrollRef.current = true; // Mark that we should scroll after this update
 
+    // Create an empty AI message to stream into
+    const aiMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: '',
+      timestamp: new Date(),
+    };
+    
+    setMessages(prev => [...prev, aiMessage]);
+
     try {
       const conversationContext = hasStartedAnalysis 
         ? `Previous conversation:
@@ -139,24 +207,69 @@ ${userMessage.content}
 
 Please provide a thoughtful analysis of this dream.`;
 
-      const analysis = await analyzeDream(conversationContext);
-      
-      if (analysis) {
-        const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: analysis,
-          timestamp: new Date()
-        };
-        
-        const updatedMessages = [...messages, userMessage, assistantMessage];
-        setMessages(updatedMessages);
-        setHasStartedAnalysis(true);
+      // Call streaming analysis
+      const response = await fetch('https://ibsxglkvcfenutoqkfvb.supabase.co/functions/v1/analyze-dream', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlic3hnbGt2Y2ZlbnV0b3FrZnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2NTkyNDUsImV4cCI6MjA2OTIzNTI0NX0.lk9kCQ1aiiiMgmuG5HZjSXf-I9M4KrHHaIu9b23iYBk`,
+        },
+        body: JSON.stringify({ dreamText: conversationContext })
+      });
 
-        // Save conversation to database
-        if (dream?.id) {
-          onUpdateConversation(dream.id, updatedMessages);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      if (!response.body) {
+        throw new Error('No response body received');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
+          break;
         }
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (trimmedLine.startsWith('data: ')) {
+            const dataStr = trimmedLine.slice(6);
+            
+            try {
+              const data = JSON.parse(dataStr);
+              if (data.content) {
+                accumulatedContent += data.content;
+                
+                // Update the message content in real-time
+                setMessages(prev => prev.map(msg => 
+                  msg.id === aiMessage.id 
+                    ? { ...msg, content: accumulatedContent }
+                    : msg
+                ));
+              }
+            } catch (parseError) {
+              console.log('Could not parse SSE data:', dataStr);
+            }
+          }
+        }
+      }
+      
+      setHasStartedAnalysis(true);
+
+      // Save conversation to database
+      if (dream?.id) {
+        const finalMessage = { ...aiMessage, content: accumulatedContent };
+        const updatedMessages = [...messages, userMessage, finalMessage];
+        onUpdateConversation(dream.id, updatedMessages);
       }
     } catch (error) {
       console.error('❌ Analysis error:', error);
@@ -165,8 +278,8 @@ Please provide a thoughtful analysis of this dream.`;
         description: `Failed to analyze dream: ${error.message || 'Please try again.'}`,
         variant: "destructive",
       });
-      // Remove the user message if analysis failed
-      setMessages(prev => prev.slice(0, -1));
+      // Remove the empty AI message on error
+      setMessages(prev => prev.filter(msg => msg.id !== aiMessage.id));
     } finally {
       setIsLoading(false);
     }
