@@ -31,8 +31,14 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Only auto-scroll when user sends a message, not when AI responds
+  const shouldScrollRef = useRef(false);
+
   useEffect(() => {
-    scrollToBottom();
+    if (shouldScrollRef.current) {
+      scrollToBottom();
+      shouldScrollRef.current = false;
+    }
   }, [messages]);
 
   // Load existing conversation or start analysis when modal opens
@@ -117,6 +123,7 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
+    shouldScrollRef.current = true; // Mark that we should scroll after this update
 
     try {
       const conversationContext = hasStartedAnalysis 
