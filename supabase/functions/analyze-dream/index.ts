@@ -103,7 +103,7 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
     
     console.log('📤 Request payload:', JSON.stringify(requestPayload, null, 2));
     
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const apiCall = fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${openAIApiKey}`,
@@ -112,7 +112,10 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
       body: JSON.stringify(requestPayload),
     });
 
+    const response = await Promise.race([apiCall, timeoutPromise]) as Response;
+
     console.log('📥 OpenAI API response status:', response.status);
+    console.log('📥 OpenAI API response headers:', JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -121,9 +124,49 @@ Keep your tone consistently warm, understanding, and slightly mystical - like so
     }
 
     const data = await response.json();
-    const analysis = data.choices[0].message.content;
-
-    console.log('✅ OpenAI API call completed successfully');
+    console.log('📋 Full OpenAI API response:', JSON.stringify(data, null, 2));
+    
+    // Log token usage for monitoring
+    if (data.usage) {
+      console.log('📊 Token usage:', JSON.stringify(data.usage, null, 2));
+      console.log(`📊 Tokens: ${data.usage.prompt_tokens} prompt + ${data.usage.completion_tokens} completion = ${data.usage.total_tokens} total`);
+    }
+    
+    // Enhanced response validation
+    if (!data.choices || data.choices.length === 0) {
+      console.error('❌ No choices in OpenAI response');
+      throw new Error('OpenAI API returned no choices');
+    }
+    
+    const choice = data.choices[0];
+    console.log('🎯 First choice object:', JSON.stringify(choice, null, 2));
+    
+    if (!choice.message) {
+      console.error('❌ No message in first choice');
+      throw new Error('OpenAI API returned choice without message');
+    }
+    
+    // Check for specific finish reasons that indicate issues
+    if (choice.finish_reason === 'length') {
+      console.error('❌ Response was cut off due to length limit');
+      throw new Error('The dream analysis was too long and got cut off. Please try with a shorter dream description or contact support.');
+    }
+    
+    const content = choice.message.content;
+    console.log('📝 Message content type:', typeof content);
+    console.log('📝 Message content length:', content ? content.length : 0);
+    console.log('📝 Message content preview:', content ? content.substring(0, 200) + '...' : 'null/undefined');
+    console.log('📝 Finish reason:', choice.finish_reason);
+    
+    if (!content || content.trim() === '') {
+      console.error('❌ Empty or null content from OpenAI');
+      console.error('❌ Full message object:', JSON.stringify(choice.message, null, 2));
+      console.error('❌ Finish reason was:', choice.finish_reason);
+      throw new Error('OpenAI API returned empty content - this might be due to content filtering or token limits');
+    }
+    
+    const analysis = content.trim();
+    console.log('✅ Dream conversation completed successfully with', analysis.length, 'characters');
 
     return new Response(JSON.stringify({ analysis }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
