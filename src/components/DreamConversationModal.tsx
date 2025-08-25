@@ -150,11 +150,6 @@ Please provide a thoughtful analysis of this dream.`;
         if (dream?.id) {
           onUpdateConversation(dream.id, updatedMessages);
         }
-
-        toast({
-          title: "Analysis Complete",
-          description: "Dream exploration completed successfully",
-        });
       }
     } catch (error) {
       console.error('❌ Analysis error:', error);

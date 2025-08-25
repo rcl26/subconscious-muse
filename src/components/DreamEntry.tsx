@@ -51,7 +51,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
               size="sm"
               className={`border-0 min-h-[44px] px-4 ${
                 dream.analysis || (dream.conversations && dream.conversations.length > 0)
-                  ? "bg-secondary/10 text-secondary hover:bg-secondary/20"
+                  ? "bg-violet-500/10 text-violet-600 hover:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/20"
                   : "bg-primary/10 text-primary hover:bg-primary/20"
               }`}
             >
