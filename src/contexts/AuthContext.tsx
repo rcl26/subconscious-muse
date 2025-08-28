@@ -15,8 +15,10 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<any>;
-  signIn: (email: string, password: string) => Promise<any>;
+  signInWithGoogle: () => Promise<any>;
+  signInWithApple: () => Promise<any>;
+  signInWithPhone: (phone: string) => Promise<any>;
+  verifyOtp: (phone: string, token: string) => Promise<any>;
   signOut: () => Promise<any>;
   refreshProfile: () => Promise<void>;
 }
@@ -89,18 +91,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/journal`
+      }
     });
     return { data, error };
   };
 
-  const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+  const signInWithApple = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: {
+        redirectTo: `${window.location.origin}/journal`
+      }
+    });
+    return { data, error };
+  };
+
+  const signInWithPhone = async (phone: string) => {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      phone,
+    });
+    return { data, error };
+  };
+
+  const verifyOtp = async (phone: string, token: string) => {
+    const { data, error } = await supabase.auth.verifyOtp({
+      phone,
+      token,
+      type: 'sms'
     });
     return { data, error };
   };
@@ -120,8 +142,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     profile,
     session,
     loading,
-    signUp,
-    signIn,
+    signInWithGoogle,
+    signInWithApple,
+    signInWithPhone,
+    verifyOtp,
     signOut,
     refreshProfile,
   };
