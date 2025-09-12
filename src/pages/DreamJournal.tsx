@@ -53,9 +53,16 @@ export const DreamJournal = () => {
     
     if (error) {
       console.error('❌ Password reset error:', error, errorDescription);
+      
+      let errorMessage = "The password reset link is invalid or has expired.";
+      
+      if (error === "invalid_request" || errorDescription?.includes("localhost:3000")) {
+        errorMessage = "Configuration Error: Please update your Supabase Site URL to match this app's URL. Go to Supabase Dashboard → Authentication → URL Configuration and change the Site URL from localhost:3000 to the current app URL.";
+      }
+      
       toast({
         title: "Password Reset Error",
-        description: errorDescription || "The password reset link is invalid or has expired. Please request a new one.",
+        description: errorMessage,
         variant: "destructive",
       });
       
