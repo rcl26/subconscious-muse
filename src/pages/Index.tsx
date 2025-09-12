@@ -95,7 +95,7 @@ const Index = () => {
                 <Moon className="h-6 w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
-              <p className="text-sm text-primary-foreground/50">Voice recordings that preserve the essence of your dreams</p>
+              <p className="text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
             </div>
             
             <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
