@@ -19,6 +19,7 @@ interface AuthContextType {
   signInWithEmail: (email: string, password: string) => Promise<any>;
   signUpWithEmail: (email: string, password: string) => Promise<any>;
   resetPassword: (email: string) => Promise<any>;
+  updatePassword: (password: string) => Promise<any>;
   signOut: () => Promise<any>;
   refreshProfile: () => Promise<void>;
 }
@@ -127,6 +128,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { data, error };
   };
 
+  const updatePassword = async (password: string) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: password
+    });
+    return { data, error };
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
@@ -146,6 +154,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signInWithEmail,
     signUpWithEmail,
     resetPassword,
+    updatePassword,
     signOut,
     refreshProfile,
   };

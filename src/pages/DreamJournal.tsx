@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
+import { PasswordResetModal } from "@/components/PasswordResetModal";
 import { CreditsPurchaseModal } from "@/components/CreditsPurchaseModal";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
@@ -28,8 +29,26 @@ export const DreamJournal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showCreditsModal, setShowCreditsModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
+
+  // Check for password reset token in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    const refreshToken = urlParams.get('refresh_token');
+    const type = urlParams.get('type');
+    
+    if (accessToken && refreshToken && type === 'recovery') {
+      // Show password reset modal
+      setShowPasswordReset(true);
+      
+      // Clean up URL parameters
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, []);
 
   const handleDreamRecorded = (dreamText: string) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
@@ -276,6 +295,16 @@ export const DreamJournal = () => {
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
       <CreditsPurchaseModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
+      <PasswordResetModal 
+        open={showPasswordReset} 
+        onOpenChange={setShowPasswordReset}
+        onSuccess={() => {
+          toast({
+            title: "Password Updated!",
+            description: "You can now use your new password to sign in.",
+          });
+        }}
+      />
       
       {/* Dream Conversation Modal */}
       <DreamConversationModal
