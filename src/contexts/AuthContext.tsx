@@ -16,9 +16,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signInWithGoogle: () => Promise<any>;
-  signInWithApple: () => Promise<any>;
-  signInWithPhone: (phone: string) => Promise<any>;
-  verifyOtp: (phone: string, token: string) => Promise<any>;
+  signInWithEmail: (email: string, password: string) => Promise<any>;
+  signUpWithEmail: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<any>;
   refreshProfile: () => Promise<void>;
 }
@@ -101,28 +100,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { data, error };
   };
 
-  const signInWithApple = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
+  const signInWithEmail = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    return { data, error };
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
       options: {
-        redirectTo: `${window.location.origin}/journal`
+        emailRedirectTo: `${window.location.origin}/journal`
       }
-    });
-    return { data, error };
-  };
-
-  const signInWithPhone = async (phone: string) => {
-    const { data, error } = await supabase.auth.signInWithOtp({
-      phone,
-    });
-    return { data, error };
-  };
-
-  const verifyOtp = async (phone: string, token: string) => {
-    const { data, error } = await supabase.auth.verifyOtp({
-      phone,
-      token,
-      type: 'sms'
     });
     return { data, error };
   };
@@ -143,9 +135,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     session,
     loading,
     signInWithGoogle,
-    signInWithApple,
-    signInWithPhone,
-    verifyOtp,
+    signInWithEmail,
+    signUpWithEmail,
     signOut,
     refreshProfile,
   };
