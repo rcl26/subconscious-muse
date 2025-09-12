@@ -30,7 +30,7 @@ export const DreamJournal = () => {
   const [showCreditsModal, setShowCreditsModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
 
   // Check for password reset token in URL - run only once on mount
@@ -90,6 +90,18 @@ export const DreamJournal = () => {
       window.history.replaceState({}, document.title, newUrl);
     }
   }, []); // Empty dependency array - run only once on mount
+
+  // Show loading screen while auth is initializing
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-night flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4" />
+          <p className="text-primary-foreground/60">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleDreamRecorded = (dreamText: string) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
