@@ -33,63 +33,6 @@ export const DreamJournal = () => {
   const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
 
-  // Check for password reset token in URL - run only once on mount
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const type = urlParams.get('type');
-    const error = urlParams.get('error');
-    const errorDescription = urlParams.get('error_description');
-    
-    // Check URL hash for Supabase auth tokens (common in password reset flow)
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const hashAccessToken = hashParams.get('access_token');
-    const hashType = hashParams.get('type');
-    
-    console.log('🔍 Password Reset Detection:', {
-      type,
-      hashType,
-      hasHashAccessToken: !!hashAccessToken,
-      error,
-      errorDescription,
-      currentUrl: window.location.href,
-      urlHash: window.location.hash
-    });
-    
-    if (error) {
-      console.error('❌ Password reset error:', error, errorDescription);
-      
-      let errorMessage = "The password reset link is invalid or has expired.";
-      
-      if (error === "invalid_request" || errorDescription?.includes("localhost:3000")) {
-        errorMessage = "Configuration Error: Please update your Supabase Site URL to match this app's URL. Go to Supabase Dashboard → Authentication → URL Configuration and change the Site URL from localhost:3000 to the current app URL.";
-      }
-      
-      toast({
-        title: "Password Reset Error",
-        description: errorMessage,
-        variant: "destructive",
-      });
-      
-      // Clean up URL parameters
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
-      return;
-    }
-
-    // Check if this is a password reset session
-    const isPasswordReset = type === 'recovery' || 
-                          hashType === 'recovery' || 
-                          (hashAccessToken && window.location.hash.includes('type=recovery'));
-    
-    if (isPasswordReset) {
-      console.log('✅ Password reset session detected, showing modal');
-      setShowPasswordReset(true);
-      
-      // Clean up URL parameters and hash
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
-    }
-  }, []); // Empty dependency array - run only once on mount
 
   // Show loading screen while auth is initializing
   if (loading) {
