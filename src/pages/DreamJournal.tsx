@@ -210,11 +210,6 @@ export const DreamJournal = () => {
             <Plus className="h-5 w-5 mr-2" />
             Record New Dream
           </Button>
-          {!user && (
-            <p className="text-sm text-primary-foreground/60 mt-3">
-              Sign in to save your dreams securely to your account
-            </p>
-          )}
         </div>
 
         {/* Search and Filter */}
