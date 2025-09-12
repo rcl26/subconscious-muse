@@ -122,8 +122,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const resetPassword = async (email: string) => {
+    // Use current port for development flexibility
+    const redirectUrl = `${window.location.origin}/journal`;
+    console.log('🔄 Sending password reset email with redirect:', redirectUrl);
+    
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/journal`
+      redirectTo: redirectUrl
     });
     return { data, error };
   };

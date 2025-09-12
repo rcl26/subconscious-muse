@@ -39,16 +39,49 @@ export const DreamJournal = () => {
     const accessToken = urlParams.get('access_token');
     const refreshToken = urlParams.get('refresh_token');
     const type = urlParams.get('type');
+    const error = urlParams.get('error');
+    const errorDescription = urlParams.get('error_description');
+    
+    console.log('🔍 Password Reset Detection:', {
+      hasAccessToken: !!accessToken,
+      hasRefreshToken: !!refreshToken,
+      type,
+      error,
+      errorDescription,
+      currentUrl: window.location.href
+    });
+    
+    if (error) {
+      console.error('❌ Password reset error:', error, errorDescription);
+      toast({
+        title: "Password Reset Error",
+        description: errorDescription || "The password reset link is invalid or has expired. Please request a new one.",
+        variant: "destructive",
+      });
+      
+      // Clean up URL parameters
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+      return;
+    }
     
     if (accessToken && refreshToken && type === 'recovery') {
+      console.log('✅ Valid password reset token detected, showing modal');
       // Show password reset modal
       setShowPasswordReset(true);
       
       // Clean up URL parameters
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
+    } else if (type === 'recovery') {
+      console.warn('⚠️ Password reset type detected but missing tokens');
+      toast({
+        title: "Password Reset Issue",
+        description: "The password reset link appears to be incomplete. Please request a new one.",
+        variant: "destructive",
+      });
     }
-  }, []);
+  }, [toast]);
 
   const handleDreamRecorded = (dreamText: string) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);

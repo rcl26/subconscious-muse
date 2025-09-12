@@ -59,15 +59,18 @@ export const PasswordResetModal = ({ open, onOpenChange, onSuccess }: PasswordRe
     setIsLoading(true);
     
     try {
+      console.log('🔐 Attempting password update...');
       const { error } = await updatePassword(password);
       
       if (error) {
+        console.error('❌ Password update failed:', error);
         toast({
           title: "Update Error",
           description: error.message,
           variant: "destructive",
         });
       } else {
+        console.log('✅ Password updated successfully');
         toast({
           title: "Success!",
           description: "Your password has been updated successfully.",
@@ -77,6 +80,7 @@ export const PasswordResetModal = ({ open, onOpenChange, onSuccess }: PasswordRe
         resetState();
       }
     } catch (error: any) {
+      console.error('❌ Password update exception:', error);
       toast({
         title: "Update Error",
         description: error.message || "An unexpected error occurred",
