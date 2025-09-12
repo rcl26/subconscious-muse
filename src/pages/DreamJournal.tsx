@@ -19,8 +19,6 @@ export const DreamJournal = () => {
   const {
     searchTerm,
     setSearchTerm,
-    dateRange,
-    setDateRange,
     filteredDreams,
     clearFilters,
     hasFilters
@@ -205,8 +203,6 @@ export const DreamJournal = () => {
           <DreamSearchFilter
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
-            dateRange={dateRange}
-            onDateRangeChange={setDateRange}
             onClearFilters={clearFilters}
             resultsCount={filteredDreams.length}
             totalCount={dreams.length}
