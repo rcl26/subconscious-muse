@@ -10,10 +10,21 @@ import { CreditsPurchaseModal } from "@/components/CreditsPurchaseModal";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
+import { DreamSearchFilter } from "@/components/DreamSearchFilter";
 import { useDreams, Dream } from "@/hooks/useDreams";
+import { useDreamFilters } from "@/hooks/useDreamFilters";
 
 export const DreamJournal = () => {
   const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
+  const {
+    searchTerm,
+    setSearchTerm,
+    dateRange,
+    setDateRange,
+    filteredDreams,
+    clearFilters,
+    hasFilters
+  } = useDreamFilters(dreams);
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -189,6 +200,19 @@ export const DreamJournal = () => {
           </Button>
         </div>
 
+        {/* Search and Filter */}
+        {dreams.length > 0 && (
+          <DreamSearchFilter
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            dateRange={dateRange}
+            onDateRangeChange={setDateRange}
+            onClearFilters={clearFilters}
+            resultsCount={filteredDreams.length}
+            totalCount={dreams.length}
+          />
+        )}
+
         {/* Dreams list */}
         <div className="space-y-4">
           {isLoading ? (
@@ -197,14 +221,35 @@ export const DreamJournal = () => {
               <p className="text-primary-foreground/60">Loading your dreams...</p>
             </div>
           ) : dreams.length > 0 ? (
-            dreams.map((dream) => (
-              <DreamEntry 
-                key={dream.id} 
-                dream={dream} 
-                onExplore={handleExploreDream}
-                onDelete={handleDeleteDream}
-              />
-            ))
+            filteredDreams.length > 0 ? (
+              filteredDreams.map((dream) => (
+                <DreamEntry 
+                  key={dream.id} 
+                  dream={dream} 
+                  onExplore={handleExploreDream}
+                  onDelete={handleDeleteDream}
+                />
+              ))
+            ) : (
+              <div className="text-center py-16">
+                <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
+                <p className="text-primary-foreground/60 text-lg">
+                  {hasFilters 
+                    ? "No dreams match your search criteria." 
+                    : "No dreams recorded yet. Start your journey by recording your first dream."
+                  }
+                </p>
+                {hasFilters && (
+                  <Button
+                    variant="ghost"
+                    onClick={clearFilters}
+                    className="mt-4 text-primary-foreground/80 hover:text-primary-foreground"
+                  >
+                    Clear filters
+                  </Button>
+                )}
+              </div>
+            )
           ) : (
             <div className="text-center py-16">
               <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
