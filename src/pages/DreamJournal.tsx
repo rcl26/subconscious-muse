@@ -33,7 +33,7 @@ export const DreamJournal = () => {
   const { user, profile, signOut } = useAuth();
   const { toast } = useToast();
 
-  // Check for password reset token in URL
+  // Check for password reset token in URL - run only once on mount
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
@@ -89,7 +89,7 @@ export const DreamJournal = () => {
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
     }
-  }, [toast]);
+  }, []); // Empty dependency array - run only once on mount
 
   const handleDreamRecorded = (dreamText: string) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
