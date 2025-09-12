@@ -60,22 +60,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
+    console.log('🔄 AuthContext: Setting up auth state...');
+    
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('📱 AuthContext: Initial session:', !!session?.user);
       setSession(session);
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        fetchProfile(session.user.id).then(setProfile);
+        console.log('👤 AuthContext: User found, fetching profile...');
+        setTimeout(() => {
+          fetchProfile(session.user.id).then(profileData => {
+            console.log('✅ AuthContext: Profile loaded:', !!profileData);
+            setProfile(profileData);
+          });
+        }, 0);
       }
       
       setLoading(false);
+      console.log('✅ AuthContext: Initial auth setup complete');
     });
 
     // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('🔄 AuthContext: Auth state changed:', event, !!session?.user);
       setSession(session);
       setUser(session?.user ?? null);
       
