@@ -36,19 +36,23 @@ export const DreamJournal = () => {
   // Check for password reset token in URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
     const type = urlParams.get('type');
     const error = urlParams.get('error');
     const errorDescription = urlParams.get('error_description');
     
+    // Check URL hash for Supabase auth tokens (common in password reset flow)
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const hashAccessToken = hashParams.get('access_token');
+    const hashType = hashParams.get('type');
+    
     console.log('🔍 Password Reset Detection:', {
-      hasAccessToken: !!accessToken,
-      hasRefreshToken: !!refreshToken,
       type,
+      hashType,
+      hasHashAccessToken: !!hashAccessToken,
       error,
       errorDescription,
-      currentUrl: window.location.href
+      currentUrl: window.location.href,
+      urlHash: window.location.hash
     });
     
     if (error) {
@@ -71,22 +75,19 @@ export const DreamJournal = () => {
       window.history.replaceState({}, document.title, newUrl);
       return;
     }
+
+    // Check if this is a password reset session
+    const isPasswordReset = type === 'recovery' || 
+                          hashType === 'recovery' || 
+                          (hashAccessToken && window.location.hash.includes('type=recovery'));
     
-    if (accessToken && refreshToken && type === 'recovery') {
-      console.log('✅ Valid password reset token detected, showing modal');
-      // Show password reset modal
+    if (isPasswordReset) {
+      console.log('✅ Password reset session detected, showing modal');
       setShowPasswordReset(true);
       
-      // Clean up URL parameters
+      // Clean up URL parameters and hash
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
-    } else if (type === 'recovery') {
-      console.warn('⚠️ Password reset type detected but missing tokens');
-      toast({
-        title: "Password Reset Issue",
-        description: "The password reset link appears to be incomplete. Please request a new one.",
-        variant: "destructive",
-      });
     }
   }, [toast]);
 
