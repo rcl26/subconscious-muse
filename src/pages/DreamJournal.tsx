@@ -199,15 +199,17 @@ export const DreamJournal = () => {
         </div>
 
         {/* Search and Filter */}
-        {dreams.length > 0 && (
-          <DreamSearchFilter
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            onClearFilters={clearFilters}
-            resultsCount={filteredDreams.length}
-            totalCount={dreams.length}
-          />
-        )}
+        <div className="mt-4">
+          {dreams.length > 0 && (
+            <DreamSearchFilter
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              onClearFilters={clearFilters}
+              resultsCount={filteredDreams.length}
+              totalCount={dreams.length}
+            />
+          )}
+        </div>
 
         {/* Dreams list */}
         <div className="space-y-4">

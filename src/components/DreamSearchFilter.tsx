@@ -46,36 +46,22 @@ export const DreamSearchFilter = ({
         </div>
       </div>
 
-      {/* Active Filters and Results Count */}
-      {(hasFilters || totalCount > 0) && (
+      {/* Active Filters */}
+      {searchTerm && (
         <div className="flex flex-wrap items-center gap-2">
           {/* Search Term Badge */}
-          {searchTerm && (
-            <Badge variant="secondary" className="bg-primary-foreground/15 text-primary-foreground border-primary-foreground/20 rounded-lg px-3 py-1">
-              <Search className="h-3 w-3 mr-2" />
-              "{searchTerm}"
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onSearchChange("")}
-                className="h-4 w-4 p-0 ml-2 hover:bg-transparent text-primary-foreground/80 hover:text-primary-foreground"
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            </Badge>
-          )}
-
-          {/* Results Count */}
-          <div className="ml-auto text-sm text-primary-foreground/60">
-            {hasFilters ? (
-              <>
-                {resultsCount} of {totalCount} dreams
-                {resultsCount === 0 && " found"}
-              </>
-            ) : (
-              `${totalCount} dreams`
-            )}
-          </div>
+          <Badge variant="secondary" className="bg-primary-foreground/15 text-primary-foreground border-primary-foreground/20 rounded-lg px-3 py-1">
+            <Search className="h-3 w-3 mr-2" />
+            "{searchTerm}"
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onSearchChange("")}
+              className="h-4 w-4 p-0 ml-2 hover:bg-transparent text-primary-foreground/80 hover:text-primary-foreground"
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          </Badge>
         </div>
       )}
     </div>
