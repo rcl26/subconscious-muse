@@ -94,6 +94,14 @@ export const DreamJournal = () => {
     // Dreams will be cleared automatically by useDreams hook when user becomes null
   };
 
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    // After successful auth, open the dream recorder
+    setTimeout(() => {
+      setShowRecorder(true);
+    }, 100);
+  };
+
   if (showRecorder) {
     return (
       <div className="min-h-screen bg-gradient-night p-4">
@@ -189,13 +197,24 @@ export const DreamJournal = () => {
         {/* Record new dream button */}
         <div className="text-center mb-8">
           <Button
-            onClick={() => setShowRecorder(true)}
+            onClick={() => {
+              if (!user) {
+                setShowAuthModal(true);
+              } else {
+                setShowRecorder(true);
+              }
+            }}
             size="lg"
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
           >
             <Plus className="h-5 w-5 mr-2" />
             Record New Dream
           </Button>
+          {!user && (
+            <p className="text-sm text-primary-foreground/60 mt-3">
+              Sign in to save your dreams securely to your account
+            </p>
+          )}
         </div>
 
         {/* Search and Filter */}
@@ -260,7 +279,7 @@ export const DreamJournal = () => {
       </div>
 
       {/* Modals */}
-      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+      <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
       <CreditsPurchaseModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
       
       {/* Dream Conversation Modal */}

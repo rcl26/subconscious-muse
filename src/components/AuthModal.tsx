@@ -10,9 +10,10 @@ import { MobileDrawer } from "@/components/MobileDrawer";
 interface AuthModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onAuthSuccess?: () => void;
 }
 
-export const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
+export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps) => {
   const [authStep, setAuthStep] = useState<'main' | 'phone' | 'otp'>('main');
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -34,6 +35,8 @@ export const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
           description: error.message,
           variant: "destructive",
         });
+      } else {
+        onAuthSuccess?.();
       }
     } catch (error) {
       toast({
@@ -107,6 +110,7 @@ export const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
         setAuthStep('main');
         setPhone("");
         setOtp("");
+        onAuthSuccess?.();
       }
     } catch (error) {
       toast({
