@@ -88,30 +88,30 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Immersive feature cards */}
+          {/* Feature showcase */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
-            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 mx-auto">
-                <Moon className="h-6 w-6 text-primary-foreground/80" />
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-4 mx-auto">
+                <Moon className="h-6 w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
-              <p className="text-sm text-primary-foreground/60">Voice recordings that preserve the essence of your dreams</p>
+              <p className="text-sm text-primary-foreground/50">Voice recordings that preserve the essence of your dreams</p>
             </div>
             
-            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center mb-4 mx-auto">
-                <Sparkles className="h-6 w-6 text-primary-foreground/80" />
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-4 mx-auto">
+                <Sparkles className="h-6 w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Analyze</h3>
-              <p className="text-sm text-primary-foreground/60">AI-guided insights into emotions and hidden meanings</p>
+              <p className="text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
             </div>
             
-            <div className="p-6 rounded-2xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 transition-all duration-300">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center mb-4 mx-auto">
-                <Stars className="h-6 w-6 text-primary-foreground/80" />
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-4 mx-auto">
+                <Stars className="h-6 w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-lg font-medium text-primary-foreground mb-2">Discover</h3>
-              <p className="text-sm text-primary-foreground/60">Patterns that reveal the deeper story of your psyche</p>
+              <p className="text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ const Index = () => {
               <div className="flex items-center">
                 <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                 <div className="flex flex-col items-center">
-                  <span>This way...</span>
+                  <span>Let's Go</span>
                   <span className="text-xs opacity-60 font-light tracking-wide">(Enter)</span>
                 </div>
                 <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
