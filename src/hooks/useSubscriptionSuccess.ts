@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 
 export const useSubscriptionSuccess = () => {
-  const { refreshSubscription } = useAuth();
+  const { refreshProfile } = useAuth();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -21,9 +21,9 @@ export const useSubscriptionSuccess = () => {
         description: "Welcome to unlimited dream analysis. You can now analyze all your dreams.",
       });
 
-      // Refresh subscription data after a short delay to ensure webhook has processed
+      // Refresh profile data after a short delay
       setTimeout(() => {
-        refreshSubscription();
+        refreshProfile();
       }, 2000);
     } else if (subscriptionStatus === 'cancelled') {
       // Clear URL parameters
@@ -36,5 +36,5 @@ export const useSubscriptionSuccess = () => {
         variant: "destructive",
       });
     }
-  }, [refreshSubscription]);
+  }, [refreshProfile]);
 };

@@ -165,7 +165,6 @@ export const DreamJournal = () => {
           <div className="flex items-center space-x-3">
             {user ? (
               <ProfileDropdown 
-                onSubscriptionClick={() => setShowCreditsModal(true)}
                 onSignOut={handleSignOut}
               />
             ) : (
@@ -240,7 +239,6 @@ export const DreamJournal = () => {
                   dream={dream} 
                   onExplore={handleExploreDream}
                   onDelete={handleDeleteDream}
-                  onSubscriptionClick={() => setShowCreditsModal(true)}
                 />
               ))
             ) : (
@@ -294,7 +292,6 @@ export const DreamJournal = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
-        onSubscriptionClick={() => setShowCreditsModal(true)}
       />
     </div>
   );

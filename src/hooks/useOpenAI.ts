@@ -1,13 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 
 export const useOpenAI = () => {
-  const { hasActiveSubscription } = useAuth();
   const analyzeDream = async (dreamText: string) => {
-    // Check subscription status first
-    if (!hasActiveSubscription) {
-      throw new Error('SUBSCRIPTION_REQUIRED');
-    }
 
     console.log('🚀 analyzeDream function called with text:', dreamText.substring(0, 50));
     console.log('🔄 Starting dream analysis...');

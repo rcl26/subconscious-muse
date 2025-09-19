@@ -7,7 +7,6 @@ import { Loader2, Send, Moon, Bot, User, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
-import { PaywallModal } from "@/components/PaywallModal";
 import { supabase } from "@/integrations/supabase/client";
 import { Dream, Message } from "@/hooks/useDreams";
 
@@ -16,17 +15,15 @@ interface DreamConversationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpdateConversation: (dreamId: string, conversations: Message[]) => void;
-  onSubscriptionClick: () => void;
 }
 
-export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConversation, onSubscriptionClick }: DreamConversationModalProps) => {
+export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConversation }: DreamConversationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [hasStartedAnalysis, setHasStartedAnalysis] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { profile, refreshProfile, hasActiveSubscription } = useAuth();
+  const { profile, refreshProfile } = useAuth();
   const { analyzeDream } = useOpenAI();
   const { toast } = useToast();
 
@@ -78,10 +75,6 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
       return;
     }
 
-    if (!hasActiveSubscription) {
-      setShowPaywall(true);
-      return;
-    }
     
     console.log('🌙 Starting initial dream analysis for:', dream.content.substring(0, 50) + '...');
     console.log('🔧 analyzeDream function:', typeof analyzeDream);
@@ -106,17 +99,13 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
       }
     } catch (error) {
       console.error('❌ Error in initial analysis:', error);
-      if (error.message === 'SUBSCRIPTION_REQUIRED') {
-        setShowPaywall(true);
-      } else {
-        toast({
+      toast({
           title: "Analysis Error",
           description: error.message.includes('timeout') 
             ? "The analysis is taking too long. Please try again with a shorter dream description."
             : `Unable to analyze your dream: ${error.message || 'Please try again.'}`,
           variant: "destructive",
         });
-      }
     } finally {
       setIsLoading(false);
     }
@@ -124,11 +113,6 @@ export const DreamConversationModal = ({ dream, isOpen, onClose, onUpdateConvers
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
-
-    if (!hasActiveSubscription) {
-      setShowPaywall(true);
-      return;
-    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -177,15 +161,11 @@ Please provide a thoughtful analysis of this dream.`;
       }
     } catch (error) {
       console.error('❌ Analysis error:', error);
-      if (error.message === 'SUBSCRIPTION_REQUIRED') {
-        setShowPaywall(true);
-      } else {
-        toast({
-          title: "Analysis Failed",
-          description: `Failed to analyze dream: ${error.message || 'Please try again.'}`,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Analysis Failed",
+        description: `Failed to analyze dream: ${error.message || 'Please try again.'}`,
+        variant: "destructive",
+      });
       // Remove the user message if analysis failed
       setMessages(prev => prev.slice(0, -1));
     } finally {
@@ -288,15 +268,6 @@ Please provide a thoughtful analysis of this dream.`;
             </Button>
           </div>
         </div>
-
-        <PaywallModal
-          isOpen={showPaywall}
-          onClose={() => setShowPaywall(false)}
-          onSubscribe={() => {
-            setShowPaywall(false);
-            onSubscriptionClick();
-          }}
-        />
       </DialogContent>
     </Dialog>
   );
