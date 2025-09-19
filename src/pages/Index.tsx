@@ -11,11 +11,22 @@ const Index = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
-  const handleNavigation = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
+  // Redirect authenticated users to journal
+  useEffect(() => {
+    if (user) {
       navigate("/journal");
-    }, 800);
+    }
+  }, [user, navigate]);
+
+  const handleNavigation = () => {
+    if (user) {
+      navigate("/journal");
+    } else {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        navigate("/journal");
+      }, 800);
+    }
   };
 
   // Add Enter key binding to activate the main CTA

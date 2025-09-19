@@ -88,6 +88,7 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
       toast({
         title: "Check your email!",
         description: "We've sent you a confirmation link to complete your registration.",
+        duration: Infinity,
       });
       onOpenChange(false);
       resetForm();
