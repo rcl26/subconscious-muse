@@ -45,7 +45,7 @@ ${userInfo}
 Current Page: ${window.location.pathname}
 User Agent: ${navigator.userAgent}`;
 
-    const mailtoUrl = `mailto:feedback@oneira.app?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `mailto:oneiradreamteam@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     window.location.href = mailtoUrl;
     

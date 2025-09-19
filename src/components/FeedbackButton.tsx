@@ -10,12 +10,12 @@ export const FeedbackButton = () => {
     <>
       <Button
         onClick={() => setShowModal(true)}
-        variant="outline"
-        size="icon"
-        className="fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full bg-card border-border shadow-float hover:shadow-dream transition-all duration-200 hover:scale-105"
-        aria-label="Send feedback"
+        variant="ghost"
+        size="sm"
+        className="text-muted-foreground hover:text-foreground"
       >
-        <MessageSquare className="h-5 w-5 text-primary" />
+        <MessageSquare className="h-4 w-4 mr-2" />
+        Feedback
       </Button>
       <FeedbackModal 
         open={showModal} 
