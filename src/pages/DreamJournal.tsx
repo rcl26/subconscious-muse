@@ -157,7 +157,7 @@ export const DreamJournal = () => {
               variant="ghost"
               size="sm"
               asChild
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-primary-foreground hover:bg-white/20 hover:text-white"
             >
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />

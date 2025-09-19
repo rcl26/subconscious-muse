@@ -11,9 +11,9 @@ const Index = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect authenticated users to journal
+  // Only redirect on initial auth state change, not when navigating to home intentionally
   useEffect(() => {
-    if (user) {
+    if (user && !window.location.pathname.includes('/')) {
       navigate("/journal");
     }
   }, [user, navigate]);

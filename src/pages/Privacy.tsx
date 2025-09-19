@@ -8,7 +8,7 @@ export default function Privacy() {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
           <Link to="/">
-            <Button variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
+            <Button variant="ghost" className="text-primary-foreground hover:bg-white/20 hover:text-white">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Oneira
             </Button>
