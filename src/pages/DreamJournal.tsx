@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
-import { PasswordResetModal } from "@/components/PasswordResetModal";
+
 
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
@@ -33,7 +33,7 @@ export const DreamJournal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showPasswordReset, setShowPasswordReset] = useState(false);
+  
   const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
   
@@ -280,17 +280,6 @@ export const DreamJournal = () => {
 
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
-      
-      <PasswordResetModal 
-        open={showPasswordReset} 
-        onOpenChange={setShowPasswordReset}
-        onSuccess={() => {
-          toast({
-            title: "Password Updated!",
-            description: "You can now use your new password to sign in.",
-          });
-        }}
-      />
       
       {/* Dream Conversation Modal */}
       <DreamConversationModal

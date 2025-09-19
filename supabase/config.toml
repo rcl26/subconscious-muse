@@ -47,9 +47,9 @@ security_update_password_require_reauthentication = true
 enable_signup = true
 
 [auth.email]
-enable_signup = true
+enable_signup = false
 double_confirm_changes = true
-enable_confirmations = true
+enable_confirmations = false
 
 [edge_functions]
 enabled = true
