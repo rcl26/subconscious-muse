@@ -158,22 +158,18 @@ export const DreamJournal = () => {
     <div className="min-h-screen bg-gradient-night p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center mb-8">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-primary-foreground hover:bg-white/20 hover:text-white"
-            >
-              <Link to="/">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Home
-              </Link>
-            </Button>
-          </div>
-          
-          <div className="flex-1" />
+        <div className="flex items-center justify-between mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="text-primary-foreground hover:bg-white/20 hover:text-white"
+          >
+            <Link to="/">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Home
+            </Link>
+          </Button>
           
           <div className="flex items-center space-x-4">
             {user ? (
@@ -298,6 +294,8 @@ export const DreamJournal = () => {
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
       />
+      
+      <FeedbackButton />
     </div>
   );
 };

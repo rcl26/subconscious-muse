@@ -10,12 +10,10 @@ export const FeedbackButton = () => {
     <>
       <Button
         onClick={() => setShowModal(true)}
-        variant="ghost"
-        size="sm"
-        className="text-muted-foreground hover:text-foreground"
+        size="icon"
+        className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 z-50"
       >
-        <MessageSquare className="h-4 w-4 mr-2" />
-        Feedback
+        <MessageSquare className="h-5 w-5" />
       </Button>
       <FeedbackModal 
         open={showModal} 
