@@ -76,21 +76,34 @@ export default function Terms() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">9. Limitation of Liability</h2>
+              <h2 className="text-xl font-semibold mb-3">9. Children's Online Privacy Protection Act (COPPA) Compliance</h2>
+              <p>
+                Our Service is not intended for children under the age of 13. We do not knowingly collect, use, or disclose personal information from children under 13 without prior parental consent. If we become aware that we have collected personal information from a child under 13 without parental consent, we will take steps to delete such information promptly.
+              </p>
+              <p className="mt-2">
+                Parents or guardians who believe their child under 13 has provided personal information to us should contact us immediately. We will investigate and take appropriate action, including deleting the account and associated data if necessary.
+              </p>
+              <p className="mt-2">
+                By using our Service, you represent and warrant that you are at least 13 years of age. If you are between 13 and 18 years of age, you represent that you have obtained permission from your parent or guardian to use the Service.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">10. Limitation of Liability</h2>
               <p>
                 In no event shall Oneira, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">10. Changes to Terms</h2>
+              <h2 className="text-xl font-semibold mb-3">11. Changes to Terms</h2>
               <p>
                 We reserve the right to modify these terms at any time. We will notify users of any material changes via email or through the Service. Your continued use of the Service after such modifications constitutes your acceptance of the updated terms.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">11. Contact Information</h2>
+              <h2 className="text-xl font-semibold mb-3">12. Contact Information</h2>
               <p>
                 If you have any questions about these Terms of Service, please contact us through our support channels within the application.
               </p>
