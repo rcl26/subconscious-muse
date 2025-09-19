@@ -16,11 +16,14 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  isPasswordReset: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error: any }>;
   signUpWithEmail: (email: string, password: string) => Promise<{ error: any }>;
   resetPassword: (email: string) => Promise<{ error: any }>;
+  updatePassword: (newPassword: string) => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   refreshProfile: () => Promise<void>;
+  clearPasswordResetState: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,6 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isPasswordReset, setIsPasswordReset] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -63,9 +67,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     console.log('🔄 AuthContext: Setting up auth state...');
     
+    // Check for password reset tokens in URL
+    const checkPasswordReset = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      
+      // Check for password reset tokens (they come in the hash fragment)
+      if (hashParams.get('type') === 'recovery' || urlParams.get('type') === 'recovery') {
+        console.log('🔐 AuthContext: Password reset detected');
+        setIsPasswordReset(true);
+        return true;
+      }
+      return false;
+    };
+    
+    const isPasswordResetFlow = checkPasswordReset();
+    
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('📱 AuthContext: Initial session:', !!session?.user);
+      
+      // If this is a password reset flow, don't fully authenticate the user yet
+      if (isPasswordResetFlow && session?.user) {
+        console.log('🔐 AuthContext: Password reset flow - holding authentication');
+        setSession(session);
+        setUser(session.user);
+        setLoading(false);
+        return;
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       
@@ -88,17 +118,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       console.log('🔄 AuthContext: Auth state changed:', event, !!session?.user);
+      
+      // Don't update state during password reset flow unless it's a password update
+      if (isPasswordReset && event !== 'PASSWORD_RECOVERY') {
+        return;
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       
-      if (session?.user) {
+      if (session?.user && !isPasswordReset) {
         // Defer profile fetch to avoid deadlock
         setTimeout(() => {
           fetchProfile(session.user.id).then((profileData) => {
             setProfile(profileData);
           });
         }, 0);
-      } else {
+      } else if (!session?.user) {
         setProfile(null);
       }
       
@@ -138,14 +174,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
+  const updatePassword = async (newPassword: string) => {
+    try {
+      const { error } = await supabase.auth.updateUser({ 
+        password: newPassword 
+      });
+      
+      if (!error) {
+        // Password updated successfully, clear reset state and fetch profile
+        setIsPasswordReset(false);
+        
+        // Clear URL parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Fetch profile now that password is updated
+        if (user) {
+          setTimeout(() => {
+            fetchProfile(user.id).then((profileData) => {
+              setProfile(profileData);
+            });
+          }, 0);
+        }
+      }
+      
+      return { error };
+    } catch (error: any) {
+      return { error };
+    }
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
       setUser(null);
       setProfile(null);
       setSession(null);
+      setIsPasswordReset(false);
     }
     return { error };
+  };
+
+  const clearPasswordResetState = () => {
+    setIsPasswordReset(false);
+    window.history.replaceState({}, document.title, window.location.pathname);
   };
 
   const value = {
@@ -153,11 +224,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     profile,
     session,
     loading,
+    isPasswordReset,
     signInWithEmail,
     signUpWithEmail,
     resetPassword,
+    updatePassword,
     signOut,
     refreshProfile,
+    clearPasswordResetState,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

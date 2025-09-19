@@ -4,11 +4,12 @@ import { Sparkles, Moon, Stars, User, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
+import { PasswordResetForm } from "@/components/PasswordResetForm";
 
 const Index = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isPasswordReset } = useAuth();
   const navigate = useNavigate();
 
   // Only redirect on initial auth state change, not when navigating to home intentionally
@@ -40,6 +41,16 @@ const Index = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  // Show password reset form if we're in password reset mode
+  if (isPasswordReset) {
+    return (
+      <PasswordResetForm 
+        onSuccess={() => navigate("/journal")}
+        onCancel={() => navigate("/")}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-night overflow-hidden relative">
