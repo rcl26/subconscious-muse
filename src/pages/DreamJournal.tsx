@@ -86,10 +86,11 @@ export const DreamJournal = () => {
             altText="Undo delete"
             onClick={async () => {
               try {
-                await saveDream(dreamToDelete.content);
+                await saveDream(dreamToDelete.content, false);
                 toast({
                   title: "Dream Restored",
                   description: "Your dream entry has been restored.",
+                  duration: 3000,
                 });
               } catch (error) {
                 toast({

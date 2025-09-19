@@ -71,7 +71,7 @@ export const useDreams = () => {
   };
 
   // Save a new dream (authenticated users only)
-  const saveDream = async (content: string) => {
+  const saveDream = async (content: string, showToast = true) => {
     if (!user) {
       toast.error("Sign in required", {
         description: "Please sign in to record dreams",
@@ -90,11 +90,13 @@ export const useDreams = () => {
     // Optimistic update - add to UI immediately
     setDreams(prev => [dreamData, ...prev]);
     
-    // Show success notification
-    toast.success("Dream recorded ✨", {
-      description: "Saved to your journal",
-      duration: 3000,
-    });
+    // Show success notification only if requested
+    if (showToast) {
+      toast.success("Dream recorded ✨", {
+        description: "Saved to your journal",
+        duration: 3000,
+      });
+    }
 
     try {
       console.log('💾 Saving dream for user:', user.id);
