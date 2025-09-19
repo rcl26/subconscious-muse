@@ -13,6 +13,8 @@ import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { DreamSearchFilter } from "@/components/DreamSearchFilter";
 import { ProfileDropdown } from "@/components/ProfileDropdown";
+import { DreamEntrySkeleton } from "@/components/DreamEntrySkeleton";
+import { EmptyState } from "@/components/EmptyState";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
@@ -59,6 +61,14 @@ export const DreamJournal = () => {
     
     // Close recorder immediately
     setShowRecorder(false);
+    
+    // Show success feedback
+    toast({
+      title: "✨ Dream Captured!",
+      description: "Your dream has been safely recorded in your journal.",
+      duration: 3000,
+    });
+    
     console.log('🔙 DreamJournal: Recorder closed, dream added to journal');
   };
 
@@ -227,47 +237,46 @@ export const DreamJournal = () => {
         {/* Dreams list */}
         <div className="space-y-4">
           {isLoading ? (
-            <div className="text-center py-16">
-              <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4" />
-              <p className="text-primary-foreground/60">Loading your dreams...</p>
+            <div className="space-y-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <DreamEntrySkeleton key={index} />
+              ))}
             </div>
           ) : dreams.length > 0 ? (
             filteredDreams.length > 0 ? (
-              filteredDreams.map((dream) => (
-                <DreamEntry 
-                  key={dream.id} 
-                  dream={dream} 
-                  onExplore={handleExploreDream}
-                  onDelete={handleDeleteDream}
-                />
-              ))
-            ) : (
-              <div className="text-center py-16">
-                <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
-                <p className="text-primary-foreground/60 text-lg">
-                  {hasFilters 
-                    ? "No dreams match your search criteria." 
-                    : "No dreams recorded yet. Start your journey by recording your first dream."
-                  }
-                </p>
-                {hasFilters && (
-                  <Button
-                    variant="ghost"
-                    onClick={clearFilters}
-                    className="mt-4 text-primary-foreground/80 hover:text-primary-foreground"
+              <div className="space-y-4">
+                {filteredDreams.map((dream, index) => (
+                  <div 
+                    key={dream.id} 
+                    className="animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    Clear filters
-                  </Button>
-                )}
+                    <DreamEntry 
+                      dream={dream} 
+                      onExplore={handleExploreDream}
+                      onDelete={handleDeleteDream}
+                    />
+                  </div>
+                ))}
               </div>
+            ) : (
+              <EmptyState 
+                type="no-results" 
+                searchTerm={searchTerm}
+                onClearFilters={clearFilters}
+              />
             )
           ) : (
-            <div className="text-center py-16">
-              <Moon className="h-16 w-16 text-primary-foreground/30 mx-auto mb-4" />
-              <p className="text-primary-foreground/60 text-lg">
-                No dreams recorded yet. Start your journey by recording your first dream.
-              </p>
-            </div>
+            <EmptyState 
+              type="no-dreams"
+              onCreateDream={() => {
+                if (!user) {
+                  setShowAuthModal(true);
+                } else {
+                  setShowRecorder(true);
+                }
+              }}
+            />
           )}
         </div>
       </div>

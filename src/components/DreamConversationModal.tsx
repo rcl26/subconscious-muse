@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Send, Moon, Bot, User, Zap } from "lucide-react";
+import { Loader2, Send, Moon, Bot, User, Zap, Sparkles } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
@@ -202,14 +202,29 @@ Please provide a thoughtful analysis of this dream.`;
         <ScrollArea className="flex-1 pr-4">
           <div className="space-y-4 pb-4">
             {isLoading && messages.length === 0 && (
-              <div className="flex items-center justify-center space-x-2 py-8">
-                <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                <span className="text-muted-foreground">Exploring your dream...</span>
+              <div className="flex flex-col items-center justify-center space-y-4 py-12 animate-fade-in">
+                <div className="relative">
+                  <Moon className="h-12 w-12 text-primary/20 animate-pulse" />
+                  <Sparkles className="h-6 w-6 text-primary/40 absolute -top-1 -right-1 animate-spin" />
+                </div>
+                <div className="text-center space-y-2">
+                  <p className="text-lg font-medium text-muted-foreground">Exploring Your Dream</p>
+                  <p className="text-sm text-muted-foreground/70">Analyzing patterns and symbols...</p>
+                </div>
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-100" />
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-200" />
+                </div>
               </div>
             )}
             
-            {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {messages.map((message, index) => (
+              <div 
+                key={message.id} 
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
                 <div className={`flex space-x-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                     message.role === 'user' 
