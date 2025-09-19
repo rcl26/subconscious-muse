@@ -6,6 +6,7 @@ import { MobileDrawer } from '@/components/MobileDrawer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Mail } from 'lucide-react';
+import { FcGoogle } from 'react-icons/fc';
 
 interface AuthModalProps {
   open: boolean;
@@ -20,9 +21,9 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
   const [resetEmail, setResetEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingMethod, setLoadingMethod] = useState<'email' | null>(null);
+  const [loadingMethod, setLoadingMethod] = useState<'email' | 'google' | null>(null);
 
-  const { signInWithEmail, signUpWithEmail, resetPassword } = useAuth();
+  const { signInWithEmail, signUpWithEmail, resetPassword, signInWithGoogle } = useAuth();
   const { toast } = useToast();
 
   const resetState = () => {
@@ -133,6 +134,40 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
     }
   };
 
+  const handleGoogleAuth = async () => {
+    setIsLoading(true);
+    setLoadingMethod('google');
+    
+    try {
+      const { error } = await signInWithGoogle();
+      
+      if (error) {
+        toast({
+          title: "Authentication Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success!",
+          description: "Successfully signed in with Google!",
+        });
+        onAuthSuccess?.();
+        onOpenChange(false);
+        resetState();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Authentication Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      setLoadingMethod(null);
+    }
+  };
+
   const renderPasswordReset = () => (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
@@ -197,6 +232,28 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
         <p className="text-sm text-muted-foreground">
           {isSignUp ? 'Start your dream journey' : 'Continue your dream journey'}
         </p>
+      </div>
+
+      {/* Google Sign In Button */}
+      <Button
+        onClick={handleGoogleAuth}
+        disabled={isLoading}
+        variant="outline"
+        className="w-full h-12 text-base flex items-center gap-3"
+      >
+        <FcGoogle className="h-5 w-5" />
+        {loadingMethod === 'google' ? 'Signing in...' : 'Continue with Google'}
+      </Button>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with email
+          </span>
+        </div>
       </div>
 
       <form onSubmit={handleEmailAuth} className="space-y-4">
