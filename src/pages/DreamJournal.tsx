@@ -7,7 +7,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
 import { PasswordResetModal } from "@/components/PasswordResetModal";
-import { CreditsPurchaseModal } from "@/components/CreditsPurchaseModal";
+import { SubscriptionModal } from "@/components/CreditsPurchaseModal";
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
@@ -161,7 +161,7 @@ export const DreamJournal = () => {
           <div className="flex items-center space-x-3">
             {user ? (
               <ProfileDropdown 
-                onCreditsClick={() => setShowCreditsModal(true)}
+                onSubscriptionClick={() => setShowCreditsModal(true)}
                 onSignOut={handleSignOut}
               />
             ) : (
@@ -271,7 +271,7 @@ export const DreamJournal = () => {
 
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
-      <CreditsPurchaseModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
+      <SubscriptionModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
       <PasswordResetModal 
         open={showPasswordReset} 
         onOpenChange={setShowPasswordReset}

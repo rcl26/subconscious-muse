@@ -11,11 +11,11 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 
 interface ProfileDropdownProps {
-  onCreditsClick: () => void;
+  onSubscriptionClick: () => void;
   onSignOut: () => void;
 }
 
-export const ProfileDropdown = ({ onCreditsClick, onSignOut }: ProfileDropdownProps) => {
+export const ProfileDropdown = ({ onSubscriptionClick, onSignOut }: ProfileDropdownProps) => {
   const { user, profile } = useAuth();
 
   if (!user) return null;
@@ -56,13 +56,13 @@ export const ProfileDropdown = ({ onCreditsClick, onSignOut }: ProfileDropdownPr
         </DropdownMenuItem>
         
         <DropdownMenuItem 
-          onClick={onCreditsClick}
+          onClick={onSubscriptionClick}
           className="text-foreground/80 hover:bg-primary-foreground/10 focus:bg-primary-foreground/10 focus:text-foreground cursor-pointer"
         >
           <Moon className="h-4 w-4 mr-3 text-blue-300" />
           <div className="flex flex-col">
-            <span className="text-sm font-medium">{profile?.credits || 0} credits</span>
-            <span className="text-xs text-foreground/60">Click to purchase more</span>
+            <span className="text-sm font-medium">Subscription</span>
+            <span className="text-xs text-foreground/60">Manage your subscription</span>
           </div>
         </DropdownMenuItem>
         

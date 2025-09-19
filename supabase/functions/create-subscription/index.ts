@@ -86,12 +86,12 @@ serve(async (req) => {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "300 Credits/month",
-              description: "Monthly subscription for dream analysis credits",
+              name: "Unlimited Dream Analysis",
+              description: "Weekly subscription for unlimited dream analysis",
             },
-            unit_amount: 500, // $5.00 in cents
+            unit_amount: 100, // $1.00 in cents
             recurring: {
-              interval: "month",
+              interval: "week",
             },
           },
           quantity: 1,

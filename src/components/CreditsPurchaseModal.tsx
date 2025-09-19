@@ -6,61 +6,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CreditCard, Zap } from "lucide-react";
 import { MobileDrawer } from "@/components/MobileDrawer";
 
-interface CreditsPurchaseModalProps {
+interface SubscriptionModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModalProps) => {
+export const SubscriptionModal = ({ open, onOpenChange }: SubscriptionModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { user, refreshProfile } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
-
-  const handlePurchaseCredits = async (amount: number, price: number) => {
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to purchase credits.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('create-payment', {
-        body: { amount: amount, price: price }
-      });
-
-      if (error) {
-        console.error('Supabase function error:', error);
-        throw new Error(error.message || 'Failed to create payment session');
-      }
-
-      if (data?.url) {
-        // Open Stripe checkout in a new tab
-        window.open(data.url, '_blank');
-        onOpenChange(false);
-        
-        // Show instructions to user
-        toast({
-          title: "Payment Processing",
-          description: "Complete your payment in the new tab. Your credits will be added automatically.",
-        });
-      } else {
-        throw new Error('No payment URL received');
-      }
-    } catch (error) {
-      console.error('Payment error:', error);
-      toast({
-        title: "Payment Error",
-        description: error instanceof Error ? error.message : "Failed to initiate payment. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleSubscribe = async () => {
     if (!user) {
@@ -75,7 +29,7 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('create-subscription', {
-        body: { plan: 'monthly_300' }
+        body: { plan: 'weekly_unlimited' }
       });
 
       if (error) {
@@ -111,57 +65,41 @@ export const CreditsPurchaseModal = ({ open, onOpenChange }: CreditsPurchaseModa
     <MobileDrawer
       open={open}
       onOpenChange={onOpenChange}
-      title="Purchase Credits"
+      title="Get Unlimited Access"
       className="sm:max-w-md"
     >
-      <div className="space-y-4">
-        {/* One-time purchases */}
-        <div className="space-y-3">
-          <h3 className="font-semibold text-sm text-muted-foreground">One-time Purchase</h3>
-          
-          <Button
-            onClick={() => handlePurchaseCredits(10, 100)}
-            disabled={isLoading}
-            className="w-full justify-between h-16"
-            variant="outline"
-          >
-            <div className="flex items-center space-x-3">
-              <Zap className="h-5 w-5 text-yellow-500" />
-              <div className="text-left">
-                <div className="font-semibold">10 Credits</div>
-                <div className="text-sm text-muted-foreground">1 Dream Analysis</div>
-              </div>
-            </div>
-            <div className="text-lg font-bold">$1.00</div>
-          </Button>
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <h3 className="text-lg font-semibold">Unlimited Dream Analysis</h3>
+          <p className="text-sm text-muted-foreground">
+            Get unlimited access to AI-powered dream analysis for just $1 per week
+          </p>
         </div>
-
-        {/* Subscription */}
-        <div className="space-y-3">
-          <h3 className="font-semibold text-sm text-muted-foreground">Best Value • 80+% off</h3>
-          
-          <Button
-            onClick={handleSubscribe}
-            disabled={isLoading}
-            className="w-full justify-between h-16 bg-primary hover:bg-primary/90"
-          >
-            <div className="flex items-center space-x-3">
-              <div className="flex flex-col items-center justify-center w-8 h-8 rounded-full bg-primary-foreground text-primary text-xs font-bold">
-                ∞
-              </div>
-              <div className="text-left">
-                <div className="font-semibold">300 Credits/month</div>
-                <div className="text-sm text-primary-foreground/80">30 Dream Analyses</div>
-              </div>
+        
+        <Button
+          onClick={handleSubscribe}
+          disabled={isLoading}
+          className="w-full justify-between h-16 bg-primary hover:bg-primary/90"
+        >
+          <div className="flex items-center space-x-3">
+            <div className="flex flex-col items-center justify-center w-10 h-10 rounded-full bg-primary-foreground text-primary text-lg font-bold">
+              ∞
             </div>
-            <div className="text-lg font-bold">$5.00/mo</div>
-          </Button>
-        </div>
+            <div className="text-left">
+              <div className="font-semibold">Unlimited Dreams</div>
+              <div className="text-sm text-primary-foreground/80">Analyze as many dreams as you want</div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-lg font-bold">$1</div>
+            <div className="text-xs text-primary-foreground/80">per week</div>
+          </div>
+        </Button>
 
         {isLoading && (
           <div className="flex items-center justify-center py-4">
             <Loader2 className="h-6 w-6 animate-spin" />
-            <span className="ml-2">Setting up payment...</span>
+            <span className="ml-2">Setting up subscription...</span>
           </div>
         )}
       </div>
