@@ -16,7 +16,6 @@ interface FeedbackModalProps {
 
 export const FeedbackModal = ({ open, onOpenChange }: FeedbackModalProps) => {
   const [feedbackType, setFeedbackType] = useState('');
-  const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
   const { toast } = useToast();
@@ -25,7 +24,7 @@ export const FeedbackModal = ({ open, onOpenChange }: FeedbackModalProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!feedbackType || !subject || !message) {
+    if (!feedbackType || !message) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -36,6 +35,7 @@ export const FeedbackModal = ({ open, onOpenChange }: FeedbackModalProps) => {
 
     // Construct mailto URL with feedback details
     const userInfo = user ? `User: ${user.email}` : `Contact: ${email || 'Anonymous'}`;
+    const subjectLine = `${feedbackType.charAt(0).toUpperCase() + feedbackType.slice(1)} - Oneira Feedback`;
     const body = `Feedback Type: ${feedbackType}
 
 ${message}
@@ -45,13 +45,12 @@ ${userInfo}
 Current Page: ${window.location.pathname}
 User Agent: ${navigator.userAgent}`;
 
-    const mailtoUrl = `mailto:oneiradreamteam@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `mailto:oneiradreamteam@gmail.com?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(body)}`;
     
     window.location.href = mailtoUrl;
     
     // Reset form and close modal
     setFeedbackType('');
-    setSubject('');
     setMessage('');
     setEmail('');
     onOpenChange(false);
@@ -87,28 +86,15 @@ User Agent: ${navigator.userAgent}`;
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="subject">Subject *</Label>
+          <Label htmlFor="email">Your Email (optional)</Label>
           <Input
-            id="subject"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            placeholder="Brief description of your feedback"
-            maxLength={100}
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com (for us to respond)"
           />
         </div>
-
-        {!user && (
-          <div className="space-y-2">
-            <Label htmlFor="email">Your Email (optional)</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-            />
-          </div>
-        )}
 
         <div className="space-y-2">
           <Label htmlFor="message">Message *</Label>
@@ -137,7 +123,7 @@ User Agent: ${navigator.userAgent}`;
           <Button
             type="submit"
             className="flex-1"
-            disabled={!feedbackType || !subject || !message}
+            disabled={!feedbackType || !message}
           >
             <Send className="h-4 w-4 mr-2" />
             Send
