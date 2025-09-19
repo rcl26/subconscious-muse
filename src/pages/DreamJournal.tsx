@@ -90,7 +90,7 @@ export const DreamJournal = () => {
                 toast({
                   title: "Dream Restored",
                   description: "Your dream entry has been restored.",
-                  duration: 3000,
+                  duration: 1500,
                 });
               } catch (error) {
                 toast({
