@@ -12,6 +12,7 @@ import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { DreamSearchFilter } from "@/components/DreamSearchFilter";
+import { ProfileDropdown } from "@/components/ProfileDropdown";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 
@@ -163,26 +164,10 @@ export const DreamJournal = () => {
           
           <div className="flex items-center space-x-3">
             {user ? (
-              <>
-                <button 
-                  onClick={() => setShowCreditsModal(true)}
-                  className="flex items-center space-x-2 bg-primary-foreground/10 px-3 py-2 rounded-lg hover:bg-primary-foreground/20 transition-colors cursor-pointer"
-                >
-                  <Moon className="h-4 w-4 text-blue-300" />
-                  <span className="text-primary-foreground font-medium">
-                    {profile?.credits || 0} credits
-                  </span>
-                </button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleSignOut}
-                  className="text-primary-foreground hover:bg-primary-foreground/10"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </>
+              <ProfileDropdown 
+                onCreditsClick={() => setShowCreditsModal(true)}
+                onSignOut={handleSignOut}
+              />
             ) : (
               <Button
                 variant="secondary"
