@@ -174,7 +174,6 @@ export const DreamJournal = () => {
           </div>
           
           <div className="flex items-center space-x-3">
-            <FeedbackButton />
             {user ? (
               <ProfileDropdown 
                 onSignOut={handleSignOut}
@@ -190,6 +189,7 @@ export const DreamJournal = () => {
                 Sign In
               </Button>
             )}
+            <FeedbackButton />
           </div>
         </div>
 
