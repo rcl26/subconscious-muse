@@ -62,13 +62,6 @@ export const DreamJournal = () => {
     // Close recorder immediately
     setShowRecorder(false);
     
-    // Show success feedback
-    toast({
-      title: "✨ Dream Captured!",
-      description: "Your dream has been safely recorded in your journal.",
-      duration: 3000,
-    });
-    
     console.log('🔙 DreamJournal: Recorder closed, dream added to journal');
   };
 
