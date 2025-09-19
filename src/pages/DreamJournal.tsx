@@ -158,7 +158,7 @@ export const DreamJournal = () => {
     <div className="min-h-screen bg-gradient-night p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center mb-8">
           <div className="flex items-center space-x-4">
             <Button
               variant="ghost"
@@ -173,7 +173,9 @@ export const DreamJournal = () => {
             </Button>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex-1" />
+          
+          <div className="flex items-center space-x-4">
             {user ? (
               <ProfileDropdown 
                 onSignOut={handleSignOut}
@@ -296,8 +298,6 @@ export const DreamJournal = () => {
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
       />
-      
-      <FeedbackButton />
     </div>
   );
 };
