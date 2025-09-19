@@ -112,10 +112,6 @@ export const DreamJournal = () => {
 
   const handleAuthSuccess = () => {
     setShowAuthModal(false);
-    // After successful auth, open the dream recorder
-    setTimeout(() => {
-      setShowRecorder(true);
-    }, 100);
   };
 
   if (showRecorder) {
