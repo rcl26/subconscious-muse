@@ -29,15 +29,8 @@ export const useDreams = () => {
   // Load dreams from database or localStorage
   const loadDreams = async () => {
     if (!user) {
-      // Load from localStorage for non-authenticated users
-      try {
-        const localDreams = JSON.parse(localStorage.getItem('localDreams') || '[]');
-        console.log('📱 Loaded local dreams:', localDreams.length);
-        setDreams(localDreams);
-      } catch (error) {
-        console.error('Error loading local dreams:', error);
-        setDreams([]);
-      }
+      // No dreams for unauthenticated users
+      setDreams([]);
       setIsLoading(false);
       return;
     }

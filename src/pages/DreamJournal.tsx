@@ -213,8 +213,11 @@ export const DreamJournal = () => {
         <div className="text-center mb-8">
           <Button
             onClick={() => {
-              // Temporarily disable auth check for testing
-              setShowRecorder(true);
+              if (!user) {
+                setShowAuthModal(true);
+              } else {
+                setShowRecorder(true);
+              }
             }}
             size="lg"
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
