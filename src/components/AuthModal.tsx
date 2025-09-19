@@ -56,9 +56,9 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
     >
       <div className="space-y-6">
         <div className="text-center space-y-2">
-          <h3 className="text-xl font-semibold">Join Oneira</h3>
+          <h3 className="text-xl font-semibold">Welcome to Oneira</h3>
           <p className="text-sm text-muted-foreground">
-            Unlock the wisdom of your subconscious mind
+            Sign in with Google to start recording and analyzing your dreams
           </p>
         </div>
 
@@ -73,7 +73,10 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
         </Button>
 
         <p className="text-xs text-center text-muted-foreground">
-          By continuing, you agree to our terms of service and privacy policy
+          By continuing, you agree to our{' '}
+          <a href="/terms" className="underline hover:text-foreground">terms of service</a>{' '}
+          and{' '}
+          <a href="/privacy" className="underline hover:text-foreground">privacy policy</a>
         </p>
       </div>
     </MobileDrawer>
