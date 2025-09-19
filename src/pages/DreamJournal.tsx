@@ -7,7 +7,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
 import { PasswordResetModal } from "@/components/PasswordResetModal";
-import { SubscriptionModal } from "@/components/CreditsPurchaseModal";
+
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
@@ -29,7 +29,7 @@ export const DreamJournal = () => {
   const [showRecorder, setShowRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showCreditsModal, setShowCreditsModal] = useState(false);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const { user, profile, signOut, loading } = useAuth();
@@ -274,7 +274,7 @@ export const DreamJournal = () => {
 
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
-      <SubscriptionModal open={showCreditsModal} onOpenChange={setShowCreditsModal} />
+      
       <PasswordResetModal 
         open={showPasswordReset} 
         onOpenChange={setShowPasswordReset}

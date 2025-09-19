@@ -10,16 +10,6 @@ interface Profile {
   updated_at: string;
 }
 
-interface Subscription {
-  id: string;
-  user_id: string;
-  status: string;
-  plan_type: string;
-  current_period_start: string | null;
-  current_period_end: string | null;
-  stripe_customer_id: string | null;
-  stripe_subscription_id: string | null;
-}
 
 interface AuthContextType {
   user: User | null;
