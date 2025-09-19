@@ -15,6 +15,7 @@ import { DreamSearchFilter } from "@/components/DreamSearchFilter";
 import { ProfileDropdown } from "@/components/ProfileDropdown";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
+import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
 
 export const DreamJournal = () => {
   const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
@@ -33,6 +34,9 @@ export const DreamJournal = () => {
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
+  
+  // Handle subscription success redirect
+  useSubscriptionSuccess();
 
 
   // Show loading screen while auth is initializing

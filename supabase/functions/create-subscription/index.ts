@@ -98,8 +98,8 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/journal?subscription=success`,
-      cancel_url: `${req.headers.get("origin")}/journal?subscription=canceled`,
+      success_url: `${req.headers.get("origin")}/journal?subscription=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/journal?subscription=cancelled`,
       metadata: {
         user_id: user.id,
         plan: plan,

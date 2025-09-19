@@ -16,7 +16,7 @@ interface ProfileDropdownProps {
 }
 
 export const ProfileDropdown = ({ onSubscriptionClick, onSignOut }: ProfileDropdownProps) => {
-  const { user, profile } = useAuth();
+  const { user, profile, hasActiveSubscription } = useAuth();
 
   if (!user) return null;
 
@@ -61,8 +61,15 @@ export const ProfileDropdown = ({ onSubscriptionClick, onSignOut }: ProfileDropd
         >
           <Moon className="h-4 w-4 mr-3 text-blue-300" />
           <div className="flex flex-col">
-            <span className="text-sm font-medium">Subscription</span>
-            <span className="text-xs text-foreground/60">Manage your subscription</span>
+            <span className="text-sm font-medium">
+              {hasActiveSubscription ? 'Subscription' : 'Subscribe Now'}
+            </span>
+            <span className="text-xs text-foreground/60">
+              {hasActiveSubscription 
+                ? 'Manage your subscription' 
+                : '$1/week for unlimited dreams'
+              }
+            </span>
           </div>
         </DropdownMenuItem>
         
