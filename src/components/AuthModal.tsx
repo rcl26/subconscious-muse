@@ -55,12 +55,6 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
       description="Sign in with Google to start recording and analyzing your dreams"
     >
       <div className="space-y-6">
-        <div className="text-center space-y-2">
-          <h3 className="text-xl font-semibold">Welcome to Oneira</h3>
-          <p className="text-sm text-muted-foreground">
-            Sign in with Google to start recording and analyzing your dreams
-          </p>
-        </div>
 
         <Button
           onClick={handleGoogleAuth}
