@@ -19,6 +19,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
+import { FeedbackButton } from "@/components/FeedbackButton";
 
 export const DreamJournal = () => {
   const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
@@ -294,6 +295,8 @@ export const DreamJournal = () => {
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
       />
+      
+      <FeedbackButton />
     </div>
   );
 };

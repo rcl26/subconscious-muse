@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
+import { FeedbackButton } from "@/components/FeedbackButton";
 
 const Index = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -158,6 +159,7 @@ const Index = () => {
       </div>
 
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
+      <FeedbackButton />
     </div>
   );
 };
