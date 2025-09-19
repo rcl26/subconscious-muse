@@ -1,23 +1,42 @@
+import { useState } from "react";
 import { formatDistance } from "date-fns";
 import { Moon, MessageCircle, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
+import { useAuth } from "@/contexts/AuthContext";
+import { PaywallModal } from "@/components/PaywallModal";
 import { Dream } from "@/hooks/useDreams";
 
 interface DreamEntryProps {
   dream: Dream;
   onExplore: (dream: Dream) => void;
   onDelete: (dreamId: string) => void;
+  onSubscriptionClick: () => void;
 }
 
-export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
+export const DreamEntry = ({ dream, onExplore, onDelete, onSubscriptionClick }: DreamEntryProps) => {
   const { isTouchDevice } = useMobileDetection();
+  const { hasActiveSubscription } = useAuth();
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const handleExploreClick = () => {
     if (isTouchDevice) {
       triggerHapticFeedback('light');
     }
+    
+    // If there's already analysis/conversations, allow viewing regardless of subscription
+    if (dream.analysis || (dream.conversations && dream.conversations.length > 0)) {
+      onExplore(dream);
+      return;
+    }
+    
+    // For new analysis, check subscription
+    if (!hasActiveSubscription) {
+      setShowPaywall(true);
+      return;
+    }
+    
     onExplore(dream);
   };
 
@@ -80,6 +99,15 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
+
+        <PaywallModal
+          isOpen={showPaywall}
+          onClose={() => setShowPaywall(false)}
+          onSubscribe={() => {
+            setShowPaywall(false);
+            onSubscriptionClick();
+          }}
+        />
       </div>
     </Card>
   );

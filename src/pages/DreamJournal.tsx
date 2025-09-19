@@ -240,6 +240,7 @@ export const DreamJournal = () => {
                   dream={dream} 
                   onExplore={handleExploreDream}
                   onDelete={handleDeleteDream}
+                  onSubscriptionClick={() => setShowCreditsModal(true)}
                 />
               ))
             ) : (
@@ -293,6 +294,7 @@ export const DreamJournal = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
+        onSubscriptionClick={() => setShowCreditsModal(true)}
       />
     </div>
   );

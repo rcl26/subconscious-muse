@@ -6,20 +6,30 @@ import { ArrowLeft, Brain, Loader2 } from "lucide-react";
 import { Dream } from "@/hooks/useDreams";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { PaywallModal } from "@/components/PaywallModal";
 import { formatDistance } from "date-fns";
 
 interface DreamAnalysisProps {
   dream: Dream;
   onBack: () => void;
+  onSubscriptionClick: () => void;
 }
 
-export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
+export const DreamAnalysis = ({ dream, onBack, onSubscriptionClick }: DreamAnalysisProps) => {
   const [analysis, setAnalysis] = useState<string | null>(dream.analysis || null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
   const { analyzeDream } = useOpenAI();
+  const { hasActiveSubscription } = useAuth();
   const { toast } = useToast();
 
   const handleAnalyze = async () => {
+    if (!hasActiveSubscription) {
+      setShowPaywall(true);
+      return;
+    }
+
     setIsAnalyzing(true);
     try {
       const result = await analyzeDream(dream.content);
@@ -34,11 +44,15 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
       });
     } catch (error) {
       console.error("Analysis error:", error);
-      toast({
-        title: "Analysis Failed",
-        description: "Failed to analyze dream. Please try again.",
-        variant: "destructive",
-      });
+      if (error.message === 'SUBSCRIPTION_REQUIRED') {
+        setShowPaywall(true);
+      } else {
+        toast({
+          title: "Analysis Failed",
+          description: "Failed to analyze dream. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsAnalyzing(false);
     }
@@ -137,6 +151,15 @@ export const DreamAnalysis = ({ dream, onBack }: DreamAnalysisProps) => {
           )}
         </div>
       </Card>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        onSubscribe={() => {
+          setShowPaywall(false);
+          onSubscriptionClick();
+        }}
+      />
     </div>
   );
 };
