@@ -185,35 +185,38 @@ export const DreamJournal = () => {
           </div>
         </div>
 
-        {/* Title */}
-        <div className="text-center space-y-2 mb-8">
-          <div className="flex items-center justify-center space-x-2">
-            <Sparkles className="h-6 w-6 text-primary-foreground" />
-            <h1 className="text-2xl font-semibold text-primary-foreground">Oneira</h1>
-            <Sparkles className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <p className="text-primary-foreground/70">
-            Capture and explore the wisdom of your dreams
-          </p>
-        </div>
+        {/* Title and Record Button - Only show when user has dreams */}
+        {dreams.length > 0 && (
+          <>
+            <div className="text-center space-y-2 mb-8">
+              <div className="flex items-center justify-center space-x-2">
+                <Sparkles className="h-6 w-6 text-primary-foreground" />
+                <h1 className="text-2xl font-semibold text-primary-foreground">Oneira</h1>
+                <Sparkles className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <p className="text-primary-foreground/70">
+                Capture and explore the wisdom of your dreams
+              </p>
+            </div>
 
-        {/* Record new dream button */}
-        <div className="text-center mb-8">
-          <Button
-            onClick={() => {
-              if (!user) {
-                setShowAuthModal(true);
-              } else {
-                setShowRecorder(true);
-              }
-            }}
-            size="lg"
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
-          >
-            <Plus className="h-5 w-5 mr-2" />
-            Record New Dream
-          </Button>
-        </div>
+            <div className="text-center mb-8">
+              <Button
+                onClick={() => {
+                  if (!user) {
+                    setShowAuthModal(true);
+                  } else {
+                    setShowRecorder(true);
+                  }
+                }}
+                size="lg"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Record New Dream
+              </Button>
+            </div>
+          </>
+        )}
 
         {/* Search and Filter */}
         <div className="mt-4">
