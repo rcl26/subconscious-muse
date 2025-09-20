@@ -25,7 +25,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    if (e.key === 'Enter' && e.metaKey) {
       e.preventDefault();
       handleTextSubmit();
     }
@@ -39,9 +39,6 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
             <PenTool className="h-6 w-6 text-primary" />
             <h2 className="text-2xl font-semibold text-primary">Record Your Dream</h2>
           </div>
-          <p className="text-muted-foreground">
-            Take a moment to capture the essence of your dream while it's still fresh
-          </p>
         </div>
 
         <div className="space-y-4">
@@ -62,7 +59,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
             Save Dream
           </Button>
             <p className="text-xs text-muted-foreground">
-              Tip: Press Cmd/Ctrl + Enter to save quickly
+              Tip: Press Cmd + Enter to save quickly
             </p>
           </div>
         </div>
