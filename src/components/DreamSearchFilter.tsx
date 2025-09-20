@@ -21,50 +21,47 @@ export const DreamSearchFilter = ({
   const hasFilters = searchTerm.trim() !== "";
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col items-center space-y-4">
-        <div className="relative w-full max-w-md mx-auto">
-          <div className="glass-pill p-1">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground/60 h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="Search your dreams..."
-                value={searchTerm}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="pl-12 pr-4 py-3 bg-transparent border-none focus:outline-none focus:ring-0 text-foreground placeholder:text-muted-foreground/60 text-center font-medium"
-              />
-            </div>
-          </div>
-        </div>
-        
-        {/* Filter Chips */}
-        <div className="flex flex-wrap gap-2 justify-center">
-          <button className="glass-pill px-4 py-2 text-sm font-medium text-muted-foreground/80 hover:text-primary hover:bg-primary/10 transition-all duration-200">
-            By Date
-          </button>
-          <button className="glass-pill px-4 py-2 text-sm font-medium text-muted-foreground/80 hover:text-primary hover:bg-primary/10 transition-all duration-200">
-            By Theme
-          </button>
-          <button className="glass-pill px-4 py-2 text-sm font-medium text-muted-foreground/80 hover:text-primary hover:bg-primary/10 transition-all duration-200">
-            Analyzed
-          </button>
+    <div className="space-y-4 mb-6">
+      {/* Search Controls */}
+      <div className="flex gap-3">
+        {/* Search Input */}
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-primary-foreground/40" />
+          <Input
+            placeholder="Search your dreams..."
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-12 pr-4 py-3 bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:bg-primary-foreground/10 focus:border-primary-foreground/40 rounded-xl text-base transition-all duration-200"
+          />
+          {searchTerm && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onSearchChange("")}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 text-primary-foreground/60 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-lg"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
-      
+
+      {/* Active Filters */}
       {searchTerm && (
-        <div className="flex justify-center">
-          <div className="glass-pill px-4 py-2 bg-primary/20 text-primary border-primary/30">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Search: "{searchTerm}"</span>
-              <button
-                onClick={() => onSearchChange("")}
-                className="hover:bg-primary/20 rounded-full p-1 transition-colors"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Search Term Badge */}
+          <Badge variant="secondary" className="bg-primary-foreground/15 text-primary-foreground border-primary-foreground/20 rounded-lg px-3 py-1">
+            <Search className="h-3 w-3 mr-2" />
+            "{searchTerm}"
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onSearchChange("")}
+              className="h-4 w-4 p-0 ml-2 hover:bg-transparent text-primary-foreground/80 hover:text-primary-foreground"
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          </Badge>
         </div>
       )}
     </div>
