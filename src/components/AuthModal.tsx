@@ -32,21 +32,16 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
           description: error.message,
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Welcome to Oneira!",
-          description: "You have successfully signed in with Google.",
-        });
-        handleModalClose(false);
-        onAuthSuccess?.();
+        setIsLoading(false);
       }
+      // No success toast - auth success will be handled by AuthContext listener
+      // The signInWithGoogle function triggers a redirect, so we don't need to handle success here
     } catch (error) {
       toast({
         title: "Sign in failed",
         description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
