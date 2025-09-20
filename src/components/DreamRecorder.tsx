@@ -63,9 +63,11 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
           <Button
             onClick={handleTextSubmit}
             disabled={!dreamText.trim()}
-            className="w-full bg-primary hover:bg-primary/90 transition-magical"
+            className="glass-pill bg-gradient-to-r from-primary to-primary-glow hover:from-primary/90 hover:to-primary-glow/90 text-primary-foreground font-semibold px-8 py-3 shadow-premium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 relative overflow-hidden group w-full"
           >
-            Save Dream
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ripple"></div>
+            <PenTool className="w-5 h-5 mr-2 relative z-10" />
+            <span className="relative z-10">Save Dream</span>
           </Button>
             <p className="text-xs text-muted-foreground">
               Tip: Press Cmd + Enter to save quickly

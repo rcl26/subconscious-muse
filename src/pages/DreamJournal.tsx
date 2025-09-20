@@ -154,21 +154,25 @@ export const DreamJournal = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-night p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen animated-background relative overflow-hidden">
+      {/* Constellation background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-1 h-1 bg-white/60 rounded-full animate-twinkle" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute top-20 right-20 w-0.5 h-0.5 bg-white/40 rounded-full animate-twinkle" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 left-20 w-1.5 h-1.5 bg-white/50 rounded-full animate-twinkle" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-10 right-10 w-0.5 h-0.5 bg-white/60 rounded-full animate-twinkle" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-1/2 left-1/4 w-1 h-1 bg-white/45 rounded-full animate-twinkle" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-white/35 rounded-full animate-twinkle" style={{ animationDelay: '2.5s' }}></div>
+        <div className="absolute top-2/3 left-1/2 w-0.5 h-0.5 bg-white/55 rounded-full animate-twinkle" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-1/4 left-3/4 w-1 h-1 bg-white/40 rounded-full animate-twinkle" style={{ animationDelay: '1.8s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-primary-foreground hover:bg-white/20 hover:text-white"
-          >
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Home
-            </Link>
-          </Button>
+        <header className="container mx-auto px-4 py-8 flex items-center justify-between relative z-10">
+          <h1 className="text-3xl font-bold gradient-text tracking-tight">
+            ✨ Oneira
+          </h1>
           
           <div className="flex items-center space-x-4">
             {user ? (
@@ -180,7 +184,7 @@ export const DreamJournal = () => {
                 variant="secondary"
                 size="sm"
                 onClick={() => setShowAuthModal(true)}
-                className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0 justify-start"
+                className="glass-pill bg-white/10 text-white hover:bg-white/20 border-white/20"
               >
                 <User className="h-4 w-4 mr-1" />
                 Sign In
@@ -188,38 +192,48 @@ export const DreamJournal = () => {
             )}
             <FeedbackButton />
           </div>
-        </div>
+        </header>
 
-        {/* Title and Record Button - Only show when user has dreams */}
-        {dreams.length > 0 && (
-          <>
-            <div className="text-center space-y-2 mb-8">
-              <div className="flex items-center justify-center space-x-2">
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-                <h1 className="text-2xl font-semibold text-primary-foreground">Oneira</h1>
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <p className="text-primary-foreground/70">
-                Capture and explore the wisdom of your dreams
+        {dreams.length === 0 ? (
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl font-bold gradient-text">Welcome to Your Dream Journal</h2>
+              <p className="text-white/70 text-lg max-w-md">
+                Start capturing and exploring the hidden meanings in your dreams
               </p>
             </div>
-
-            <div className="text-center mb-8">
-              <Button
-                onClick={() => {
-                  if (!user) {
-                    setShowAuthModal(true);
-                  } else {
-                    setShowRecorder(true);
-                  }
-                }}
-                size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                Record New Dream
-              </Button>
-            </div>
+            
+            <Button
+              onClick={() => {
+                if (!user) {
+                  setShowAuthModal(true);
+                } else {
+                  setShowRecorder(true);
+                }
+              }}
+              size="lg"
+              className="glass-pill bg-gradient-to-r from-primary via-purple-500 to-pink-500 hover:from-primary/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white font-bold px-12 py-6 shadow-premium transition-all duration-300 relative overflow-hidden group text-lg"
+            >
+              <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ripple"></div>
+              <Plus className="w-6 h-6 mr-3 relative z-10" />
+              <span className="relative z-10">Record Your First Dream</span>
+            </Button>
+          </div>
+        ) : (
+          <>
+            {!showRecorder && (
+              <div className="text-center mb-12">
+                <Button
+                  onClick={() => setShowRecorder(true)}
+                  size="lg"
+                  className="glass-pill bg-gradient-to-r from-primary via-purple-500 to-pink-500 hover:from-primary/90 hover:via-purple-500/90 hover:to-pink-500/90 text-white font-bold px-12 py-6 shadow-premium transition-all duration-300 relative overflow-hidden group text-lg"
+                >
+                  <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ripple"></div>
+                  <Plus className="w-6 h-6 mr-3 relative z-10" />
+                  <span className="relative z-10">Record New Dream</span>
+                </Button>
+              </div>
+            )}
           </>
         )}
 

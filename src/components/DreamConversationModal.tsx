@@ -182,105 +182,107 @@ Please provide a thoughtful analysis of this dream.`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl h-[80vh] flex flex-col">
-        <DialogHeader className="flex-shrink-0">
-          <DialogTitle className="flex items-center space-x-2">
-            <Moon className="h-5 w-5 text-primary" />
-            <span>Dream Exploration</span>
-          </DialogTitle>
-          <DialogDescription asChild className="text-left">
-            {dream && (
-              <div className="mt-2 p-3 bg-muted/50 rounded-lg">
-                <span className="text-sm text-muted-foreground line-clamp-3">
-                  "{dream.content}"
-                </span>
-              </div>
-            )}
-          </DialogDescription>
-        </DialogHeader>
-
-        <ScrollArea className="flex-1 pr-4">
-          <div className="space-y-4 pb-4">
-            {isLoading && messages.length === 0 && (
-              <div className="flex flex-col items-center justify-center space-y-4 py-12 animate-fade-in">
-                <div className="relative">
-                  <Moon className="h-12 w-12 text-primary/20 animate-pulse" />
-                  <Sparkles className="h-6 w-6 text-primary/40 absolute -top-1 -right-1 animate-spin" />
-                </div>
-                <div className="text-center space-y-2">
-                  <p className="text-lg font-medium text-muted-foreground">Exploring Your Dream</p>
-                  <p className="text-sm text-muted-foreground/70">Analyzing patterns and symbols...</p>
-                </div>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" />
-                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-100" />
-                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-200" />
+      <DialogContent className="max-w-6xl h-[85vh] p-0 glass-card border border-white/20">
+        <div className="flex h-full">
+          {/* Left Panel - Dream Content */}
+          <div className="w-1/2 flex flex-col border-r border-white/10">
+            <div className="p-6 border-b border-white/10">
+              <h3 className="text-xl font-semibold gradient-text">✨ Your Dream</h3>
+            </div>
+            <ScrollArea className="flex-1 p-6">
+              <div className="space-y-4">
+                {dream?.title && (
+                  <div className="glass-pill p-4 bg-primary/10">
+                    <h4 className="font-semibold text-lg text-foreground">{dream.title}</h4>
+                  </div>
+                )}
+                <div className="prose prose-sm max-w-none">
+                  <p className="text-foreground/80 leading-relaxed text-base">{dream?.content}</p>
                 </div>
               </div>
-            )}
-            
-            {messages.map((message, index) => (
-              <div 
-                key={message.id} 
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className={`flex space-x-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    message.role === 'user' 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted text-muted-foreground'
-                  }`}>
-                    {message.role === 'user' ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
-                  </div>
-                  <div className={`rounded-lg p-3 ${
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground'
-                  }`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-            
-            {isLoading && messages.length > 0 && (
-              <div className="flex justify-start">
-                <div className="flex space-x-3 max-w-[80%]">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
-                    <Bot className="h-4 w-4" />
-                  </div>
-                  <div className="rounded-lg p-3 bg-muted">
-                    <div className="flex items-center space-x-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      <span className="text-sm text-muted-foreground">Thinking...</span>
+            </ScrollArea>
+          </div>
+          
+          {/* Right Panel - Analysis */}
+          <div className="w-1/2 flex flex-col">
+            <div className="p-6 border-b border-white/10">
+              <h3 className="text-xl font-semibold gradient-text">🧠 Dream Analysis</h3>
+            </div>
+            <ScrollArea className="flex-1 p-6">
+              <div className="space-y-4">
+                {isLoading && messages.length === 0 && (
+                  <div className="glass-pill p-6 text-center">
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                      <span className="text-muted-foreground font-medium">Analyzing your dream...</span>
+                      <p className="text-sm text-muted-foreground/60">Uncovering hidden meanings</p>
                     </div>
                   </div>
-                </div>
+                )}
+                
+                {messages.map((message, index) => (
+                  <div key={message.id} className="space-y-4">
+                    {message.role === 'assistant' ? (
+                      <div className="glass-pill p-4 bg-gradient-to-r from-primary/10 to-purple-500/10 border-l-4 border-primary/50">
+                        <h4 className="font-semibold text-primary mb-3">🔍 Symbolic Patterns</h4>
+                        <div className="whitespace-pre-wrap text-foreground/80 leading-relaxed">
+                          {message.content}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="glass-pill p-3 bg-white/5 ml-4">
+                        <p className="text-foreground/70 text-sm">"{message.content}"</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                
+                {isLoading && messages.length > 0 && (
+                  <div className="glass-pill p-4 bg-gradient-to-r from-primary/10 to-purple-500/10">
+                    <div className="flex items-center space-x-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="text-sm text-muted-foreground">Analyzing...</span>
+                    </div>
+                  </div>
+                )}
+                
+                {!hasStartedAnalysis && messages.length === 0 && !isLoading && (
+                  <div className="glass-pill p-6 text-center">
+                    <Button 
+                      onClick={startInitialAnalysis}
+                      disabled={isLoading}
+                      className="glass-pill bg-gradient-to-r from-primary to-purple-500 hover:from-primary/90 hover:to-purple-500/90 text-white font-semibold px-8 py-3 shadow-premium"
+                    >
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      Analyze Dream
+                    </Button>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
               </div>
-            )}
+            </ScrollArea>
             
-            <div ref={messagesEndRef} />
-          </div>
-        </ScrollArea>
-
-        <div className="flex-shrink-0 border-t pt-4">
-          <div className="flex space-x-2">
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={messages.length === 0 ? "The analysis will start automatically..." : "Ask a follow-up question about your dream..."}
-              disabled={isLoading || (messages.length === 0 && !hasStartedAnalysis)}
-              className="flex-1"
-            />
-            <Button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || isLoading || (messages.length === 0 && !hasStartedAnalysis)}
-              size="sm"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+            {/* Input area */}
+            <div className="p-4 border-t border-white/10">
+              <div className="flex space-x-2">
+                <Input
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder={messages.length === 0 ? "The analysis will start automatically..." : "Ask a follow-up question..."}
+                  disabled={isLoading || (messages.length === 0 && !hasStartedAnalysis)}
+                  className="flex-1 glass-pill bg-white/5 border-white/10"
+                />
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim() || isLoading || (messages.length === 0 && !hasStartedAnalysis)}
+                  className="glass-pill"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
