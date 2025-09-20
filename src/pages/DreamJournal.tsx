@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
-import { PasswordResetForm } from "@/components/PasswordResetForm";
+
 
 
 import { DreamRecorder } from "@/components/DreamRecorder";
@@ -36,7 +36,7 @@ export const DreamJournal = () => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  const { user, profile, signOut, loading, isPasswordReset } = useAuth();
+  const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
   
   // Handle subscription success redirect
@@ -124,10 +124,6 @@ export const DreamJournal = () => {
     setShowAuthModal(false);
   };
 
-  // Show password reset form if we're in password reset mode
-  if (isPasswordReset) {
-    return <PasswordResetForm onSuccess={() => window.location.reload()} />;
-  }
 
   if (showRecorder) {
     return (
