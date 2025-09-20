@@ -39,8 +39,8 @@ image_transformation = {enabled = true}
 
 [auth]
 enabled = true
-site_url = "http://127.0.0.1:3000"
-additional_redirect_urls = ["https://ibsxglkvcfenutoqkfvb.supabase.co"]
+site_url = "https://oneira.dev"
+additional_redirect_urls = ["https://ibsxglkvcfenutoqkfvb.supabase.co", "http://127.0.0.1:3000"]
 jwt_expiry = 3600
 refresh_token_rotation_enabled = true
 security_update_password_require_reauthentication = true
