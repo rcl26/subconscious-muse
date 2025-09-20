@@ -15,6 +15,7 @@ export interface Dream {
   content: string;
   date: string;
   analysis: string;
+  title?: string;
   conversations?: Message[];
   user_id?: string;
   created_at?: string;
@@ -71,7 +72,7 @@ export const useDreams = () => {
   };
 
   // Save a new dream (authenticated users only)
-  const saveDream = async (content: string, showToast = true) => {
+  const saveDream = async (content: string, title?: string, showToast = true) => {
     if (!user) {
       toast.error("Sign in required", {
         description: "Please sign in to record dreams",
@@ -82,6 +83,7 @@ export const useDreams = () => {
     const dreamData = {
       id: Date.now().toString(), // Temporary ID for optimistic update
       content: content.trim(),
+      title: title?.trim() || undefined,
       date: new Date().toISOString(),
       analysis: "",
       user_id: user.id
@@ -103,6 +105,7 @@ export const useDreams = () => {
       const dbData = {
         user_id: user.id,
         content: content.trim(),
+        title: title?.trim() || null,
         date: new Date().toISOString(),
         analysis: "",
         conversations: '[]'

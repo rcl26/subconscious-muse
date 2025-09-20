@@ -55,11 +55,11 @@ export const DreamJournal = () => {
     );
   }
 
-  const handleDreamRecorded = (dreamText: string) => {
-    console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText);
+  const handleDreamRecorded = (dreamText: string, title?: string) => {
+    console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText, title);
     
     // Save dream with optimistic update (happens instantly)
-    saveDream(dreamText);
+    saveDream(dreamText, title);
     
     // Close recorder immediately
     setShowRecorder(false);
@@ -88,7 +88,7 @@ export const DreamJournal = () => {
             altText="Undo delete"
             onClick={async () => {
               try {
-                await saveDream(dreamToDelete.content, false);
+                await saveDream(dreamToDelete.content, dreamToDelete.title, false);
                 toast({
                   title: "Dream Restored",
                   description: "Your dream entry has been restored.",
@@ -144,7 +144,6 @@ export const DreamJournal = () => {
             </Button>
             <div>
               <h1 className="text-xl font-semibold text-primary-foreground">New Dream</h1>
-              <p className="text-sm text-primary-foreground/60">Capture your subconscious</p>
             </div>
           </div>
 
