@@ -61,9 +61,17 @@ export default function Privacy() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">4. AI Processing</h2>
+              <h2 className="text-xl font-semibold mb-3">4. Third-Party Services</h2>
               <p>
-                We use OpenAI's services to analyze your dream content and generate insights. Your dream descriptions are sent to OpenAI for processing, but we do not store your data with third-party AI providers beyond the processing session. The generated analysis and conversation history are stored securely in our database for your continued access.
+                We use the following third-party services to provide our platform:
+              </p>
+              <ul className="list-disc pl-6 mt-2">
+                <li><strong>Google Authentication:</strong> For secure user login and account management</li>
+                <li><strong>Supabase:</strong> For secure database storage and backend services</li>
+                <li><strong>OpenAI:</strong> For AI-powered dream analysis and insights</li>
+              </ul>
+              <p className="mt-2">
+                When you use our AI analysis features, your dream descriptions are sent to OpenAI for processing. OpenAI processes this data according to their privacy policy and data processing terms. We do not store your data with OpenAI beyond the processing session. The generated analysis and conversation history are stored securely in our Supabase database for your continued access.
               </p>
             </section>
 
@@ -91,46 +99,58 @@ export default function Privacy() {
                 <li>Opt out of certain communications</li>
                 <li>Delete your account and associated data</li>
                 <li>Request clarification about our data practices</li>
+                <li>Object to the processing of your personal data</li>
+                <li>Request data portability where technically feasible</li>
               </ul>
+              <p className="mt-2">
+                To exercise these rights, contact us through the support channels within the application or by email when available.
+              </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">7. Data Retention</h2>
+              <h2 className="text-xl font-semibold mb-3">7. Data Breach Notification</h2>
+              <p>
+                In the unlikely event of a data breach that may compromise your personal information, we will notify affected users within 72 hours of becoming aware of the breach. Notifications will include the nature of the breach, potential risks, and measures taken to address the incident.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">8. Data Retention</h2>
               <p>
                 We retain your information for as long as your account is active or as needed to provide you with our Service. You may delete your account at any time, which will result in the deletion of your personal data within 30 days.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">8. Cookies and Tracking</h2>
+              <h2 className="text-xl font-semibold mb-3">9. Cookies and Tracking</h2>
               <p>
                 We use essential cookies to maintain your session and provide core functionality. We do not use tracking cookies for advertising purposes.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">9. Children's Privacy</h2>
+              <h2 className="text-xl font-semibold mb-3">10. Children's Privacy</h2>
               <p>
                 Our Service is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">10. International Data Transfers</h2>
+              <h2 className="text-xl font-semibold mb-3">11. International Data Transfers</h2>
               <p>
                 Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for such transfers.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">11. Changes to This Policy</h2>
+              <h2 className="text-xl font-semibold mb-3">12. Changes to This Policy</h2>
               <p>
                 We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">12. Contact Us</h2>
+              <h2 className="text-xl font-semibold mb-3">13. Contact Us</h2>
               <p>
                 If you have any questions about this Privacy Policy or our data practices, please contact us through our support channels within the application.
               </p>
