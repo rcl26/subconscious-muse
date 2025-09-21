@@ -22,13 +22,14 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold mb-3">1. Information We Collect</h2>
               <p>
-                We collect information you provide directly to us, such as when you create an account, record dreams, or interact with our AI analysis features. This includes:
+                We collect information you provide directly to us, such as when you create an account, write dream entries, or interact with our AI analysis features. This includes:
               </p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Google account information (email, name, profile picture)</li>
-                <li>Dream content (text descriptions, audio recordings)</li>
-                <li>Usage data and interaction patterns with our Service</li>
-                <li>Technical information about your device and browser</li>
+                <li>Dream content (dream titles, dream descriptions, and dream journal entries)</li>
+                <li>AI-generated dream analysis and insights</li>
+                <li>Conversation history with our AI about your dreams</li>
+                <li>Basic usage data to improve our Service</li>
               </ul>
             </section>
 
@@ -62,7 +63,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold mb-3">4. AI Processing</h2>
               <p>
-                We use OpenAI's services to analyze your dream content and provide insights. This processing occurs in a secure environment, and we do not store your data with third-party AI providers beyond the processing session.
+                We use OpenAI's services to analyze your dream content and generate insights. Your dream descriptions are sent to OpenAI for processing, but we do not store your data with third-party AI providers beyond the processing session. The generated analysis and conversation history are stored securely in our database for your continued access.
               </p>
             </section>
 

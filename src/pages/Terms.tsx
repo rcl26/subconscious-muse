@@ -29,7 +29,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold mb-3">2. Description of Service</h2>
               <p>
-                Oneira is a digital platform that allows users to record, analyze, and explore their dreams using artificial intelligence. The Service includes dream recording capabilities, AI-powered analysis, and conversation features about dream content.
+                Oneira is a digital platform that allows users to write, analyze, and explore their dreams using artificial intelligence. The Service includes text-based dream journaling, AI-powered analysis, and conversation features about dream content.
               </p>
             </section>
 
@@ -43,7 +43,7 @@ export default function Terms() {
             <section>
               <h2 className="text-xl font-semibold mb-3">4. User Content</h2>
               <p>
-                You retain ownership of all content you submit to Oneira, including dream recordings and descriptions. By using our Service, you grant us a license to use, store, and analyze your content to provide the Service features, including AI analysis and insights.
+                You retain ownership of all content you submit to Oneira, including dream entries, descriptions, and titles. By using our Service, you grant us a license to use, store, and analyze your content to provide the Service features, including AI analysis and insights.
               </p>
             </section>
 
