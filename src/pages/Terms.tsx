@@ -103,7 +103,64 @@ export default function Terms() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3">12. Contact Information</h2>
+              <h2 className="text-xl font-semibold mb-3">12. Termination</h2>
+              <p>
+                We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will cease immediately. You may delete your account at any time through the application settings.
+              </p>
+              <p className="mt-2">
+                Upon termination, we will delete your personal data within 30 days, except where retention is required by law or for legitimate business purposes such as fraud prevention.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">13. Indemnification</h2>
+              <p>
+                You agree to defend, indemnify, and hold harmless Oneira, its officers, directors, employees, agents, licensors, and suppliers from and against any claims, liabilities, damages, losses, and expenses, including reasonable legal and accounting fees, arising out of or in any way connected with your access to or use of the Service, your violation of these Terms, or your violation of any third-party rights.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">14. Disclaimer of Warranties</h2>
+              <p>
+                The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Oneira and its suppliers and licensors hereby disclaim all warranties of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose, and non-infringement. Neither Oneira nor its suppliers and licensors makes any warranty that the Service will be error-free or that access thereto will be continuous or uninterrupted.
+              </p>
+              <p className="mt-2">
+                We specifically disclaim any warranty that the AI-generated content will be accurate, complete, or suitable for any particular purpose. The Service is intended for entertainment and self-reflection purposes only.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">15. Dispute Resolution and Arbitration</h2>
+              <p>
+                Any dispute, claim, or controversy arising out of or relating to these Terms or the Service shall be settled by binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. The arbitration will be conducted in English and will take place in the state where Oneira is incorporated.
+              </p>
+              <p className="mt-2">
+                <strong>Opt-Out Right:</strong> You may opt out of arbitration by sending written notice to us within 30 days of first accepting these Terms. The notice must include your name, address, and a clear statement that you wish to opt out of arbitration.
+              </p>
+              <p className="mt-2">
+                <strong>Class Action Waiver:</strong> You agree that any arbitration or legal proceeding shall be limited to the dispute between you and Oneira individually. You will not join or consolidate claims in arbitration or otherwise participate in any claim as a class representative, class member, or in a private attorney general capacity.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">16. Governing Law</h2>
+              <p>
+                These Terms shall be interpreted and governed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law provisions. Any legal action or proceeding arising under these Terms will be brought exclusively in the federal or state courts located in Delaware, and you hereby consent to personal jurisdiction and venue therein.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">17. Medical Disclaimer</h2>
+              <p>
+                The AI-generated dream analysis and insights provided by Oneira are for entertainment and self-reflection purposes only and do not constitute medical, psychological, or therapeutic advice. The Service is not intended to diagnose, treat, cure, or prevent any medical or psychological condition. Always seek the advice of qualified healthcare professionals regarding any health-related questions or concerns.
+              </p>
+              <p className="mt-2">
+                If you are experiencing sleep disorders, mental health issues, or other medical concerns, please consult with appropriate healthcare professionals.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3">18. Contact Information</h2>
               <p>
                 If you have any questions about these Terms of Service, please contact us through our support channels within the application.
               </p>
