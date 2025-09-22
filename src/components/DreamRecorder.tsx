@@ -35,12 +35,12 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   };
 
   return (
-    <Card className="p-8 bg-gradient-dream shadow-dream border-0">
+    <Card className="p-8 bg-card shadow-dream border-0">
       <div className="text-center space-y-6">
         <div className="space-y-2">
           <div className="flex items-center justify-center space-x-2">
-            <PenTool className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-semibold text-primary">Record Your Dream</h2>
+            <PenTool className="h-6 w-6 text-card-foreground" />
+            <h2 className="text-2xl font-semibold text-card-foreground">Record Your Dream</h2>
           </div>
         </div>
 
@@ -49,14 +49,14 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
             placeholder="Dream title (optional)"
             value={dreamTitle}
             onChange={(e) => setDreamTitle(e.target.value)}
-            className="bg-background/50 border-primary/20 focus:border-primary/40 transition-magical text-left"
+            className="bg-background/80 border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
           />
           <Textarea
             placeholder="Describe your dream in as much detail as you can remember..."
             value={dreamText}
             onChange={(e) => setDreamText(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="min-h-[200px] bg-background/50 border-primary/20 focus:border-primary/40 transition-magical resize-none text-left"
+            className="min-h-[200px] bg-background/80 border-muted text-card-foreground placeholder:text-muted-foreground transition-magical resize-none text-left"
             autoFocus
           />
           <div className="space-y-2">
