@@ -32,6 +32,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
     <Card className="p-6 bg-card shadow-float hover:shadow-dream transition-magical touch-manipulation group hover-scale">
       <div className="space-y-4">
         <div className="flex items-start justify-between">
+          <div></div>
           <div className="flex items-center space-x-2">
             <Moon className="h-5 w-5 text-primary" />
             <span className="text-sm text-muted-foreground">
