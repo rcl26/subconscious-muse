@@ -45,7 +45,15 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-night overflow-hidden relative">
+    <div className="min-h-screen overflow-hidden relative" style={{
+      backgroundImage: 'url(/cosmic-background.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundColor: 'hsl(var(--background))'
+    }}>
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/30"></div>
       {/* Full-screen transition overlay */}
       {isTransitioning && (
         <div className="fixed inset-0 z-50 pointer-events-none">
@@ -79,7 +87,7 @@ const Index = () => {
       )}
 
 
-      <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10">
         {/* Clean header */}
         <div className="text-center space-y-12 max-w-2xl mx-auto">
           <div className="relative">
