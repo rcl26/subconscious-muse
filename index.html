@@ -11,18 +11,39 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      /* Critical CSS for initial render to prevent FOUC */
+      html, body { margin: 0; padding: 0; background: #0a0a0a; color: #fafafa; }
+      #root { min-height: 100vh; }
+      .min-h-screen { min-height: 100vh; }
+    </style>
     <script>
-      // Make CSS non-blocking while preserving functionality
-      (function() {
-        var links = document.getElementsByTagName('link');
-        for (var i = 0; i < links.length; i++) {
-          var link = links[i];
-          if (link.rel === 'stylesheet' && link.href.includes('assets/index-')) {
-            link.media = 'print';
-            link.onload = function() { this.media = 'all'; };
-          }
-        }
-      })();
+      // Load CSS asynchronously to prevent render blocking
+      function loadCSS(href) {
+        var link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'style';
+        link.href = href;
+        link.onload = function() { this.rel = 'stylesheet'; };
+        link.onerror = function() { this.rel = 'stylesheet'; };
+        document.head.appendChild(link);
+      }
+      
+      // Wait for DOM and then load CSS
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          setTimeout(function() {
+            var links = document.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(function(link) {
+              if (link.href.includes('assets/index-')) {
+                var href = link.href;
+                link.remove();
+                loadCSS(href);
+              }
+            });
+          }, 0);
+        });
+      }
     </script>
     <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/dPZ7y1UsPpOQTKNAg8soqood1cw2/uploads/1758502325576-ChatGPT Image Sep 21, 2025, 07_51_57 PM.png">
     <title>Oneira - Dream Journal</title>
