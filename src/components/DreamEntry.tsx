@@ -1,5 +1,5 @@
 import { formatDistance } from "date-fns";
-import { Moon, MessageCircle, Trash2 } from "lucide-react";
+import { MessageCircle, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
@@ -30,15 +30,11 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
 
   return (
     <Card className="p-6 bg-card shadow-float hover:shadow-dream transition-magical touch-manipulation group hover-scale">
-      <div className="space-y-4">
-        <div className="flex items-start justify-between">
-          <div></div>
-          <div className="flex items-center space-x-2">
-            <Moon className="h-5 w-5 text-primary" />
-            <span className="text-sm text-muted-foreground">
-              {formatDistance(new Date(dream.date), new Date(), { addSuffix: true })}
-            </span>
-          </div>
+      <div className="space-y-3">
+        <div className="flex justify-end">
+          <span className="text-sm text-muted-foreground">
+            {formatDistance(new Date(dream.date), new Date(), { addSuffix: true })}
+          </span>
         </div>
         
         {dream.title && (
