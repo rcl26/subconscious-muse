@@ -62,7 +62,7 @@ const Index = () => {
         <div className="text-center space-y-12 max-w-2xl mx-auto">
           <div className="relative">
             {/* Main title with gradient effect */}
-            <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-6 tracking-wider">
+            <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-4 md:mb-6 tracking-wider">
               Oneira
             </h1>
             
@@ -71,18 +71,18 @@ const Index = () => {
               <p className="text-2xl md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
                 Unlock the wisdom of your
               </p>
-              <p className="text-2xl md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-4">
+              <p className="text-2xl md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-3 md:mb-4">
                 subconscious mind
               </p>
               
               {/* Subtle line decoration */}
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-8"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-6 md:mb-8"></div>
             </div>
           </div>
 
           {/* Feature showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
-            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 md:my-16">
+            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-4 mx-auto">
                 <Moon className="h-6 w-6 text-primary-foreground/70" />
               </div>
@@ -90,7 +90,7 @@ const Index = () => {
               <p className="text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
             </div>
             
-            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-4 mx-auto">
                 <Sparkles className="h-6 w-6 text-primary-foreground/70" />
               </div>
@@ -98,7 +98,7 @@ const Index = () => {
               <p className="text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
             </div>
             
-            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-4 mx-auto">
                 <Stars className="h-6 w-6 text-primary-foreground/70" />
               </div>
