@@ -49,22 +49,6 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
 
         <div className="space-y-4">
           <div className="space-y-1">
-            <Input
-              placeholder="Dream title (optional)"
-              value={dreamTitle}
-              onChange={(e) => {
-                const newValue = e.target.value;
-                if (newValue.length <= MAX_TITLE_CHARACTERS) {
-                  setDreamTitle(newValue);
-                }
-              }}
-              className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
-            />
-            <p className="text-xs text-muted-foreground text-right">
-              {dreamTitle.length} / {MAX_TITLE_CHARACTERS}
-            </p>
-          </div>
-          <div className="space-y-1">
             <Textarea
               placeholder="Describe your dream in as much detail as you can remember..."
               value={dreamText}
@@ -80,6 +64,22 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
             />
             <p className="text-xs text-muted-foreground text-right">
               {dreamText.length} / {MAX_CONTENT_CHARACTERS}
+            </p>
+          </div>
+          <div className="space-y-1">
+            <Input
+              placeholder="Dream title (optional)"
+              value={dreamTitle}
+              onChange={(e) => {
+                const newValue = e.target.value;
+                if (newValue.length <= MAX_TITLE_CHARACTERS) {
+                  setDreamTitle(newValue);
+                }
+              }}
+              className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {dreamTitle.length} / {MAX_TITLE_CHARACTERS}
             </p>
           </div>
           <div className="space-y-2">
