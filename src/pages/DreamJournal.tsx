@@ -184,7 +184,7 @@ export const DreamJournal = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="text-white border-white/30 bg-transparent"
+                className="text-white/80 border-white/30 bg-transparent"
               >
                 Feedback
               </Button>

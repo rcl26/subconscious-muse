@@ -58,17 +58,25 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
               className={`border-0 min-h-[44px] px-4 ${
                 dream.analysis || (dream.conversations && dream.conversations.length > 0)
                   ? "bg-violet-500/10 text-violet-600 hover:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/20"
-                  : "bg-primary/10 text-primary hover:bg-primary/20"
+                  : "bg-gradient-to-r from-primary/20 to-accent/20 text-primary hover:from-primary/30 hover:to-accent/30 shadow-md hover:shadow-lg relative overflow-hidden"
               }`}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">
+              <span className={`hidden sm:inline ${
+                !(dream.analysis || (dream.conversations && dream.conversations.length > 0))
+                  ? "bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer font-semibold"
+                  : ""
+              }`}>
                 {dream.analysis || (dream.conversations && dream.conversations.length > 0) 
                   ? "View Analysis" 
                   : "Explore"
                 }
               </span>
-              <span className="sm:hidden">
+              <span className={`sm:hidden ${
+                !(dream.analysis || (dream.conversations && dream.conversations.length > 0))
+                  ? "bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer font-semibold"
+                  : ""
+              }`}>
                 {dream.analysis || (dream.conversations && dream.conversations.length > 0) 
                   ? "View" 
                   : "Explore"
