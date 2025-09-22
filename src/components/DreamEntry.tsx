@@ -29,7 +29,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
   };
 
   return (
-    <Card className="p-6 bg-card shadow-float border border-border/50 hover:shadow-dream transition-magical touch-manipulation group hover-scale">
+    <Card className="p-6 bg-card shadow-float hover:shadow-dream transition-magical touch-manipulation group hover-scale">
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-2">
@@ -41,7 +41,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
         </div>
         
         {dream.title && (
-          <h3 className="text-base font-medium text-foreground mb-2 line-clamp-2">
+          <h3 className="text-base font-medium text-card-foreground mb-2 line-clamp-2">
             {dream.title}
           </h3>
         )}
