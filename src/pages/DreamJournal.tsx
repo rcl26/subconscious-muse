@@ -151,7 +151,7 @@ export const DreamJournal = () => {
               onClick={() => setShowRecorder(false)}
               variant="ghost"
               size="sm"
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
