@@ -59,56 +59,75 @@ const Index = () => {
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10">
         {/* Clean header */}
-        <div className="text-center space-y-12 max-w-2xl mx-auto">
+        <div className="text-center space-y-6 md:space-y-12 max-w-2xl mx-auto">
           <div className="relative">
             {/* Main title with gradient effect */}
-            <h1 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-4 md:mb-6 tracking-wider">
+            <h1 className="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider">
               Oneira
             </h1>
             
             {/* Mystical subtitle */}
             <div className="relative">
-              <p className="text-2xl md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
+              <p className="text-lg md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
                 Unlock the wisdom of your
               </p>
-              <p className="text-2xl md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-3 md:mb-4">
+              <p className="text-lg md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-2 md:mb-4">
                 subconscious mind
               </p>
               
               {/* Subtle line decoration */}
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-6 md:mb-8"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-4 md:mb-8"></div>
             </div>
           </div>
 
-          {/* Feature showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 md:my-16">
-            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-4 mx-auto">
-                <Moon className="h-6 w-6 text-primary-foreground/70" />
+          {/* Mobile CTA - Show only on mobile, positioned early */}
+          <div className="md:hidden">
+            <Button
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+              size="lg"
+              className="group relative h-14 px-8 bg-gradient-to-r from-slate-900/40 via-slate-800/50 to-slate-900/40 backdrop-blur-md text-primary-foreground border border-white/10 hover:border-white/20 shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] transition-all duration-500 text-lg font-medium rounded-2xl hover:scale-105 overflow-hidden disabled:opacity-50"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              <div className="flex items-center relative z-10">
+                <GoogleIcon className="h-5 w-5 mr-3 text-white" />
+                <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
+                  {isLoading ? "Signing in..." : "Continue with Google"}
+                </span>
               </div>
-              <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
-              <p className="text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
+            </Button>
+          </div>
+
+          {/* Feature showcase - More compact on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 my-4 md:my-16">
+            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                <Moon className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
+              </div>
+              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Capture</h3>
+              <p className="text-xs md:text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
             </div>
             
-            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-4 mx-auto">
-                <Sparkles className="h-6 w-6 text-primary-foreground/70" />
+            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                <Sparkles className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
-              <h3 className="text-lg font-medium text-primary-foreground mb-2">Analyze</h3>
-              <p className="text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
+              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Analyze</h3>
+              <p className="text-xs md:text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
             </div>
             
-            <div className="p-4 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-4 mx-auto">
-                <Stars className="h-6 w-6 text-primary-foreground/70" />
+            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                <Stars className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
-              <h3 className="text-lg font-medium text-primary-foreground mb-2">Discover</h3>
-              <p className="text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
+              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Discover</h3>
+              <p className="text-xs md:text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
             </div>
           </div>
 
-          {/* Cosmic Gateway CTA */}
-          <div className="relative">
+          {/* Desktop CTA - Hidden on mobile */}
+          <div className="hidden md:block relative">
             {/* Cosmic glow effect behind button */}
             <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
