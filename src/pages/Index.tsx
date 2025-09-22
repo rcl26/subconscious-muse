@@ -110,96 +110,30 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Mystical Feature Portals */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-16">
-            {/* Chronicle Portal */}
-            <div className="group relative">
-              {/* Cosmic glow aura */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-indigo-500/30 to-purple-500/20 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-900/60 via-slate-800/70 to-slate-900/60 backdrop-blur-md border border-white/10 hover:border-white/20 shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_40px_rgba(79,70,229,0.5)] transition-all duration-500 hover:scale-105 overflow-hidden">
-                {/* Mystical shimmer */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                
-                {/* Floating particles */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute top-4 left-6 w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
-                  <div className="absolute top-8 right-8 w-0.5 h-0.5 bg-indigo-400 rounded-full animate-pulse delay-150"></div>
-                  <div className="absolute bottom-6 left-8 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse delay-300"></div>
-                </div>
-                
-                <div className="relative z-10 text-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 via-indigo-500/30 to-purple-500/20 flex items-center justify-center mb-6 mx-auto backdrop-blur-sm border border-white/10">
-                    <Moon className="h-7 w-7 text-blue-300 group-hover:text-blue-200 transition-colors duration-300 filter drop-shadow-[0_0_10px_rgba(147,197,253,0.5)] group-hover:animate-pulse" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-200 via-indigo-200 to-purple-200 bg-clip-text text-transparent">
-                    Chronicle Your Visions
-                  </h3>
-                  <p className="text-slate-300 leading-relaxed text-sm">
-                    Capture the ethereal whispers of your dreamscape through voice or sacred text
-                  </p>
-                </div>
+          {/* Feature showcase */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-4 mx-auto">
+                <Moon className="h-6 w-6 text-primary-foreground/70" />
               </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Capture</h3>
+              <p className="text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
             </div>
-
-            {/* Decode Portal */}
-            <div className="group relative">
-              {/* Cosmic glow aura */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 via-pink-500/30 to-violet-500/20 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-900/60 via-slate-800/70 to-slate-900/60 backdrop-blur-md border border-white/10 hover:border-white/20 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:shadow-[0_0_40px_rgba(147,51,234,0.5)] transition-all duration-500 hover:scale-105 overflow-hidden">
-                {/* Mystical shimmer */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 delay-100"></div>
-                
-                {/* Floating particles */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute top-5 left-7 w-1 h-1 bg-purple-400 rounded-full animate-pulse delay-75"></div>
-                  <div className="absolute top-6 right-6 w-0.5 h-0.5 bg-pink-400 rounded-full animate-pulse delay-200"></div>
-                  <div className="absolute bottom-4 left-6 w-0.5 h-0.5 bg-violet-400 rounded-full animate-pulse delay-350"></div>
-                </div>
-                
-                <div className="relative z-10 text-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500/20 via-pink-500/30 to-violet-500/20 flex items-center justify-center mb-6 mx-auto backdrop-blur-sm border border-white/10">
-                    <Sparkles className="h-7 w-7 text-purple-300 group-hover:text-purple-200 group-hover:rotate-12 transition-all duration-500 filter drop-shadow-[0_0_10px_rgba(196,181,253,0.5)]" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 bg-gradient-to-r from-purple-200 via-pink-200 to-violet-200 bg-clip-text text-transparent">
-                    Decode Hidden Messages
-                  </h3>
-                  <p className="text-slate-300 leading-relaxed text-sm">
-                    Unravel the cryptic symbols and patterns woven through your subconscious realm
-                  </p>
-                </div>
+            
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-4 mx-auto">
+                <Sparkles className="h-6 w-6 text-primary-foreground/70" />
               </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Analyze</h3>
+              <p className="text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
             </div>
-
-            {/* Unveil Portal */}
-            <div className="group relative">
-              {/* Cosmic glow aura */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-violet-500/30 to-blue-500/20 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative p-8 rounded-2xl bg-gradient-to-br from-slate-900/60 via-slate-800/70 to-slate-900/60 backdrop-blur-md border border-white/10 hover:border-white/20 shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] transition-all duration-500 hover:scale-105 overflow-hidden">
-                {/* Mystical shimmer */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 delay-200"></div>
-                
-                {/* Floating particles */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute top-6 left-5 w-1 h-1 bg-indigo-400 rounded-full animate-pulse delay-100"></div>
-                  <div className="absolute top-4 right-7 w-0.5 h-0.5 bg-violet-400 rounded-full animate-pulse delay-250"></div>
-                  <div className="absolute bottom-5 left-7 w-0.5 h-0.5 bg-blue-400 rounded-full animate-pulse delay-400"></div>
-                </div>
-                
-                <div className="relative z-10 text-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500/20 via-violet-500/30 to-blue-500/20 flex items-center justify-center mb-6 mx-auto backdrop-blur-sm border border-white/10">
-                    <Stars className="h-7 w-7 text-indigo-300 group-hover:text-indigo-200 transition-colors duration-300 filter drop-shadow-[0_0_10px_rgba(165,180,252,0.5)] group-hover:animate-pulse" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 bg-gradient-to-r from-indigo-200 via-violet-200 to-blue-200 bg-clip-text text-transparent">
-                    Unveil Your Inner Cosmos
-                  </h3>
-                  <p className="text-slate-300 leading-relaxed text-sm">
-                    Journey through the infinite expanse of your soul and discover your true essence
-                  </p>
-                </div>
+            
+            <div className="p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-4 mx-auto">
+                <Stars className="h-6 w-6 text-primary-foreground/70" />
               </div>
+              <h3 className="text-lg font-medium text-primary-foreground mb-2">Discover</h3>
+              <p className="text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
             </div>
           </div>
 
