@@ -97,16 +97,6 @@ const Index = () => {
                 </span>
               </div>
             </Button>
-            
-            <p className="text-xs text-primary-foreground/30 mt-2 text-center">
-              <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Terms of Service
-              </Link>
-              {" | "}
-              <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Privacy Policy
-              </Link>
-            </p>
           </div>
 
           {/* Feature showcase - More compact on mobile */}
@@ -134,9 +124,20 @@ const Index = () => {
               <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Discover</h3>
               <p className="text-xs md:text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
             </div>
-          </div>
+           </div>
+           
+           {/* Mobile Terms Links - Below Features */}
+           <p className="text-xs text-primary-foreground/30 mt-6 text-center md:hidden">
+             <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
+               Terms of Service
+             </Link>
+             {" | "}
+             <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
+               Privacy Policy
+             </Link>
+           </p>
 
-          {/* Desktop CTA - Hidden on mobile */}
+           {/* Desktop CTA - Hidden on mobile */}
           <div className="hidden md:block relative">
             {/* Cosmic glow effect behind button */}
             <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
