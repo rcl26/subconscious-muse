@@ -169,7 +169,7 @@ const Index = () => {
               </div>
             </Button>
             
-            <p className="text-sm text-primary-foreground/40 mt-3 text-center">
+            <p className="text-xs text-primary-foreground/40 mt-3 text-center">
               <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
                 Terms of Service
               </Link>
