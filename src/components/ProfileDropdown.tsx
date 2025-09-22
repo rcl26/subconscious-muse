@@ -25,7 +25,7 @@ export const ProfileDropdown = ({ onSignOut }: ProfileDropdownProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center bg-primary-foreground/10 p-2 rounded-full hover:bg-primary-foreground/20 transition-colors cursor-pointer outline-none">
+      <DropdownMenuTrigger className="flex items-center rounded-full transition-colors cursor-pointer outline-none">
         <Avatar className="h-8 w-8">
           <AvatarFallback className="bg-primary-foreground/20 text-primary-foreground font-medium">
             {getInitials(user.email || "")}
