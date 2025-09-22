@@ -4,7 +4,7 @@ import { Sparkles, Moon, Stars, User, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/AuthModal";
-import { OptimizedBackground } from "@/components/OptimizedBackground";
+
 import { FeedbackButton } from "@/components/FeedbackButton";
 
 const Index = () => {
@@ -45,7 +45,15 @@ const Index = () => {
 
 
   return (
-    <OptimizedBackground>
+    <div className="min-h-screen overflow-hidden relative" style={{
+      backgroundImage: 'url(/cosmic-background.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundColor: 'hsl(var(--background))'
+    }}>
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/30"></div>
       {/* Full-screen transition overlay */}
       {isTransitioning && (
         <div className="fixed inset-0 z-50 pointer-events-none">
@@ -165,7 +173,7 @@ const Index = () => {
 
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
       <FeedbackButton />
-    </OptimizedBackground>
+    </div>
   );
 };
 
