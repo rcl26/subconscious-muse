@@ -50,7 +50,7 @@ export const DreamJournal = () => {
       <div 
         className="min-h-screen flex items-center justify-center relative"
         style={{
-          background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+          background: `linear-gradient(rgba(55, 35, 85, 0.8), rgba(70, 45, 100, 0.85)), url('/cosmic-background-low.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -139,7 +139,7 @@ export const DreamJournal = () => {
       <div 
         className="min-h-screen p-4 relative"
         style={{
-          background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+          background: `linear-gradient(rgba(55, 35, 85, 0.8), rgba(70, 45, 100, 0.85)), url('/cosmic-background-low.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -170,7 +170,7 @@ export const DreamJournal = () => {
     <div 
       className="min-h-screen p-4 relative"
       style={{
-        background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+        background: `linear-gradient(rgba(55, 35, 85, 0.8), rgba(70, 45, 100, 0.85)), url('/cosmic-background-low.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
