@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles } from "lucide-react";
+import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -19,7 +19,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
-import { FeedbackButton } from "@/components/FeedbackButton";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const DreamJournal = () => {
   const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
@@ -35,6 +35,7 @@ export const DreamJournal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   
   const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
@@ -178,17 +179,35 @@ export const DreamJournal = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-primary-foreground hover:bg-white/20 hover:text-white"
-          >
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Home
-            </Link>
-          </Button>
+          <Popover open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-primary-foreground hover:bg-white/20 hover:text-white"
+              >
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Feedback
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              side="bottom" 
+              align="start" 
+              className="w-80 p-6"
+              sideOffset={8}
+            >
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-primary" />
+                  <h3 className="font-semibold text-lg">We'd Love to Hear From You!</h3>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  Feedback is always more than welcome. You can contact us at{' '}
+                  <span className="font-medium text-foreground">oneiradreamteam@gmail.com</span>
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
           
           <div className="flex items-center space-x-4">
             {user ? (
@@ -206,7 +225,6 @@ export const DreamJournal = () => {
                 Sign In
               </Button>
             )}
-            <FeedbackButton />
           </div>
         </div>
 
@@ -306,8 +324,6 @@ export const DreamJournal = () => {
         onClose={handleCloseModal}
         onUpdateConversation={updateDreamConversation}
       />
-      
-      <FeedbackButton />
     </div>
   );
 };
