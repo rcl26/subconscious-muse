@@ -182,11 +182,10 @@ export const DreamJournal = () => {
           <Popover open={feedbackOpen} onOpenChange={setFeedbackOpen}>
             <PopoverTrigger asChild>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="text-primary-foreground hover:bg-white/20 hover:text-white"
+                className="text-primary-foreground/80 border-white/20 hover:bg-white/10 hover:text-white hover:border-white/30 transition-all duration-200"
               >
-                <MessageSquare className="h-4 w-4 mr-2" />
                 Feedback
               </Button>
             </PopoverTrigger>
