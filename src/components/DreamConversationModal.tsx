@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Send, Moon, Bot, User, X, Sparkles } from "lucide-react";
+import { Loader2, Send, Moon, Bot, User, Zap, Sparkles } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOpenAI } from "@/hooks/useOpenAI";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Dream, Message } from "@/hooks/useDreams";
-import { MobileDrawer } from "./MobileDrawer";
 
 interface DreamConversationModalProps {
   dream: Dream | null;
@@ -180,81 +180,41 @@ Please provide a thoughtful analysis of this dream.`;
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      onClose();
-    }
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl h-[80vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
+          <DialogTitle className="flex items-center space-x-2">
+            <Moon className="h-5 w-5 text-primary" />
+            <span>Dream Exploration</span>
+          </DialogTitle>
+          <DialogDescription asChild className="text-left">
+            {dream && (
+              <div className="mt-2 p-3 bg-muted/50 rounded-lg">
+                <span className="text-sm text-muted-foreground line-clamp-3">
+                  "{dream.content}"
+                </span>
+              </div>
+            )}
+          </DialogDescription>
+        </DialogHeader>
 
-  const chatContent = (
-    <div 
-      className="h-full flex flex-col relative"
-      style={{
-        background: `linear-gradient(rgba(37, 20, 61, 0.95), rgba(48, 25, 78, 0.98)), url('/cosmic-background-low.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
-      {/* Header */}
-      <div className="flex-shrink-0 border-b border-border/10 bg-background/10 backdrop-blur-sm">
-        <div className="flex items-center justify-between p-4 max-w-4xl mx-auto">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <Moon className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold text-foreground">Dream Exploration</h2>
-              <p className="text-sm text-muted-foreground">AI-powered dream analysis</p>
-            </div>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={onClose}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-        
-        {/* Dream Context */}
-        {dream && (
-          <div className="px-4 pb-4 max-w-4xl mx-auto">
-            <div className="p-4 bg-muted/20 backdrop-blur-sm rounded-lg border border-border/20">
-              <p className="text-sm text-muted-foreground mb-1">Your Dream:</p>
-              <p className="text-sm text-foreground line-clamp-3">
-                "{dream.content}"
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Chat Area */}
-      <div className="flex-1 overflow-hidden">
-        <ScrollArea className="h-full">
-          <div className="max-w-4xl mx-auto p-6 space-y-6">
+        <ScrollArea className="flex-1 pr-4">
+          <div className="space-y-4 pb-4">
             {isLoading && messages.length === 0 && (
-              <div className="flex flex-col items-center justify-center space-y-6 py-20 animate-fade-in">
+              <div className="flex flex-col items-center justify-center space-y-4 py-12 animate-fade-in">
                 <div className="relative">
-                  <Moon className="h-16 w-16 text-primary/30 animate-pulse" />
-                  <Sparkles className="h-8 w-8 text-primary/50 absolute -top-2 -right-2 animate-spin" />
+                  <Moon className="h-12 w-12 text-primary/20 animate-pulse" />
+                  <Sparkles className="h-6 w-6 text-primary/40 absolute -top-1 -right-1 animate-spin" />
                 </div>
-                <div className="text-center space-y-3">
-                  <p className="text-xl font-medium text-foreground">Exploring Your Dream</p>
-                  <p className="text-muted-foreground">Analyzing patterns, symbols, and deeper meanings...</p>
+                <div className="text-center space-y-2">
+                  <p className="text-lg font-medium text-muted-foreground">Exploring Your Dream</p>
+                  <p className="text-sm text-muted-foreground/70">Analyzing patterns and symbols...</p>
                 </div>
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" />
-                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce delay-100" />
-                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce delay-200" />
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-100" />
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce delay-200" />
                 </div>
               </div>
             )}
@@ -263,37 +223,37 @@ Please provide a thoughtful analysis of this dream.`;
               <div 
                 key={message.id} 
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 200}ms` }}
               >
-                <div className={`flex space-x-4 max-w-[85%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                <div className={`flex space-x-3 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                     message.role === 'user' 
                       ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted/30 text-muted-foreground border border-border/20'
+                      : 'bg-muted text-muted-foreground'
                   }`}>
-                    {message.role === 'user' ? <User className="h-5 w-5" /> : <Bot className="h-5 w-5" />}
+                    {message.role === 'user' ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
                   </div>
-                  <div className={`rounded-2xl px-6 py-4 ${
+                  <div className={`rounded-lg p-3 ${
                     message.role === 'user'
                       ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted/30 text-foreground border border-border/20 backdrop-blur-sm'
+                      : 'bg-muted text-muted-foreground'
                   }`}>
-                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
                 </div>
               </div>
             ))}
             
             {isLoading && messages.length > 0 && (
-              <div className="flex justify-start animate-fade-in">
-                <div className="flex space-x-4 max-w-[85%]">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-muted/30 text-muted-foreground border border-border/20 flex items-center justify-center">
-                    <Bot className="h-5 w-5" />
+              <div className="flex justify-start">
+                <div className="flex space-x-3 max-w-[80%]">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
+                    <Bot className="h-4 w-4" />
                   </div>
-                  <div className="rounded-2xl px-6 py-4 bg-muted/30 border border-border/20 backdrop-blur-sm">
-                    <div className="flex items-center space-x-3">
-                      <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                      <span className="text-muted-foreground">Thinking deeply about your dream...</span>
+                  <div className="rounded-lg p-3 bg-muted">
+                    <div className="flex items-center space-x-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="text-sm text-muted-foreground">Thinking...</span>
                     </div>
                   </div>
                 </div>
@@ -303,43 +263,27 @@ Please provide a thoughtful analysis of this dream.`;
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
-      </div>
 
-      {/* Input Area */}
-      <div className="flex-shrink-0 border-t border-border/10 bg-background/10 backdrop-blur-sm">
-        <div className="p-4 max-w-4xl mx-auto">
-          <div className="flex space-x-3">
-            <Textarea
+        <div className="flex-shrink-0 border-t pt-4">
+          <div className="flex space-x-2">
+            <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyPress={handleKeyPress}
               placeholder={messages.length === 0 ? "The analysis will start automatically..." : "Ask a follow-up question about your dream..."}
               disabled={isLoading || (messages.length === 0 && !hasStartedAnalysis)}
-              className="flex-1 min-h-[60px] max-h-32 resize-none bg-background/50 border-border/30 backdrop-blur-sm"
-              rows={2}
+              className="flex-1"
             />
             <Button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading || (messages.length === 0 && !hasStartedAnalysis)}
-              size="lg"
-              className="self-end px-6"
+              size="sm"
             >
-              <Send className="h-5 w-5" />
+              <Send className="h-4 w-4" />
             </Button>
           </div>
         </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <MobileDrawer
-      open={isOpen}
-      onOpenChange={onClose}
-      title=""
-      className="w-full h-full max-w-none md:w-[95vw] md:h-[95vh] md:max-w-none p-0 m-0"
-    >
-      {chatContent}
-    </MobileDrawer>
+      </DialogContent>
+    </Dialog>
   );
 };
