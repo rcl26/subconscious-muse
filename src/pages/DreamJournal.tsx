@@ -214,14 +214,7 @@ export const DreamJournal = () => {
         {dreams.length > 0 && (
           <>
             <div className="text-center space-y-2 mb-8">
-              <div className="flex items-center justify-center space-x-2">
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-                <h1 className="text-2xl font-semibold text-primary-foreground">Oneira</h1>
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <p className="text-primary-foreground/70">
-                Capture and explore the wisdom of your dreams
-              </p>
+              <h1 className="text-2xl font-semibold text-primary-foreground">Your Journal</h1>
             </div>
 
             <div className="text-center mb-8">
