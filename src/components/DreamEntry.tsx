@@ -5,6 +5,39 @@ import { Button } from "@/components/ui/button";
 import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
 import { Dream } from "@/hooks/useDreams";
 
+const formatAbbreviatedTime = (date: Date) => {
+  const distance = formatDistance(date, new Date());
+  
+  // Convert to abbreviated format
+  if (distance.includes('less than a minute')) return '< 1m';
+  if (distance.includes('minute')) {
+    const minutes = distance.match(/\d+/)?.[0];
+    return `${minutes}m`;
+  }
+  if (distance.includes('hour')) {
+    const hours = distance.match(/\d+/)?.[0];
+    return `${hours}h`;
+  }
+  if (distance.includes('day')) {
+    const days = distance.match(/\d+/)?.[0];
+    return `${days}d`;
+  }
+  if (distance.includes('week')) {
+    const weeks = distance.match(/\d+/)?.[0];
+    return `${weeks}w`;
+  }
+  if (distance.includes('month')) {
+    const months = distance.match(/\d+/)?.[0];
+    return `${months}mo`;
+  }
+  if (distance.includes('year')) {
+    const years = distance.match(/\d+/)?.[0];
+    return `${years}y`;
+  }
+  
+  return distance;
+};
+
 interface DreamEntryProps {
   dream: Dream;
   onExplore: (dream: Dream) => void;
@@ -29,21 +62,20 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
   };
 
   return (
-    <Card className="p-6 bg-card shadow-float hover:shadow-dream transition-magical touch-manipulation group hover-scale">
-      <div className="space-y-3">
-        <div className="flex justify-end">
-          <span className="text-sm text-muted-foreground">
-            {formatDistance(new Date(dream.date), new Date(), { addSuffix: true })}
-          </span>
-        </div>
-        
+    <Card className="relative p-6 bg-card shadow-float hover:shadow-dream transition-magical touch-manipulation group hover-scale">
+      {/* Absolute positioned timestamp */}
+      <span className="absolute top-4 right-6 text-xs text-muted-foreground">
+        {formatAbbreviatedTime(new Date(dream.date))}
+      </span>
+      
+      <div className="space-y-2">
         {dream.title && (
-          <h3 className="text-base font-medium text-card-foreground mb-2 line-clamp-2">
+          <h3 className="text-base font-medium text-card-foreground mb-2 line-clamp-2 pr-12">
             {dream.title}
           </h3>
         )}
         
-        <p className="text-sm leading-relaxed line-clamp-4 text-muted-foreground">
+        <p className="text-sm leading-relaxed line-clamp-4 text-muted-foreground pr-12">
           {dream.content}
         </p>
         
