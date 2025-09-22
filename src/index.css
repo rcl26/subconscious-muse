@@ -13,8 +13,8 @@ All colors MUST be HSL.
     --foreground: 245 20% 15%;
 
     /* Dreamy cards with soft depth */
-    --card: 260 20% 85%;
-    --card-foreground: 245 15% 20%;
+    --card: 245 30% 12%;
+    --card-foreground: 245 50% 95%;
 
     --popover: 245 50% 99%;
     --popover-foreground: 245 15% 20%;
@@ -29,7 +29,7 @@ All colors MUST be HSL.
 
     /* Gentle muted tones */
     --muted: 250 25% 95%;
-    --muted-foreground: 245 15% 55%;
+    --muted-foreground: 245 20% 75%;
 
     /* Magical accent */
     --accent: 280 60% 88%;
