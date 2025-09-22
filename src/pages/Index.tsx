@@ -99,13 +99,12 @@ const Index = () => {
             </Button>
             
             <p className="text-xs text-primary-foreground/30 mt-2 text-center">
-              By continuing, you agree to our{" "}
               <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                terms of service
-              </Link>{" "}
-              and{" "}
+                Terms of Service
+              </Link>
+              {" | "}
               <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                privacy policy
+                Privacy Policy
               </Link>
             </p>
           </div>
@@ -169,13 +168,12 @@ const Index = () => {
             </Button>
             
             <p className="text-sm text-primary-foreground/40 mt-3 text-center">
-              By continuing, you agree to our{" "}
               <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                terms of service
-              </Link>{" "}
-              and{" "}
+                Terms of Service
+              </Link>
+              {" | "}
               <Link to="/privacy" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                privacy policy
+                Privacy Policy
               </Link>
             </p>
           </div>
