@@ -5,6 +5,9 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 
+const MAX_TITLE_CHARACTERS = 150;
+const MAX_CONTENT_CHARACTERS = 1500;
+
 interface DreamRecorderProps {
   onDreamRecorded: (dreamText: string, title?: string) => void;
 }
@@ -45,20 +48,40 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
         </div>
 
         <div className="space-y-4">
-          <Input
-            placeholder="Dream title (optional)"
-            value={dreamTitle}
-            onChange={(e) => setDreamTitle(e.target.value)}
-            className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
-          />
-          <Textarea
-            placeholder="Describe your dream in as much detail as you can remember..."
-            value={dreamText}
-            onChange={(e) => setDreamText(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className="min-h-[200px] bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical resize-none text-left"
-            autoFocus
-          />
+          <div className="space-y-1">
+            <Input
+              placeholder="Dream title (optional)"
+              value={dreamTitle}
+              onChange={(e) => {
+                const newValue = e.target.value;
+                if (newValue.length <= MAX_TITLE_CHARACTERS) {
+                  setDreamTitle(newValue);
+                }
+              }}
+              className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {dreamTitle.length} / {MAX_TITLE_CHARACTERS}
+            </p>
+          </div>
+          <div className="space-y-1">
+            <Textarea
+              placeholder="Describe your dream in as much detail as you can remember..."
+              value={dreamText}
+              onChange={(e) => {
+                const newValue = e.target.value;
+                if (newValue.length <= MAX_CONTENT_CHARACTERS) {
+                  setDreamText(newValue);
+                }
+              }}
+              onKeyDown={handleKeyPress}
+              className="min-h-[200px] bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical resize-none text-left"
+              autoFocus
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {dreamText.length} / {MAX_CONTENT_CHARACTERS}
+            </p>
+          </div>
           <div className="space-y-2">
           <Button
             onClick={handleTextSubmit}
