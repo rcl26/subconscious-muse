@@ -67,6 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       setSession(session);
       setUser(session?.user ?? null);
+      setLoading(false); // Set loading false immediately after user auth
       
       if (session?.user) {
         console.log('👤 AuthContext: User found, fetching profile...');
@@ -78,7 +79,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }, 0);
       }
       
-      setLoading(false);
       console.log('✅ AuthContext: Initial auth setup complete');
     });
 
@@ -90,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       setSession(session);
       setUser(session?.user ?? null);
+      setLoading(false); // Set loading false immediately after user auth
       
       if (session?.user) {
         // Defer profile fetch to avoid deadlock
@@ -101,8 +102,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else if (!session?.user) {
         setProfile(null);
       }
-      
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
