@@ -97,6 +97,17 @@ const Index = () => {
                 </span>
               </div>
             </Button>
+            
+            <p className="text-xs text-primary-foreground/30 mt-2 text-center">
+              By continuing, you agree to our{" "}
+              <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors">
+                terms of service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors">
+                privacy policy
+              </Link>
+            </p>
           </div>
 
           {/* Feature showcase - More compact on mobile */}
@@ -156,6 +167,17 @@ const Index = () => {
                 <div className="ml-3 w-2 h-2 rounded-full bg-purple-400/50 group-hover:bg-purple-400 animate-pulse group-hover:shadow-[0_0_10px_rgba(147,51,234,0.8)]"></div>
               </div>
             </Button>
+            
+            <p className="text-sm text-primary-foreground/40 mt-3 text-center">
+              By continuing, you agree to our{" "}
+              <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors">
+                terms of service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors">
+                privacy policy
+              </Link>
+            </p>
           </div>
         </div>
       </div>
