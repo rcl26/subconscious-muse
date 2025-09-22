@@ -137,20 +137,34 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Ethereal CTA */}
+          {/* Cosmic Gateway CTA */}
           <div className="relative">
+            {/* Cosmic glow effect behind button */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
             <Button
               onClick={handleNavigation}
               size="lg"
-              className="group h-16 px-12 bg-gradient-to-r from-primary-foreground/90 to-primary-foreground text-primary hover:from-primary-foreground hover:to-primary-foreground/95 shadow-dream hover:shadow-float transition-all duration-500 text-xl font-medium rounded-2xl hover:scale-105"
+              className="group relative h-16 px-12 bg-gradient-to-r from-slate-900/40 via-slate-800/50 to-slate-900/40 backdrop-blur-md text-primary-foreground border border-white/10 hover:border-white/20 shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] transition-all duration-500 text-xl font-medium rounded-2xl hover:scale-105 overflow-hidden"
             >
-              <div className="flex items-center">
-                <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+              {/* Mystical shimmer overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              {/* Cosmic particle effects */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute top-2 left-4 w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                <div className="absolute top-4 right-6 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse delay-150"></div>
+                <div className="absolute bottom-3 left-8 w-0.5 h-0.5 bg-indigo-400 rounded-full animate-pulse delay-300"></div>
+                <div className="absolute bottom-4 right-4 w-1 h-1 bg-violet-400 rounded-full animate-pulse delay-75"></div>
+              </div>
+              
+              <div className="flex items-center relative z-10">
+                <Sparkles className="h-6 w-6 mr-3 group-hover:rotate-12 transition-transform duration-300 text-purple-300" />
                 <div className="flex flex-col items-center">
-                  <span>Let's Go</span>
-                  <span className="text-xs opacity-60 font-light tracking-wide">(Enter)</span>
+                  <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">Start Exploring</span>
+                  <span className="text-xs opacity-60 font-light tracking-wide text-slate-300">(Enter)</span>
                 </div>
-                <div className="ml-3 w-2 h-2 rounded-full bg-primary/50 group-hover:bg-primary animate-pulse"></div>
+                <div className="ml-3 w-2 h-2 rounded-full bg-purple-400/50 group-hover:bg-purple-400 animate-pulse group-hover:shadow-[0_0_10px_rgba(147,51,234,0.8)]"></div>
               </div>
             </Button>
           </div>
