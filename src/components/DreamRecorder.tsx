@@ -35,7 +35,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
   };
 
   return (
-    <Card className="p-8 bg-background shadow-dream border-0">
+    <Card className="p-8 bg-card shadow-dream border-0">
       <div className="text-center space-y-6">
         <div className="space-y-2">
           <div className="flex items-center justify-center space-x-2">
