@@ -46,7 +46,15 @@ export const DreamJournal = () => {
   // Show loading screen while auth is initializing
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-night flex items-center justify-center">
+      <div 
+        className="min-h-screen flex items-center justify-center relative"
+        style={{
+          background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="text-center">
           <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4" />
           <p className="text-primary-foreground/60">Loading...</p>
@@ -127,7 +135,15 @@ export const DreamJournal = () => {
 
   if (showRecorder) {
     return (
-      <div className="min-h-screen bg-gradient-night p-4">
+      <div 
+        className="min-h-screen p-4 relative"
+        style={{
+          background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-md mx-auto space-y-6">
           <div className="flex items-center space-x-4">
             <Button
@@ -150,7 +166,15 @@ export const DreamJournal = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-night p-4">
+    <div 
+      className="min-h-screen p-4 relative"
+      style={{
+        background: `linear-gradient(rgba(37, 20, 61, 0.85), rgba(48, 25, 78, 0.9)), url('/cosmic-background-low.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
