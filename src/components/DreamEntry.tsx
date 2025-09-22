@@ -58,7 +58,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
               className={`border-0 min-h-[44px] px-4 ${
                 dream.analysis || (dream.conversations && dream.conversations.length > 0)
                   ? "bg-violet-500/10 text-violet-600 hover:bg-violet-500/20 dark:text-violet-400 dark:hover:bg-violet-500/20"
-                  : "bg-gradient-to-r from-primary/20 to-accent/20 text-primary hover:from-primary/30 hover:to-accent/30 shadow-md hover:shadow-lg relative overflow-hidden"
+                  : "bg-primary/10 text-primary hover:bg-primary/20"
               }`}
             >
               <MessageCircle className="h-4 w-4 mr-2" />
