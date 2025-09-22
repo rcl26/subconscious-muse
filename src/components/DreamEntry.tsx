@@ -81,7 +81,7 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
             onClick={handleDeleteClick}
             variant="ghost"
             size="sm"
-            className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] min-w-[44px]"
+            className="text-muted-foreground hover:text-muted-foreground hover:bg-muted/10 min-h-[44px] min-w-[44px]"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
