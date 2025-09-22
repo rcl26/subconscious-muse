@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { GoogleIcon } from "@/components/GoogleIcon";
 import { useToast } from "@/hooks/use-toast";
 
-
+import { FeedbackButton } from "@/components/FeedbackButton";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -141,7 +141,7 @@ const Index = () => {
         </div>
       </div>
 
-      
+      <FeedbackButton />
     </div>
   );
 };
