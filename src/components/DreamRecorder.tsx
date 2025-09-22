@@ -76,6 +76,7 @@ export const DreamRecorder = ({ onDreamRecorded }: DreamRecorderProps) => {
                   setDreamTitle(newValue);
                 }
               }}
+              onKeyDown={handleKeyPress}
               className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground transition-magical text-left"
             />
             <p className="text-xs text-muted-foreground text-right">
