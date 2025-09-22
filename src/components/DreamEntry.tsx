@@ -70,12 +70,12 @@ export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
       
       <div className="space-y-2">
         {dream.title && (
-          <h3 className="text-base font-medium text-card-foreground mb-2 line-clamp-2 pr-12">
+          <h3 className="text-base font-medium text-card-foreground mb-2 line-clamp-2 pr-12 break-words">
             {dream.title}
           </h3>
         )}
         
-        <p className="text-sm leading-relaxed line-clamp-4 text-muted-foreground pr-12">
+        <p className="text-sm leading-relaxed text-muted-foreground pr-12 break-words overflow-hidden">
           {dream.content}
         </p>
         
