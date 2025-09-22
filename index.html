@@ -9,9 +9,21 @@
     <meta name="apple-mobile-web-app-title" content="Dream Journal" />
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="preload" as="style" href="/src/index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script>
+      // Make CSS non-blocking while preserving functionality
+      (function() {
+        var links = document.getElementsByTagName('link');
+        for (var i = 0; i < links.length; i++) {
+          var link = links[i];
+          if (link.rel === 'stylesheet' && link.href.includes('assets/index-')) {
+            link.media = 'print';
+            link.onload = function() { this.media = 'all'; };
+          }
+        }
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="https://storage.googleapis.com/gpt-engineer-file-uploads/dPZ7y1UsPpOQTKNAg8soqood1cw2/uploads/1758502325576-ChatGPT Image Sep 21, 2025, 07_51_57 PM.png">
     <title>Oneira - Dream Journal</title>
     <meta name="description" content="Unlock the wisdom of your subconscious. Record, explore, and understand your dreams with AI-powered insights.">
