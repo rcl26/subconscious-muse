@@ -80,24 +80,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Mobile CTA - Show only on mobile, positioned early */}
-          <div className="md:hidden">
-            <Button
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-              size="lg"
-              className="group relative h-14 px-8 bg-gradient-to-r from-slate-900/40 via-slate-800/50 to-slate-900/40 backdrop-blur-md text-primary-foreground border border-white/10 hover:border-white/20 shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] transition-all duration-500 text-lg font-medium rounded-2xl hover:scale-105 overflow-hidden disabled:opacity-50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              
-              <div className="flex items-center relative z-10">
-                <GoogleIcon className="h-5 w-5 mr-3 text-white" />
-                <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
-                  {isLoading ? "Signing in..." : "Continue with Google"}
-                </span>
-              </div>
-            </Button>
-          </div>
 
           {/* Feature showcase - More compact on mobile */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 my-4 md:my-16">
@@ -126,8 +108,27 @@ const Index = () => {
             </div>
            </div>
            
-           {/* Mobile Terms Links - Below Features */}
-           <p className="text-xs text-primary-foreground/30 mt-6 text-center md:hidden">
+           {/* Mobile CTA - In thumb zone before terms */}
+           <div className="md:hidden mt-8">
+             <Button
+               onClick={handleGoogleSignIn}
+               disabled={isLoading}
+               size="lg"
+               className="group relative h-14 px-8 bg-gradient-to-r from-slate-900/40 via-slate-800/50 to-slate-900/40 backdrop-blur-md text-primary-foreground border border-white/10 hover:border-white/20 shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_50px_rgba(147,51,234,0.5)] transition-all duration-500 text-lg font-medium rounded-2xl hover:scale-105 overflow-hidden disabled:opacity-50"
+             >
+               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+               
+               <div className="flex items-center relative z-10">
+                 <GoogleIcon className="h-5 w-5 mr-3 text-white" />
+                 <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
+                   {isLoading ? "Signing in..." : "Continue with Google"}
+                 </span>
+               </div>
+             </Button>
+           </div>
+           
+           {/* Mobile Terms Links - Below CTA */}
+           <p className="text-xs text-primary-foreground/30 mt-4 text-center md:hidden">
              <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
                Terms of Service
              </Link>
