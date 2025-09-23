@@ -212,10 +212,10 @@ export const OnboardingFlow: React.FC = () => {
                  What are your goals with Oneira?
                </h1>
               <div className="space-y-4">
-                {[
-                  'A safe space to journal my dreams',
-                  'Using AI to understand the meaning of my dreams'
-                ].map((option) => (
+                 {[
+                   'Journaling/tracking my dreams',
+                   'Exploring the meaning of my dreams'
+                 ].map((option) => (
                   <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
                     <Checkbox
                       id={option}
