@@ -186,50 +186,42 @@ export const DreamJournal = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Popover open={feedbackOpen} onOpenChange={setFeedbackOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-white/80 border-white/30 bg-transparent"
+          {user && (
+            <Popover open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-white/80 border-white/30 bg-transparent"
+                >
+                  Feedback
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent 
+                side="bottom" 
+                align="start" 
+                className="w-80 p-6"
+                sideOffset={8}
               >
-                Feedback
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent 
-              side="bottom" 
-              align="start" 
-              className="w-80 p-6"
-              sideOffset={8}
-            >
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Heart className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold text-lg">We'd Love to Hear From You!</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold text-lg">We'd Love to Hear From You!</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Feedback is always more than welcome. You can contact us at{' '}
+                    <span className="font-medium text-foreground">oneiradreamteam@gmail.com</span>
+                  </p>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Feedback is always more than welcome. You can contact us at{' '}
-                  <span className="font-medium text-foreground">oneiradreamteam@gmail.com</span>
-                </p>
-              </div>
-            </PopoverContent>
-          </Popover>
+              </PopoverContent>
+            </Popover>
+          )}
           
           <div className="flex items-center space-x-4">
-            {user ? (
+            {user && (
               <ProfileDropdown 
                 onSignOut={handleSignOut}
               />
-            ) : (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setShowAuthModal(true)}
-                className="bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 border-0 justify-start"
-              >
-                <User className="h-4 w-4 mr-1" />
-                Sign In
-              </Button>
             )}
           </div>
         </div>

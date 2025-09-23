@@ -46,7 +46,7 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, is
       </div>
       
       <h3 className="text-2xl font-semibold text-primary-foreground/90 mb-8">
-        Record Your First Dream
+        {isSignedIn ? "Record Your First Dream" : "Sign in to access your dream journal"}
       </h3>
       
       <div className="space-y-4">
@@ -55,8 +55,14 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, is
           size="lg"
           className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-12 px-8 hover-scale"
         >
-          <Plus className="h-5 w-5 mr-2" />
-          Record Your First Dream
+          {isSignedIn ? (
+            <>
+              <Plus className="h-5 w-5 mr-2" />
+              Record Your First Dream
+            </>
+          ) : (
+            "Sign in"
+          )}
         </Button>
         
         <div className="flex items-center justify-center space-x-4 text-sm text-primary-foreground/50">
