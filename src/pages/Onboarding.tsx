@@ -4,7 +4,7 @@ import { OnboardingFlow } from '@/components/OnboardingFlow';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Onboarding: React.FC = () => {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, profileLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,14 +15,14 @@ const Onboarding: React.FC = () => {
     }
 
     // If onboarding is already completed, redirect to journal
-    if (!loading && profile?.onboarding_completed) {
+    if (!loading && !profileLoading && profile?.onboarding_completed) {
       navigate('/journal');
       return;
     }
-  }, [user, profile, loading, navigate]);
+  }, [user, profile, loading, profileLoading, navigate]);
 
-  // Show loading state while checking auth
-  if (loading || !user) {
+  // Show loading state while checking auth and profile
+  if (loading || profileLoading || !user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
         <div className="text-center">

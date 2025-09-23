@@ -37,7 +37,7 @@ export const DreamJournal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   
-  const { user, profile, signOut, loading } = useAuth();
+  const { user, profile, signOut, loading, profileLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -46,13 +46,13 @@ export const DreamJournal = () => {
 
   // Check onboarding status
   useEffect(() => {
-    if (!loading && user && profile && !profile.onboarding_completed) {
+    if (!loading && !profileLoading && user && profile && !profile.onboarding_completed) {
       navigate('/onboarding');
     }
-  }, [user, profile, loading, navigate]);
+  }, [user, profile, loading, profileLoading, navigate]);
 
   // Show loading screen while auth is initializing
-  if (loading) {
+  if (loading || profileLoading) {
     return (
       <div 
         className="min-h-screen flex items-center justify-center relative"

@@ -21,6 +21,7 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  profileLoading: boolean;
   signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   refreshProfile: () => Promise<void>;
@@ -33,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -76,12 +78,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (session?.user) {
         console.log('👤 AuthContext: User found, fetching profile...');
+        setProfileLoading(true);
         setTimeout(() => {
           fetchProfile(session.user.id).then((profileData) => {
             console.log('✅ AuthContext: Profile loaded:', !!profileData);
             setProfile(profileData);
+            setProfileLoading(false);
           });
         }, 0);
+      } else {
+        setProfileLoading(false);
       }
       
       console.log('✅ AuthContext: Initial auth setup complete');
@@ -99,13 +105,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (session?.user) {
         // Defer profile fetch to avoid deadlock
+        setProfileLoading(true);
         setTimeout(() => {
           fetchProfile(session.user.id).then((profileData) => {
             setProfile(profileData);
+            setProfileLoading(false);
           });
         }, 0);
       } else if (!session?.user) {
         setProfile(null);
+        setProfileLoading(false);
       }
     });
 
@@ -142,6 +151,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     profile,
     session,
     loading,
+    profileLoading,
     signInWithGoogle,
     signOut,
     refreshProfile,
