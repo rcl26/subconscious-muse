@@ -82,6 +82,7 @@ export const OnboardingFlow: React.FC = () => {
       
       // Show completion animation
       setShowCompletionAnimation(true);
+      setIsLoading(false);
       
       // Navigate to journal after animation
       setTimeout(() => {
