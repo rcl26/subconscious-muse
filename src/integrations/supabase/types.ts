@@ -99,6 +99,7 @@ export type Database = {
           onboarding_completed: boolean | null
           preferred_name: string | null
           referral_source: string | null
+          referral_source_detail: string | null
           updated_at: string | null
         }
         Insert: {
@@ -111,6 +112,7 @@ export type Database = {
           onboarding_completed?: boolean | null
           preferred_name?: string | null
           referral_source?: string | null
+          referral_source_detail?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -123,6 +125,7 @@ export type Database = {
           onboarding_completed?: boolean | null
           preferred_name?: string | null
           referral_source?: string | null
+          referral_source_detail?: string | null
           updated_at?: string | null
         }
         Relationships: []
