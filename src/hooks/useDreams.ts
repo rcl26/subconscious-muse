@@ -273,6 +273,15 @@ export const useDreams = () => {
     try {
       console.log('💬 Updating dream conversation:', dreamId);
       
+      // Handle example dream (local only)
+      if (dreamId === "example-dream-oneira") {
+        console.log('📝 Updating example dream conversation (local only)');
+        setDreams(prev => prev.map(dream => 
+          dream.id === dreamId ? { ...dream, conversations } : dream
+        ));
+        return true;
+      }
+      
       // Check if this is a temporary ID (optimistic update) or real UUID
       if (isTemporaryId(dreamId)) {
         console.log('📱 Updating temporary dream conversation (local only)');
