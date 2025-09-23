@@ -15,6 +15,7 @@ export const OnboardingFlow: React.FC = () => {
     preferred_name: '',
     dream_frequency: '',
     goals_with_oneira: '',
+    referral_source: '',
   });
 
   const { user, refreshProfile } = useAuth();
@@ -22,10 +23,16 @@ export const OnboardingFlow: React.FC = () => {
   const { toast } = useToast();
 
   const handleNext = () => {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     } else {
       handleComplete();
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -72,6 +79,8 @@ export const OnboardingFlow: React.FC = () => {
         return responses.dream_frequency !== '';
       case 3:
         return responses.goals_with_oneira !== '';
+      case 4:
+        return responses.referral_source !== '';
       default:
         return false;
     }
@@ -95,14 +104,16 @@ export const OnboardingFlow: React.FC = () => {
                   className="text-lg h-12 bg-card/80 border-primary/20 focus:border-primary text-center"
                   autoFocus
                 />
-                {responses.preferred_name && (
+                <div className="flex justify-between w-full">
+                  <div></div>
                   <Button 
                     onClick={handleNext}
-                    className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+                    disabled={!isStepValid()}
+                    className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Next
                   </Button>
-                )}
+                </div>
               </div>
             </div>
           </div>
@@ -129,14 +140,22 @@ export const OnboardingFlow: React.FC = () => {
                   </div>
                 ))}
               </RadioGroup>
-              {responses.dream_frequency && (
+              <div className="flex justify-between w-full">
+                <Button 
+                  onClick={handleBack}
+                  variant="outline"
+                  className="h-12 text-lg border-primary/20 hover:bg-primary/10"
+                >
+                  Back
+                </Button>
                 <Button 
                   onClick={handleNext}
-                  className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+                  disabled={!isStepValid()}
+                  className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </Button>
-              )}
+              </div>
             </div>
           </div>
         );
@@ -165,15 +184,69 @@ export const OnboardingFlow: React.FC = () => {
                   </div>
                 ))}
               </RadioGroup>
-              {responses.goals_with_oneira && (
+              <div className="flex justify-between w-full">
+                <Button 
+                  onClick={handleBack}
+                  variant="outline"
+                  className="h-12 text-lg border-primary/20 hover:bg-primary/10"
+                >
+                  Back
+                </Button>
+                <Button 
+                  onClick={handleNext}
+                  disabled={!isStepValid()}
+                  className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                How did you hear about us?
+              </h1>
+              <RadioGroup
+                value={responses.referral_source}
+                onValueChange={(value) => setResponses(prev => ({ ...prev, referral_source: value }))}
+                className="space-y-4"
+              >
+                {[
+                  'Social media',
+                  'Search engine',
+                  'Friend/family recommendation',
+                  'Blog/article',
+                  'Other'
+                ].map((option) => (
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                    <RadioGroupItem value={option} id={option} />
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                      {option}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              <div className="flex justify-between w-full">
+                <Button 
+                  onClick={handleBack}
+                  variant="outline"
+                  className="h-12 text-lg border-primary/20 hover:bg-primary/10"
+                >
+                  Back
+                </Button>
                 <Button 
                   onClick={handleComplete}
-                  disabled={isLoading}
-                  className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50"
+                  disabled={!isStepValid() || isLoading}
+                  className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Setting up your profile...' : 'Complete Setup'}
                 </Button>
-              )}
+              </div>
             </div>
           </div>
         );
