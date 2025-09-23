@@ -46,7 +46,7 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, is
       </div>
       
       <h3 className="text-2xl font-semibold text-primary-foreground/90 mb-8">
-        {isSignedIn ? "Record Your First Dream" : "Sign in to access your dream journal"}
+        Record Your First Dream
       </h3>
       
       <div className="space-y-4">
