@@ -22,6 +22,16 @@ export interface Dream {
   updated_at?: string;
 }
 
+// Static example dream for new users
+const EXAMPLE_DREAM: Dream = {
+  id: "example-dream-oneira",
+  title: "Welcome to Oneira - Example Dream",
+  content: "I was flying through a library with floating books that transformed into butterflies. Each butterfly carried words that sparkled in the moonlight as they danced around me.",
+  date: new Date().toISOString(),
+  analysis: "",
+  conversations: [],
+};
+
 export const useDreams = () => {
   const [dreams, setDreams] = useState<Dream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +69,13 @@ export const useDreams = () => {
         ...dream,
         conversations: dream.conversations ? JSON.parse(typeof dream.conversations === 'string' ? dream.conversations : JSON.stringify(dream.conversations)) : []
       }));
-      setDreams(parsedData);
+      
+      // If user has no dreams, add the example dream
+      if (parsedData.length === 0) {
+        setDreams([EXAMPLE_DREAM]);
+      } else {
+        setDreams(parsedData);
+      }
     } catch (error) {
       console.error('Error loading dreams:', error);
       toast.error("Error Loading Dreams", {
@@ -167,6 +183,13 @@ export const useDreams = () => {
 
     try {
       console.log('🗑️ Deleting dream:', dreamId);
+      
+      // Handle example dream deletion (local only)
+      if (dreamId === "example-dream-oneira") {
+        console.log('📝 Deleting example dream (local only)');
+        setDreams(prev => prev.filter(dream => dream.id !== dreamId));
+        return true;
+      }
       
       // Check if this is a temporary ID (optimistic update) or real UUID
       if (isTemporaryId(dreamId)) {
