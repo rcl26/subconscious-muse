@@ -310,6 +310,7 @@ export const DreamJournal = () => {
           ) : (
             <EmptyState 
               type="no-dreams"
+              isSignedIn={!!user}
               onCreateDream={() => {
                 if (!user) {
                   setShowAuthModal(true);

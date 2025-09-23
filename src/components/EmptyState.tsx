@@ -6,9 +6,10 @@ interface EmptyStateProps {
   searchTerm?: string;
   onCreateDream?: () => void;
   onClearFilters?: () => void;
+  isSignedIn?: boolean;
 }
 
-export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters }: EmptyStateProps) => {
+export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, isSignedIn = true }: EmptyStateProps) => {
   if (type === 'no-results') {
     return (
       <div className="text-center py-16 animate-fade-in">
@@ -45,7 +46,7 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters }: 
       </div>
       
       <h3 className="text-2xl font-semibold text-primary-foreground/90 mb-8">
-        Record Your First Dream
+        {isSignedIn ? "Record Your First Dream" : "Sign in to access your dream journal"}
       </h3>
       
       <div className="space-y-4">
