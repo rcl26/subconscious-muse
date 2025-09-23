@@ -11,6 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 export const OnboardingFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'forward' | 'backward'>('forward');
   const [responses, setResponses] = useState({
     preferred_name: '',
     dream_frequency: '',
@@ -24,7 +26,12 @@ export const OnboardingFlow: React.FC = () => {
 
   const handleNext = () => {
     if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
+      setIsTransitioning(true);
+      setAnimationDirection('forward');
+      setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+        setIsTransitioning(false);
+      }, 150);
     } else {
       handleComplete();
     }
@@ -32,7 +39,12 @@ export const OnboardingFlow: React.FC = () => {
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      setIsTransitioning(true);
+      setAnimationDirection('backward');
+      setTimeout(() => {
+        setCurrentStep(currentStep - 1);
+        setIsTransitioning(false);
+      }, 150);
     }
   };
 
@@ -91,8 +103,14 @@ export const OnboardingFlow: React.FC = () => {
       case 1:
         return (
           <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
-            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <div className={`text-center space-y-8 max-w-md w-full transition-all duration-300 ease-out ${
+              isTransitioning 
+                ? animationDirection === 'forward' 
+                  ? 'transform translate-x-full opacity-0' 
+                  : 'transform -translate-x-full opacity-0'
+                : 'transform translate-x-0 opacity-100'
+            }`}>
+              <h1 className="text-4xl md:text-6xl font-bold text-primary">
                 What should we call you?
               </h1>
               <div className="space-y-4">
@@ -101,14 +119,14 @@ export const OnboardingFlow: React.FC = () => {
                   placeholder="Enter your name"
                   value={responses.preferred_name}
                   onChange={(e) => setResponses(prev => ({ ...prev, preferred_name: e.target.value }))}
-                  className="text-lg h-12 bg-card/80 border-primary/20 focus:border-primary text-center"
+                  className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60"
                   autoFocus
                 />
                 <div className="flex justify-between w-full">
                   <div></div>
                   <Button 
                     onClick={handleNext}
-                    disabled={!isStepValid()}
+                    disabled={!isStepValid() || isTransitioning}
                     className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Next
@@ -122,8 +140,14 @@ export const OnboardingFlow: React.FC = () => {
       case 2:
         return (
           <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
-            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <div className={`text-center space-y-8 max-w-md w-full transition-all duration-300 ease-out ${
+              isTransitioning 
+                ? animationDirection === 'forward' 
+                  ? 'transform translate-x-full opacity-0' 
+                  : 'transform -translate-x-full opacity-0'
+                : 'transform translate-x-0 opacity-100'
+            }`}>
+              <h1 className="text-4xl md:text-5xl font-bold text-primary">
                 How often do you dream when sleeping?
               </h1>
               <RadioGroup
@@ -144,13 +168,14 @@ export const OnboardingFlow: React.FC = () => {
                 <Button 
                   onClick={handleBack}
                   variant="outline"
+                  disabled={isTransitioning}
                   className="h-12 text-lg border-primary/20 hover:bg-primary/10"
                 >
                   Back
                 </Button>
                 <Button 
                   onClick={handleNext}
-                  disabled={!isStepValid()}
+                  disabled={!isStepValid() || isTransitioning}
                   className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
@@ -163,8 +188,14 @@ export const OnboardingFlow: React.FC = () => {
       case 3:
         return (
           <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
-            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <div className={`text-center space-y-8 max-w-md w-full transition-all duration-300 ease-out ${
+              isTransitioning 
+                ? animationDirection === 'forward' 
+                  ? 'transform translate-x-full opacity-0' 
+                  : 'transform -translate-x-full opacity-0'
+                : 'transform translate-x-0 opacity-100'
+            }`}>
+              <h1 className="text-4xl md:text-5xl font-bold text-primary">
                 What are your goals with using Oneira?
               </h1>
               <RadioGroup
@@ -188,13 +219,14 @@ export const OnboardingFlow: React.FC = () => {
                 <Button 
                   onClick={handleBack}
                   variant="outline"
+                  disabled={isTransitioning}
                   className="h-12 text-lg border-primary/20 hover:bg-primary/10"
                 >
                   Back
                 </Button>
                 <Button 
                   onClick={handleNext}
-                  disabled={!isStepValid()}
+                  disabled={!isStepValid() || isTransitioning}
                   className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
@@ -207,8 +239,14 @@ export const OnboardingFlow: React.FC = () => {
       case 4:
         return (
           <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
-            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <div className={`text-center space-y-8 max-w-md w-full transition-all duration-300 ease-out ${
+              isTransitioning 
+                ? animationDirection === 'forward' 
+                  ? 'transform translate-x-full opacity-0' 
+                  : 'transform -translate-x-full opacity-0'
+                : 'transform translate-x-0 opacity-100'
+            }`}>
+              <h1 className="text-4xl md:text-5xl font-bold text-primary">
                 How did you hear about us?
               </h1>
               <RadioGroup
@@ -235,13 +273,14 @@ export const OnboardingFlow: React.FC = () => {
                 <Button 
                   onClick={handleBack}
                   variant="outline"
+                  disabled={isTransitioning}
                   className="h-12 text-lg border-primary/20 hover:bg-primary/10"
                 >
                   Back
                 </Button>
                 <Button 
                   onClick={handleComplete}
-                  disabled={!isStepValid() || isLoading}
+                  disabled={!isStepValid() || isLoading || isTransitioning}
                   className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Setting up your profile...' : 'Complete Setup'}
