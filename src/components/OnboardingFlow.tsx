@@ -141,12 +141,6 @@ export const OnboardingFlow: React.FC = () => {
           Setting up your profile...
         </h1>
         
-        <div className="space-y-4">
-          <Progress value={75} className="w-full h-3" />
-          <p className="text-lg text-muted-foreground">
-            Saving your preferences and creating your dream space
-          </p>
-        </div>
         
         <div className="flex justify-center space-x-2">
           <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
