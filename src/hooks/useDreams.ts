@@ -26,7 +26,7 @@ export interface Dream {
 const EXAMPLE_DREAM: Dream = {
   id: "example-dream-oneira",
   title: "Example Dream - Click Record New Dream to add your own!",
-  content: "I was floating through the sky on a humpback whale while my high school gym teacher taught me the Cotton Eye Joe.",
+  content: "I was floating through the sky on a humpback whale, then my high school gym teacher appeared and wanted to make me dance me the Cotton Eye Joe.",
   date: new Date().toISOString(),
   analysis: "",
   conversations: [],
