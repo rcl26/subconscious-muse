@@ -67,7 +67,8 @@ export const OnboardingFlow: React.FC = () => {
         ? [...responses.goals_with_oneira, responses.goals_custom_text].join(', ')
         : responses.goals_with_oneira.join(', ');
 
-      const { error } = await supabase
+      // Create database update operation
+      const databaseOperation = supabase
         .from('profiles')
         .update({
           preferred_name: responses.preferred_name,
@@ -77,9 +78,17 @@ export const OnboardingFlow: React.FC = () => {
           referral_source_detail: responses.referral_source_detail,
           onboarding_completed: true,
         })
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .then(result => {
+          if (result.error) throw result.error;
+          return result;
+        });
 
-      if (error) throw error;
+      // Create minimum display time (3 seconds)
+      const minimumDelay = new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Wait for both database operation and minimum display time
+      await Promise.all([databaseOperation, minimumDelay]);
 
       await refreshProfile();
       
