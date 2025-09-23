@@ -25,7 +25,7 @@ export interface Dream {
 // Static example dream for new users
 const EXAMPLE_DREAM: Dream = {
   id: "example-dream-oneira",
-  title: "Welcome to Oneira - Example Dream",
+  title: "Example Dream - Click Record New Dream to add your own!",
   content: "I was flying through a library with floating books that transformed into butterflies. Each butterfly carried words that sparkled in the moonlight as they danced around me.",
   date: new Date().toISOString(),
   analysis: "",
@@ -70,8 +70,8 @@ export const useDreams = () => {
         conversations: dream.conversations ? JSON.parse(typeof dream.conversations === 'string' ? dream.conversations : JSON.stringify(dream.conversations)) : []
       }));
       
-      // If user has no dreams, add the example dream
-      if (parsedData.length === 0) {
+      // If user has no dreams and hasn't dismissed the example dream, show it
+      if (parsedData.length === 0 && !localStorage.getItem("oneira-example-dream-dismissed")) {
         setDreams([EXAMPLE_DREAM]);
       } else {
         setDreams(parsedData);
@@ -187,6 +187,7 @@ export const useDreams = () => {
       // Handle example dream deletion (local only)
       if (dreamId === "example-dream-oneira") {
         console.log('📝 Deleting example dream (local only)');
+        localStorage.setItem("oneira-example-dream-dismissed", "true");
         setDreams(prev => prev.filter(dream => dream.id !== dreamId));
         return true;
       }
