@@ -22,6 +22,7 @@ export const OnboardingFlow: React.FC = () => {
     referral_source: '',
     referral_source_detail: '',
   });
+  const [showCustomGoalInput, setShowCustomGoalInput] = useState(false);
 
   const { user, refreshProfile } = useAuth();
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ export const OnboardingFlow: React.FC = () => {
       case 2:
         return responses.dream_frequency !== '';
       case 3:
-        return responses.goals_with_oneira.length > 0 || responses.goals_custom_text.trim() !== '';
+        return responses.goals_with_oneira.length > 0 || (showCustomGoalInput && responses.goals_custom_text.trim() !== '');
       case 4:
         return responses.referral_source !== '';
       default:
@@ -241,11 +242,10 @@ export const OnboardingFlow: React.FC = () => {
                 <div className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
                   <Checkbox
                     id="something-else"
-                    checked={responses.goals_custom_text.trim() !== ''}
+                    checked={showCustomGoalInput}
                     onCheckedChange={(checked) => {
-                      if (checked) {
-                        setResponses(prev => ({ ...prev, goals_custom_text: ' ' })); // Set a space to trigger the input
-                      } else {
+                      setShowCustomGoalInput(!!checked);
+                      if (!checked) {
                         setResponses(prev => ({ ...prev, goals_custom_text: '' }));
                       }
                     }}
@@ -254,10 +254,10 @@ export const OnboardingFlow: React.FC = () => {
                     Something else?
                   </Label>
                 </div>
-                {responses.goals_custom_text !== '' && (
+                {showCustomGoalInput && (
                   <Input
                     type="text"
-                    placeholder="please specify"
+                    placeholder="Please specify"
                     value={responses.goals_custom_text}
                     onChange={(e) => setResponses(prev => ({ ...prev, goals_custom_text: e.target.value }))}
                     className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
