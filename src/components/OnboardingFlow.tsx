@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
+import { Progress } from './ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -12,7 +13,7 @@ import { Moon, Sparkles, Stars } from 'lucide-react';
 
 export const OnboardingFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showCompletionAnimation, setShowCompletionAnimation] = useState(false);
   const [animationDirection, setAnimationDirection] = useState<'forward' | 'backward'>('forward');
@@ -57,7 +58,9 @@ export const OnboardingFlow: React.FC = () => {
   const handleComplete = async () => {
     if (!user) return;
 
-    setIsLoading(true);
+    // Immediately show full-screen loading state
+    setIsSaving(true);
+    
     try {
       // Combine goals array and custom text for database storage
       const goalsString = responses.goals_custom_text.trim() 
@@ -80,9 +83,9 @@ export const OnboardingFlow: React.FC = () => {
 
       await refreshProfile();
       
-      // Show completion animation
+      // Transition from saving to completion animation
+      setIsSaving(false);
       setShowCompletionAnimation(true);
-      setIsLoading(false);
       
       // Navigate to journal after animation
       setTimeout(() => {
@@ -99,7 +102,7 @@ export const OnboardingFlow: React.FC = () => {
         description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -117,6 +120,33 @@ export const OnboardingFlow: React.FC = () => {
         return false;
     }
   };
+
+  const renderSavingState = () => (
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+      <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+        <div className="flex justify-center mb-8">
+          <Moon className="w-20 h-20 text-primary animate-pulse filter drop-shadow-lg" />
+        </div>
+        
+        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+          Setting up your profile...
+        </h1>
+        
+        <div className="space-y-4">
+          <Progress value={75} className="w-full h-3" />
+          <p className="text-lg text-muted-foreground">
+            Saving your preferences and creating your dream space
+          </p>
+        </div>
+        
+        <div className="flex justify-center space-x-2">
+          <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+          <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        </div>
+      </div>
+    </div>
+  );
 
   const renderCompletionAnimation = () => (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
@@ -158,6 +188,10 @@ export const OnboardingFlow: React.FC = () => {
   );
 
   const renderScreen = () => {
+    if (isSaving) {
+      return renderSavingState();
+    }
+    
     if (showCompletionAnimation) {
       return renderCompletionAnimation();
     }
@@ -388,10 +422,10 @@ export const OnboardingFlow: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={handleComplete}
-                  disabled={!isStepValid() || isLoading || isTransitioning}
+                  disabled={!isStepValid() || isSaving || isTransitioning}
                   className="h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Setting up your profile...' : 'Complete Setup'}
+                  Complete Setup
                 </Button>
               </div>
             </div>
