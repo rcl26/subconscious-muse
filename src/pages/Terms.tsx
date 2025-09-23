@@ -16,7 +16,7 @@ export default function Terms() {
         </div>
 
         <div className="bg-white/95 backdrop-blur-sm rounded-lg p-8 shadow-lg">
-          <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
+          <h1 className="text-3xl font-bold mb-8">Terms of Use</h1>
           <div className="prose prose-gray max-w-none space-y-6">
             
             <section>

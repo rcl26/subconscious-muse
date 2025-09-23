@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Moon, Stars, User, LogOut } from "lucide-react";
+import { Sparkles, Moon, Stars, Compass, User, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { GoogleIcon } from "@/components/GoogleIcon";
@@ -88,7 +88,7 @@ const Index = () => {
                 <Moon className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Capture</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">Recordings that preserve the essence of your dreams</p>
+              <p className="text-xs md:text-sm text-primary-foreground/50">Journal entries that preserve your dreams</p>
             </div>
             
             <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
@@ -96,12 +96,12 @@ const Index = () => {
                 <Sparkles className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Analyze</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">AI-guided insights into emotions and hidden meanings</p>
+              <p className="text-xs md:text-sm text-primary-foreground/50">AI-guided insights into hidden meanings</p>
             </div>
             
             <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
               <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
-                <Stars className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
+                <Compass className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Discover</h3>
               <p className="text-xs md:text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
@@ -130,7 +130,7 @@ const Index = () => {
            {/* Mobile Terms Links - Below CTA */}
            <p className="text-xs text-primary-foreground/30 mt-4 text-center md:hidden">
              <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-               Terms of Service
+                Terms of Use
              </Link>
              {" | "}
              <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
@@ -171,7 +171,7 @@ const Index = () => {
             
             <p className="text-xs text-primary-foreground/40 mt-3 text-center">
               <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Terms of Service
+                Terms of Use
               </Link>
               {" | "}
               <Link to="/privacy" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
