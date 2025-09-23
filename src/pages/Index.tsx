@@ -69,10 +69,10 @@ const Index = () => {
             {/* Mystical subtitle */}
             <div className="relative">
               <p className="text-lg md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
-                Unlock the wisdom of your
+                Track Your Dreams,
               </p>
               <p className="text-lg md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-2 md:mb-4">
-                subconscious mind
+                Explore Your Subconscious
               </p>
               
               {/* Subtle line decoration */}
