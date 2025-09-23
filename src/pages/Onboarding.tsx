@@ -34,16 +34,12 @@ const Onboarding: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[calc(100vh-4rem)]">
-          <div className="w-full max-w-lg">
-            <div className="bg-card border border-border rounded-lg shadow-lg p-8">
-              <OnboardingFlow />
-            </div>
-          </div>
-        </div>
-      </div>
+    <div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+      style={{ backgroundImage: 'url(/cosmic-background.png)' }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-muted/40" />
+      <OnboardingFlow />
     </div>
   );
 };

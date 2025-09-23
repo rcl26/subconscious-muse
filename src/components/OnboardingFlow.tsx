@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { OnboardingStep } from './OnboardingStep';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Label } from './ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -12,50 +15,17 @@ export const OnboardingFlow: React.FC = () => {
     preferred_name: '',
     dream_frequency: '',
     goals_with_oneira: '',
-    referral_source: '',
   });
 
   const { user, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const steps = [
-    {
-      title: 'Welcome to Oneira',
-      description: 'Let\'s personalize your dream journaling experience',
-    },
-    {
-      title: 'Dream Frequency',
-      description: 'Understanding your dream patterns helps us customize your experience',
-    },
-    {
-      title: 'Your Goals',
-      description: 'What do you hope to discover through your dreams?',
-    },
-    {
-      title: 'How You Found Us',
-      description: 'Help us understand how people discover Oneira',
-    },
-  ];
-
-  const handleStepChange = (field: keyof typeof responses, value: string) => {
-    setResponses(prev => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
   const handleNext = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
       handleComplete();
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -94,69 +64,124 @@ export const OnboardingFlow: React.FC = () => {
     }
   };
 
-  const getCurrentValue = () => {
+  const isStepValid = () => {
     switch (currentStep) {
       case 1:
-        return responses.preferred_name;
+        return responses.preferred_name.trim() !== '';
       case 2:
-        return responses.dream_frequency;
+        return responses.dream_frequency !== '';
       case 3:
-        return responses.goals_with_oneira;
-      case 4:
-        return responses.referral_source;
+        return responses.goals_with_oneira !== '';
       default:
-        return '';
+        return false;
     }
   };
 
-  const getCurrentField = (): keyof typeof responses => {
+  const renderScreen = () => {
     switch (currentStep) {
       case 1:
-        return 'preferred_name';
-      case 2:
-        return 'dream_frequency';
-      case 3:
-        return 'goals_with_oneira';
-      case 4:
-        return 'referral_source';
-      default:
-        return 'preferred_name';
-    }
-  };
-
-  return (
-    <div className="max-w-md mx-auto p-6">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          {[1, 2, 3, 4].map((step) => (
-            <div
-              key={step}
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step <= currentStep
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground'
-              }`}
-            >
-              {step}
+        return (
+          <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                What should we call you?
+              </h1>
+              <div className="space-y-4">
+                <Input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={responses.preferred_name}
+                  onChange={(e) => setResponses(prev => ({ ...prev, preferred_name: e.target.value }))}
+                  className="text-lg h-12 bg-card/80 border-primary/20 focus:border-primary text-center"
+                  autoFocus
+                />
+                {responses.preferred_name && (
+                  <Button 
+                    onClick={handleNext}
+                    className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+                  >
+                    Next
+                  </Button>
+                )}
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="text-center text-sm text-muted-foreground">
-          Step {currentStep} of 4
-        </div>
-      </div>
+          </div>
+        );
 
-      <OnboardingStep
-        step={currentStep}
-        title={steps[currentStep - 1].title}
-        description={steps[currentStep - 1].description}
-        value={getCurrentValue()}
-        onChange={(value) => handleStepChange(getCurrentField(), value)}
-        onNext={handleNext}
-        onBack={currentStep > 1 ? handleBack : undefined}
-        isLast={currentStep === 4}
-        isLoading={isLoading}
-      />
-    </div>
-  );
+      case 2:
+        return (
+          <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                How often do you dream when sleeping?
+              </h1>
+              <RadioGroup
+                value={responses.dream_frequency}
+                onValueChange={(value) => setResponses(prev => ({ ...prev, dream_frequency: value }))}
+                className="space-y-4"
+              >
+                {['Rarely', 'A few times a week', 'Every night'].map((option) => (
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                    <RadioGroupItem value={option} id={option} />
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                      {option}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              {responses.dream_frequency && (
+                <Button 
+                  onClick={handleNext}
+                  className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+                >
+                  Next
+                </Button>
+              )}
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+            <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                What are your goals with using Oneira?
+              </h1>
+              <RadioGroup
+                value={responses.goals_with_oneira}
+                onValueChange={(value) => setResponses(prev => ({ ...prev, goals_with_oneira: value }))}
+                className="space-y-4"
+              >
+                {[
+                  'A safe space to journal my dreams',
+                  'Using AI to understand the meaning of my dreams'
+                ].map((option) => (
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                    <RadioGroupItem value={option} id={option} />
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                      {option}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              {responses.goals_with_oneira && (
+                <Button 
+                  onClick={handleComplete}
+                  disabled={isLoading}
+                  className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {isLoading ? 'Setting up your profile...' : 'Complete Setup'}
+                </Button>
+              )}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return renderScreen();
 };
