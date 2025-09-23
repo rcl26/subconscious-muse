@@ -18,6 +18,7 @@ export const OnboardingFlow: React.FC = () => {
     dream_frequency: '',
     goals_with_oneira: '',
     referral_source: '',
+    referral_source_detail: '',
   });
 
   const { user, refreshProfile } = useAuth();
@@ -119,7 +120,7 @@ export const OnboardingFlow: React.FC = () => {
                   placeholder="Enter your name"
                   value={responses.preferred_name}
                   onChange={(e) => setResponses(prev => ({ ...prev, preferred_name: e.target.value }))}
-                  className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60"
+                  className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
                   autoFocus
                 />
                 <div className="flex justify-between w-full">
@@ -156,9 +157,9 @@ export const OnboardingFlow: React.FC = () => {
                 className="space-y-4"
               >
                 {['Rarely', 'A few times a week', 'Every night'].map((option) => (
-                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
                     <RadioGroupItem value={option} id={option} />
-                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left text-white">
                       {option}
                     </Label>
                   </div>
@@ -207,9 +208,9 @@ export const OnboardingFlow: React.FC = () => {
                   'A safe space to journal my dreams',
                   'Using AI to understand the meaning of my dreams'
                 ].map((option) => (
-                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
                     <RadioGroupItem value={option} id={option} />
-                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left text-white">
                       {option}
                     </Label>
                   </div>
@@ -257,18 +258,27 @@ export const OnboardingFlow: React.FC = () => {
                 {[
                   'Social media',
                   'Search engine',
-                  'Friend/family recommendation',
+                  'Friend/family',
                   'Blog/article',
                   'Other'
                 ].map((option) => (
-                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/50 hover:bg-card/80 transition-colors">
+                  <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
                     <RadioGroupItem value={option} id={option} />
-                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left">
+                    <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left text-white">
                       {option}
                     </Label>
                   </div>
                 ))}
               </RadioGroup>
+              {(responses.referral_source === 'Blog/article' || responses.referral_source === 'Other') && (
+                <Input
+                  type="text"
+                  placeholder={responses.referral_source === 'Blog/article' ? 'Which blog or article?' : 'Please specify'}
+                  value={responses.referral_source_detail}
+                  onChange={(e) => setResponses(prev => ({ ...prev, referral_source_detail: e.target.value }))}
+                  className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
+                />
+              )}
               <div className="flex justify-between w-full">
                 <Button 
                   onClick={handleBack}
