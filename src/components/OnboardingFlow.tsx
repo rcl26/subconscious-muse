@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,7 +17,8 @@ export const OnboardingFlow: React.FC = () => {
   const [responses, setResponses] = useState({
     preferred_name: '',
     dream_frequency: '',
-    goals_with_oneira: '',
+    goals_with_oneira: [] as string[],
+    goals_custom_text: '',
     referral_source: '',
     referral_source_detail: '',
   });
@@ -54,10 +56,19 @@ export const OnboardingFlow: React.FC = () => {
 
     setIsLoading(true);
     try {
+      // Combine goals array and custom text for database storage
+      const goalsString = responses.goals_custom_text.trim() 
+        ? [...responses.goals_with_oneira, responses.goals_custom_text].join(', ')
+        : responses.goals_with_oneira.join(', ');
+
       const { error } = await supabase
         .from('profiles')
         .update({
-          ...responses,
+          preferred_name: responses.preferred_name,
+          dream_frequency: responses.dream_frequency,
+          goals_with_oneira: goalsString,
+          referral_source: responses.referral_source,
+          referral_source_detail: responses.referral_source_detail,
           onboarding_completed: true,
         })
         .eq('id', user.id);
@@ -91,7 +102,7 @@ export const OnboardingFlow: React.FC = () => {
       case 2:
         return responses.dream_frequency !== '';
       case 3:
-        return responses.goals_with_oneira !== '';
+        return responses.goals_with_oneira.length > 0 || responses.goals_custom_text.trim() !== '';
       case 4:
         return responses.referral_source !== '';
       default:
@@ -112,7 +123,7 @@ export const OnboardingFlow: React.FC = () => {
                 : 'transform translate-x-0 opacity-100'
             }`}>
               <h1 className="text-4xl md:text-6xl font-bold text-primary">
-                What should we call you?
+                What do you prefer to be called?
               </h1>
               <div className="space-y-4">
                 <Input
@@ -120,7 +131,7 @@ export const OnboardingFlow: React.FC = () => {
                   placeholder="Enter your name"
                   value={responses.preferred_name}
                   onChange={(e) => setResponses(prev => ({ ...prev, preferred_name: e.target.value }))}
-                  className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
+                  className="text-xl h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
                   autoFocus
                 />
                 <div className="flex justify-between w-full">
@@ -199,23 +210,60 @@ export const OnboardingFlow: React.FC = () => {
               <h1 className="text-4xl md:text-5xl font-bold text-primary">
                 What are your goals with using Oneira?
               </h1>
-              <RadioGroup
-                value={responses.goals_with_oneira}
-                onValueChange={(value) => setResponses(prev => ({ ...prev, goals_with_oneira: value }))}
-                className="space-y-4"
-              >
+              <div className="space-y-4">
                 {[
                   'A safe space to journal my dreams',
                   'Using AI to understand the meaning of my dreams'
                 ].map((option) => (
                   <div key={option} className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
-                    <RadioGroupItem value={option} id={option} />
+                    <Checkbox
+                      id={option}
+                      checked={responses.goals_with_oneira.includes(option)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setResponses(prev => ({ 
+                            ...prev, 
+                            goals_with_oneira: [...prev.goals_with_oneira, option] 
+                          }));
+                        } else {
+                          setResponses(prev => ({ 
+                            ...prev, 
+                            goals_with_oneira: prev.goals_with_oneira.filter(goal => goal !== option) 
+                          }));
+                        }
+                      }}
+                    />
                     <Label htmlFor={option} className="text-lg cursor-pointer flex-1 text-left text-white">
                       {option}
                     </Label>
                   </div>
                 ))}
-              </RadioGroup>
+                <div className="flex items-center space-x-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 transition-all duration-200">
+                  <Checkbox
+                    id="something-else"
+                    checked={responses.goals_custom_text.trim() !== ''}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setResponses(prev => ({ ...prev, goals_custom_text: ' ' })); // Set a space to trigger the input
+                      } else {
+                        setResponses(prev => ({ ...prev, goals_custom_text: '' }));
+                      }
+                    }}
+                  />
+                  <Label htmlFor="something-else" className="text-lg cursor-pointer flex-1 text-left text-white">
+                    Something else?
+                  </Label>
+                </div>
+                {responses.goals_custom_text !== '' && (
+                  <Input
+                    type="text"
+                    placeholder="Please specify your goal"
+                    value={responses.goals_custom_text}
+                    onChange={(e) => setResponses(prev => ({ ...prev, goals_custom_text: e.target.value }))}
+                    className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
+                  />
+                )}
+              </div>
               <div className="flex justify-between w-full">
                 <Button 
                   onClick={handleBack}
