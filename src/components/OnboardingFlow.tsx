@@ -207,9 +207,9 @@ export const OnboardingFlow: React.FC = () => {
                   : 'transform -translate-x-full opacity-0'
                 : 'transform translate-x-0 opacity-100'
             }`}>
-              <h1 className="text-4xl md:text-5xl font-bold text-primary">
-                What are your goals with using Oneira?
-              </h1>
+               <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                 What are your goals with Oneira?
+               </h1>
               <div className="space-y-4">
                 {[
                   'A safe space to journal my dreams',
@@ -257,7 +257,7 @@ export const OnboardingFlow: React.FC = () => {
                 {responses.goals_custom_text !== '' && (
                   <Input
                     type="text"
-                    placeholder="Please specify your goal"
+                    placeholder="please specify"
                     value={responses.goals_custom_text}
                     onChange={(e) => setResponses(prev => ({ ...prev, goals_custom_text: e.target.value }))}
                     className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
