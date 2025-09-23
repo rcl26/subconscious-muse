@@ -92,22 +92,37 @@ export type Database = {
         Row: {
           created_at: string | null
           credits: number | null
+          dream_frequency: string | null
           email: string
+          goals_with_oneira: string | null
           id: string
+          onboarding_completed: boolean | null
+          preferred_name: string | null
+          referral_source: string | null
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           credits?: number | null
+          dream_frequency?: string | null
           email: string
+          goals_with_oneira?: string | null
           id: string
+          onboarding_completed?: boolean | null
+          preferred_name?: string | null
+          referral_source?: string | null
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           credits?: number | null
+          dream_frequency?: string | null
           email?: string
+          goals_with_oneira?: string | null
           id?: string
+          onboarding_completed?: boolean | null
+          preferred_name?: string | null
+          referral_source?: string | null
           updated_at?: string | null
         }
         Relationships: []
