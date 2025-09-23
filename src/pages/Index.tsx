@@ -104,7 +104,7 @@ const Index = () => {
                 <Compass className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
               </div>
               <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Discover</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">Patterns that reveal the deeper story of your psyche</p>
+              <p className="text-xs md:text-sm text-primary-foreground/50">Reveal the deeper story of your psyche</p>
             </div>
            </div>
            
