@@ -5,8 +5,8 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 
-const MAX_TITLE_CHARACTERS = 50;
-const MAX_CONTENT_CHARACTERS = 500;
+const MAX_TITLE_CHARACTERS = 100;
+const MAX_CONTENT_CHARACTERS = 1000;
 
 interface DreamRecorderProps {
   onDreamRecorded: (dreamText: string, title?: string) => void;
