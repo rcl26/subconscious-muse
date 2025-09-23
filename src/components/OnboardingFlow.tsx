@@ -8,11 +8,13 @@ import { Label } from './ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Moon, Sparkles, Stars } from 'lucide-react';
 
 export const OnboardingFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showCompletionAnimation, setShowCompletionAnimation] = useState(false);
   const [animationDirection, setAnimationDirection] = useState<'forward' | 'backward'>('forward');
   const [responses, setResponses] = useState({
     preferred_name: '',
@@ -78,12 +80,17 @@ export const OnboardingFlow: React.FC = () => {
 
       await refreshProfile();
       
-      toast({
-        title: 'Welcome to Oneira!',
-        description: 'Your profile has been set up successfully.',
-      });
-
-      navigate('/journal');
+      // Show completion animation
+      setShowCompletionAnimation(true);
+      
+      // Navigate to journal after animation
+      setTimeout(() => {
+        toast({
+          title: 'Welcome to Oneira!',
+          description: 'Your profile has been set up successfully.',
+        });
+        navigate('/journal');
+      }, 3500);
     } catch (error) {
       console.error('Error completing onboarding:', error);
       toast({
@@ -91,7 +98,6 @@ export const OnboardingFlow: React.FC = () => {
         description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -111,7 +117,50 @@ export const OnboardingFlow: React.FC = () => {
     }
   };
 
+  const renderCompletionAnimation = () => (
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 relative z-10">
+      <div className="text-center space-y-8 max-w-md w-full animate-fade-in">
+        <div className="relative">
+          <div className="absolute -top-4 -left-4 animate-[float_6s_ease-in-out_infinite]">
+            <Stars className="w-8 h-8 text-primary/60" />
+          </div>
+          <div className="absolute -top-8 right-4 animate-[float_6s_ease-in-out_infinite_1s]">
+            <Sparkles className="w-6 h-6 text-accent/80" />
+          </div>
+          <div className="absolute top-16 -right-8 animate-[float_6s_ease-in-out_infinite_2s]">
+            <Stars className="w-5 h-5 text-primary/40" />
+          </div>
+          <div className="absolute -bottom-4 left-8 animate-[float_6s_ease-in-out_infinite_0.5s]">
+            <Sparkles className="w-7 h-7 text-accent/60" />
+          </div>
+          
+          <div className="flex justify-center mb-8">
+            <Moon className="w-24 h-24 text-primary animate-[float_4s_ease-in-out_infinite] filter drop-shadow-lg" />
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4 animate-pulse">
+            Setting up your journal...
+          </h1>
+          
+          <div className="flex justify-center space-x-2 mb-8">
+            <div className="w-3 h-3 bg-primary rounded-full animate-[float_1.5s_ease-in-out_infinite]"></div>
+            <div className="w-3 h-3 bg-primary rounded-full animate-[float_1.5s_ease-in-out_infinite_0.2s]"></div>
+            <div className="w-3 h-3 bg-primary rounded-full animate-[float_1.5s_ease-in-out_infinite_0.4s]"></div>
+          </div>
+          
+          <p className="text-xl text-muted-foreground opacity-80">
+            Preparing your cosmic dream space...
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderScreen = () => {
+    if (showCompletionAnimation) {
+      return renderCompletionAnimation();
+    }
+    
     switch (currentStep) {
       case 1:
         return (
