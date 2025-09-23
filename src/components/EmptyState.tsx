@@ -44,13 +44,9 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters }: 
         </div>
       </div>
       
-      <h3 className="text-2xl font-semibold text-primary-foreground/90 mb-3">
-        Begin Your Dream Journey
+      <h3 className="text-2xl font-semibold text-primary-foreground/90 mb-8">
+        Record Your First Dream
       </h3>
-      <p className="text-primary-foreground/60 mb-8 max-w-md mx-auto leading-relaxed">
-        Welcome to your personal dream sanctuary. Start by recording your first dream 
-        and unlock the wisdom hidden in your subconscious mind.
-      </p>
       
       <div className="space-y-4">
         <Button
@@ -64,15 +60,15 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters }: 
         
         <div className="flex items-center justify-center space-x-4 text-sm text-primary-foreground/50">
           <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-primary-foreground/30 rounded-full" />
+            <Moon className="h-3 w-3 text-primary-foreground/30" />
             <span>AI-powered analysis</span>
           </div>
           <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-primary-foreground/30 rounded-full" />
+            <Moon className="h-3 w-3 text-primary-foreground/30" />
             <span>Private & secure</span>
           </div>
           <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-primary-foreground/30 rounded-full" />
+            <Moon className="h-3 w-3 text-primary-foreground/30" />
             <span>Unlimited dreams</span>
           </div>
         </div>
