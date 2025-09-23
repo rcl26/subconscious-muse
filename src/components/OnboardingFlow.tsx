@@ -318,10 +318,10 @@ export const OnboardingFlow: React.FC = () => {
                   </div>
                 ))}
               </RadioGroup>
-              {(responses.referral_source === 'Blog/article' || responses.referral_source === 'Other') && (
+              {responses.referral_source === 'Other' && (
                 <Input
                   type="text"
-                  placeholder={responses.referral_source === 'Blog/article' ? 'Which blog or article?' : 'Please specify'}
+                  placeholder="Please specify"
                   value={responses.referral_source_detail}
                   onChange={(e) => setResponses(prev => ({ ...prev, referral_source_detail: e.target.value }))}
                   className="text-lg h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
