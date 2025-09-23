@@ -8,6 +8,11 @@ interface Profile {
   credits: number;
   created_at: string;
   updated_at: string;
+  onboarding_completed: boolean | null;
+  preferred_name: string | null;
+  dream_frequency: string | null;
+  goals_with_oneira: string | null;
+  referral_source: string | null;
 }
 
 
@@ -109,7 +114,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   const signInWithGoogle = async () => {
-    const redirectUrl = `${window.location.origin}/journal`;
+    const redirectUrl = `${window.location.origin}/onboarding`;
     
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',

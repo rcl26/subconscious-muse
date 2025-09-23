@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -39,10 +39,17 @@ export const DreamJournal = () => {
   
   const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   // Handle subscription success redirect
   useSubscriptionSuccess();
 
+  // Check onboarding status
+  useEffect(() => {
+    if (!loading && user && profile && !profile.onboarding_completed) {
+      navigate('/onboarding');
+    }
+  }, [user, profile, loading, navigate]);
 
   // Show loading screen while auth is initializing
   if (loading) {
@@ -231,7 +238,9 @@ export const DreamJournal = () => {
         {dreams.length > 0 && (
           <>
             <div className="text-center space-y-2 mb-8">
-              <h1 className="text-2xl font-semibold text-primary-foreground">Your Journal</h1>
+              <h1 className="text-2xl font-semibold text-primary-foreground">
+                {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
+              </h1>
             </div>
 
             <div className="text-center mb-8">
