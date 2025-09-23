@@ -131,7 +131,7 @@ export const OnboardingFlow: React.FC = () => {
                   placeholder="Enter your name"
                   value={responses.preferred_name}
                   onChange={(e) => setResponses(prev => ({ ...prev, preferred_name: e.target.value }))}
-                  className="text-xl h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
+                  className="text-2xl h-14 bg-card/80 backdrop-blur-sm border-2 border-primary/20 focus:border-primary/60 text-center rounded-xl shadow-lg shadow-primary/10 focus:shadow-primary/20 transition-all duration-200 placeholder:text-muted-foreground/60 text-white"
                   autoFocus
                 />
                 <div className="flex justify-between w-full">
