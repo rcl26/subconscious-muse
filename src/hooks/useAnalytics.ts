@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -16,7 +16,7 @@ export const useAnalytics = () => {
   const { user, profile } = useAuth();
   const [sessionId] = useState(getSessionId);
 
-  const trackEvent = async (eventType: string, eventData?: Record<string, any>) => {
+  const trackEvent = useCallback(async (eventType: string, eventData?: Record<string, any>) => {
     try {
       const { error } = await supabase
         .from('user_events')
@@ -35,7 +35,7 @@ export const useAnalytics = () => {
       // Fail silently to avoid disrupting user experience
       console.warn('Analytics tracking error:', error);
     }
-  };
+  }, [user?.id, user?.email, profile?.email, sessionId]);
 
   return { trackEvent };
 };

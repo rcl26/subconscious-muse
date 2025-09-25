@@ -57,7 +57,7 @@ export const DreamJournal = () => {
         sessionStorage.setItem('has_tracked_signin', 'true');
       }
     }
-  }, [loading, user, trackEvent]);
+  }, [loading, user]);
 
   // Check onboarding status
   useEffect(() => {
