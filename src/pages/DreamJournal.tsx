@@ -20,6 +20,7 @@ import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useTabVisibility } from "@/hooks/useTabVisibility";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const DreamJournal = () => {
@@ -42,13 +43,14 @@ export const DreamJournal = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { trackEvent } = useAnalytics();
+  const { isReturningFromHidden } = useTabVisibility();
   
   // Handle subscription success redirect
   useSubscriptionSuccess();
 
-  // Track journal page view and sign in
+  // Track journal page view and sign in (but not when returning from tab switch)
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && !isReturningFromHidden) {
       trackEvent('journal_page_viewed');
       // Track sign in on first load (if user just signed in)
       const hasTrackedSignIn = sessionStorage.getItem('has_tracked_signin');
@@ -57,7 +59,7 @@ export const DreamJournal = () => {
         sessionStorage.setItem('has_tracked_signin', 'true');
       }
     }
-  }, [loading, user]);
+  }, [loading, user, isReturningFromHidden]);
 
   // Check onboarding status
   useEffect(() => {
