@@ -168,18 +168,15 @@ export const DreamJournal = () => {
         }}
       >
         <div className="max-w-md mx-auto space-y-6">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-start">
             <Button
               onClick={() => setShowRecorder(false)}
               variant="ghost"
-              size="sm"
+              size="default"
               className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-8 w-8" />
             </Button>
-            <div>
-              <h1 className="text-xl font-semibold text-primary-foreground">New Dream</h1>
-            </div>
           </div>
 
           <DreamRecorder onDreamRecorded={handleDreamRecorded} />
