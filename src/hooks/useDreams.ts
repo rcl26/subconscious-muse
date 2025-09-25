@@ -47,13 +47,6 @@ export const useDreams = () => {
       return;
     }
 
-    // Skip loading if dreams already exist (prevents unnecessary reloads)
-    if (dreams.length > 0 && !dreams.some(d => d.id === "example-dream-oneira")) {
-      console.log('🎯 Dreams already loaded, skipping reload');
-      setIsLoading(false);
-      return;
-    }
-
     try {
       console.log('📥 Loading dreams for user:', user.id);
       
@@ -328,28 +321,10 @@ export const useDreams = () => {
     }
   };
 
-  // Load dreams when user changes, but avoid reloading if dreams already exist
+  // Load dreams when user changes
   useEffect(() => {
-    if (user && dreams.length === 0) {
-      loadDreams();
-    } else if (!user) {
-      setDreams([]);
-      setIsLoading(false);
-    }
+    loadDreams();
   }, [user]);
-
-  // Add tab visibility detection to prevent unnecessary reloads
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (!document.hidden && user && dreams.length === 0) {
-        // Only reload if tab becomes visible and we have no dreams loaded
-        loadDreams();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [user, dreams.length]);
 
   return {
     dreams,
