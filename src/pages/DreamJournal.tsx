@@ -175,7 +175,7 @@ export const DreamJournal = () => {
               size="default"
               className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <ArrowLeft className="h-8 w-8" />
+              <ArrowLeft className="h-12 w-12" />
             </Button>
           </div>
 
