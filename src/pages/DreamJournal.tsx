@@ -19,6 +19,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const DreamJournal = () => {
@@ -40,9 +41,23 @@ export const DreamJournal = () => {
   const { user, profile, signOut, loading, profileLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { trackEvent } = useAnalytics();
   
   // Handle subscription success redirect
   useSubscriptionSuccess();
+
+  // Track journal page view and sign in
+  useEffect(() => {
+    if (!loading && user) {
+      trackEvent('journal_page_viewed');
+      // Track sign in on first load (if user just signed in)
+      const hasTrackedSignIn = sessionStorage.getItem('has_tracked_signin');
+      if (!hasTrackedSignIn) {
+        trackEvent('user_signed_in');
+        sessionStorage.setItem('has_tracked_signin', 'true');
+      }
+    }
+  }, [loading, user, trackEvent]);
 
   // Check onboarding status
   useEffect(() => {
@@ -238,6 +253,7 @@ export const DreamJournal = () => {
             <div className="text-center mb-8">
               <Button
                 onClick={() => {
+                  trackEvent('record_dream_clicked');
                   if (!user) {
                     setShowAuthModal(true);
                   } else {
@@ -304,6 +320,7 @@ export const DreamJournal = () => {
               type="no-dreams"
               isSignedIn={!!user}
               onCreateDream={() => {
+                trackEvent('record_dream_clicked');
                 if (!user) {
                   setShowAuthModal(true);
                 } else {

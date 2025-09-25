@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMobileDetection, triggerHapticFeedback } from "@/hooks/useMobileDetection";
 import { Dream } from "@/hooks/useDreams";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const formatAbbreviatedTime = (date: Date) => {
   const distance = formatDistance(date, new Date());
@@ -46,11 +47,14 @@ interface DreamEntryProps {
 
 export const DreamEntry = ({ dream, onExplore, onDelete }: DreamEntryProps) => {
   const { isTouchDevice } = useMobileDetection();
+  const { trackEvent } = useAnalytics();
 
   const handleExploreClick = () => {
     if (isTouchDevice) {
       triggerHapticFeedback('light');
     }
+    // Track dream exploration
+    trackEvent('dream_explored');
     onExplore(dream);
   };
 

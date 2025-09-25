@@ -180,11 +180,55 @@ export type Database = {
           },
         ]
       }
+      user_events: {
+        Row: {
+          created_at: string
+          email: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      get_dream_funnel_metrics: {
+        Args: { start_date?: string }
+        Returns: {
+          click_to_save_rate: number
+          clicked_record: number
+          explored_dream: number
+          save_to_explore_rate: number
+          saved_dream: number
+        }[]
+      }
+      get_weekly_active_users: {
+        Args: { start_date?: string }
+        Returns: number
+      }
       update_user_credits: {
         Args: {
           credit_change: number

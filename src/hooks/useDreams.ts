@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 export interface Message {
   id: string;
@@ -36,6 +37,7 @@ export const useDreams = () => {
   const [dreams, setDreams] = useState<Dream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+  const { trackEvent } = useAnalytics();
 
   // Load dreams from database (authenticated users only)
   const loadDreams = async () => {
@@ -145,6 +147,9 @@ export const useDreams = () => {
 
       if (data) {
         console.log('✅ Dream saved successfully:', data);
+        // Track dream saved event
+        trackEvent('dream_saved');
+        
         // Replace temporary dream with real database dream
         const parsedData = {
           ...data,

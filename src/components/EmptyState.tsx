@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Moon, Sparkles, Plus } from "lucide-react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface EmptyStateProps {
   type: 'no-dreams' | 'no-results';
@@ -10,6 +11,7 @@ interface EmptyStateProps {
 }
 
 export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, isSignedIn = true }: EmptyStateProps) => {
+  const { trackEvent } = useAnalytics();
   if (type === 'no-results') {
     return (
       <div className="text-center py-16 animate-fade-in">
@@ -51,7 +53,12 @@ export const EmptyState = ({ type, searchTerm, onCreateDream, onClearFilters, is
       
       <div className="space-y-4">
         <Button
-          onClick={onCreateDream}
+          onClick={() => {
+            if (isSignedIn) {
+              trackEvent('record_dream_clicked');
+            }
+            onCreateDream?.();
+          }}
           size="lg"
           className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-12 px-8 hover-scale"
         >
