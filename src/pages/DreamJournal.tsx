@@ -245,7 +245,7 @@ export const DreamJournal = () => {
         {dreams.length > 0 && (
           <>
             <div className="text-center space-y-2 mb-8">
-              <h1 className="text-2xl font-semibold text-primary-foreground">
+              <h1 className="text-2xl font-cormorant font-semibold text-primary-foreground">
                 {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
               </h1>
             </div>
