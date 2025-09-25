@@ -440,5 +440,9 @@ export const OnboardingFlow: React.FC = () => {
     }
   };
 
-  return renderScreen();
+  return (
+    <div className="font-helvetica">
+      {renderScreen()}
+    </div>
+  );
 };
