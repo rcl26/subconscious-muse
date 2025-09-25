@@ -22,7 +22,6 @@ export const useAnalytics = () => {
         .from('user_events')
         .insert({
           user_id: user?.id || null,
-          email: user?.email || profile?.email || null,
           event_type: eventType,
           event_data: eventData || {},
           session_id: sessionId,
@@ -35,7 +34,7 @@ export const useAnalytics = () => {
       // Fail silently to avoid disrupting user experience
       console.warn('Analytics tracking error:', error);
     }
-  }, [user?.id, user?.email, profile?.email, sessionId]);
+  }, [user?.id, sessionId]);
 
   return { trackEvent };
 };
