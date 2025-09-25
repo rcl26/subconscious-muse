@@ -57,21 +57,21 @@ const Index = () => {
       <div className="absolute inset-0 bg-black/30"></div>
 
 
-      <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10">
+      <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
         {/* Clean header */}
         <div className="text-center space-y-6 md:space-y-12 max-w-2xl mx-auto">
           <div className="relative">
             {/* Main title with gradient effect */}
-            <h1 className="text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider">
+            <h1 className="text-4xl md:text-7xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider">
               Oneira
             </h1>
             
             {/* Mystical subtitle */}
             <div className="relative">
-              <p className="text-lg md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
+              <p className="text-lg md:text-3xl text-primary-foreground/80 leading-relaxed font-light font-cormorant tracking-wide">
                 Track Your Dreams,
               </p>
-              <p className="text-lg md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-2 md:mb-4">
+              <p className="text-lg md:text-3xl text-primary-foreground leading-relaxed font-light font-cormorant tracking-wide mb-2 md:mb-4">
                 Explore Your Subconscious
               </p>
               
