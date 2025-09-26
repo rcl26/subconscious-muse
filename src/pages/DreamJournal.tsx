@@ -262,7 +262,7 @@ export const DreamJournal = () => {
                       setShowInlineVoiceRecorder(true);
                     }
                   }}
-                  className="relative group w-16 h-16 rounded-full bg-white/10 border-2 border-white/30 flex items-center justify-center hover:bg-white/20 hover:border-white/40 transition-all duration-300 hover:scale-105"
+                  className="relative group w-16 h-16 rounded-full bg-white/10 border-2 border-white/60 flex items-center justify-center hover:bg-white/20 hover:border-white/70 transition-all duration-300 hover:scale-105"
                 >
                   <Mic className="h-6 w-6 text-primary" />
                 </button>
@@ -287,7 +287,7 @@ export const DreamJournal = () => {
                   }}
                   variant="outline"
                   size="default"
-                  className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/5"
+                  className="bg-transparent text-white/90 border-primary-foreground/30 hover:bg-primary-foreground/5 hover:text-white/90"
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
                   Type Manually
