@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart } from "lucide-react";
+import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart, Mic, Edit3 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -10,6 +10,7 @@ import { AuthModal } from "@/components/AuthModal";
 
 
 import { DreamRecorder } from "@/components/DreamRecorder";
+import { VoiceRecorder } from "@/components/VoiceRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { DreamSearchFilter } from "@/components/DreamSearchFilter";
@@ -32,6 +33,7 @@ export const DreamJournal = () => {
     hasFilters
   } = useDreamFilters(dreams);
   const [showRecorder, setShowRecorder] = useState(false);
+  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   
@@ -185,6 +187,38 @@ export const DreamJournal = () => {
     );
   }
 
+  if (showVoiceRecorder) {
+    return (
+      <div 
+        className="min-h-screen p-4 relative"
+        style={{
+          background: `linear-gradient(rgba(55, 35, 85, 0.8), rgba(70, 45, 100, 0.85)), url('/cosmic-background-low.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="flex items-center justify-start">
+            <Button
+              onClick={() => setShowVoiceRecorder(false)}
+              variant="ghost"
+              size="sm"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </Button>
+          </div>
+
+          <VoiceRecorder 
+            onDreamRecorded={handleDreamRecorded} 
+            onCancel={() => setShowVoiceRecorder(false)}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div 
       className="min-h-screen p-4 relative"
@@ -247,22 +281,43 @@ export const DreamJournal = () => {
               </h1>
             </div>
 
-            <div className="text-center mb-8">
+            <div className="text-center mb-8 space-y-4">
+              {/* Primary Voice Recording Option */}
               <Button
                 onClick={() => {
                   trackEvent('record_dream_clicked');
                   if (!user) {
                     setShowAuthModal(true);
                   } else {
-                    setShowRecorder(true);
+                    setShowVoiceRecorder(true);
                   }
                 }}
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-14"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-16 px-8 text-lg font-medium w-full max-w-sm"
               >
-                <Plus className="h-5 w-5 mr-2" />
-                Record New Dream
+                <Mic className="h-6 w-6 mr-3" />
+                Record by Voice
               </Button>
+              
+              {/* Secondary Manual Entry Option */}
+              <div>
+                <Button
+                  onClick={() => {
+                    trackEvent('record_dream_clicked');
+                    if (!user) {
+                      setShowAuthModal(true);
+                    } else {
+                      setShowRecorder(true);
+                    }
+                  }}
+                  variant="outline"
+                  size="default"
+                  className="text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                >
+                  <Edit3 className="h-4 w-4 mr-2" />
+                  Type Manually
+                </Button>
+              </div>
             </div>
           </>
         )}
