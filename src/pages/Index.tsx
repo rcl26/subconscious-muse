@@ -7,6 +7,8 @@ import { GoogleIcon } from "@/components/GoogleIcon";
 import { useToast } from "@/hooks/use-toast";
 import { DreamWave } from "@/components/DreamWave";
 import { GeometricBrackets } from "@/components/GeometricBrackets";
+import { GeometricOverlay } from "@/components/GeometricOverlay";
+import { FloatingShapes } from "@/components/FloatingShapes";
 
 
 
@@ -57,6 +59,15 @@ const Index = () => {
     }}>
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-black/30"></div>
+      
+      {/* Geometric overlays */}
+      <GeometricOverlay />
+      <FloatingShapes />
+      
+      {/* Full-width dream wave positioned behind content */}
+      <div className="absolute top-1/2 -translate-y-1/2 w-full">
+        <DreamWave fullWidth={true} />
+      </div>
 
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
@@ -82,10 +93,8 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Dream Wave Visualization */}
-          <div className="my-8 md:my-16">
-            <DreamWave />
-          </div>
+          {/* Spacer for the full-width wave */}
+          <div className="my-8 md:my-16 h-8 md:h-12"></div>
 
 
            

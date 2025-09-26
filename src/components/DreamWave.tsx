@@ -2,63 +2,114 @@ import React from 'react';
 
 interface DreamWaveProps {
   className?: string;
+  fullWidth?: boolean;
 }
 
-export const DreamWave: React.FC<DreamWaveProps> = ({ className = "" }) => {
+export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth = false }) => {
+  const containerClass = fullWidth 
+    ? "fixed inset-x-0 h-32 md:h-40 z-0 pointer-events-none"
+    : `relative w-full h-24 md:h-32 overflow-hidden ${className}`;
+
   return (
-    <div className={`relative w-full h-24 md:h-32 overflow-hidden ${className}`}>
-      {/* Wave SVG */}
+    <div className={containerClass}>
+      {/* Multi-layer wave SVG */}
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 400 80"
+        viewBox="0 0 1200 120"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Gradient definitions */}
+        {/* Enhanced gradient definitions */}
         <defs>
-          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
-            <stop offset="25%" stopColor="hsl(var(--accent))" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-            <stop offset="75%" stopColor="hsl(var(--secondary))" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
+          <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+            <stop offset="20%" stopColor="hsl(var(--accent))" stopOpacity="0.25" />
+            <stop offset="40%" stopColor="hsl(var(--secondary))" stopOpacity="0.2" />
+            <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+            <stop offset="80%" stopColor="hsl(var(--accent))" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+          </linearGradient>
+          
+          <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="0.1" />
+            <stop offset="33%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
+            <stop offset="66%" stopColor="hsl(var(--accent))" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="hsl(var(--secondary))" stopOpacity="0.1" />
           </linearGradient>
           
           <linearGradient id="waveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.2" />
-            <stop offset="50%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.3" />
+            <stop offset="50%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.3" />
           </linearGradient>
+
+          <animateTransform id="waveAnim1" attributeName="transform" type="translate" values="0,0;50,0;0,0" dur="8s" repeatCount="indefinite"/>
+          <animateTransform id="waveAnim2" attributeName="transform" type="translate" values="0,0;-30,0;0,0" dur="12s" repeatCount="indefinite"/>
         </defs>
 
-        {/* Main wave path */}
+        {/* Primary wave layer */}
         <path
-          d="M0,40 Q100,10 200,40 T400,40 L400,80 L0,80 Z"
-          fill="url(#waveGradient)"
+          d="M0,60 Q200,20 400,60 T800,60 Q1000,40 1200,60 L1200,120 L0,120 Z"
+          fill="url(#waveGradient1)"
           stroke="url(#waveStroke)"
-          strokeWidth="1"
+          strokeWidth="1.5"
           className="animate-pulse"
-        />
+        >
+          <animateTransform attributeName="transform" type="translate" values="0,0;100,0;0,0" dur="10s" repeatCount="indefinite"/>
+        </path>
         
-        {/* Secondary wave for depth */}
+        {/* Secondary wave layer */}
         <path
-          d="M0,50 Q100,20 200,50 T400,50"
+          d="M0,70 Q300,30 600,70 T1200,70"
           fill="none"
           stroke="url(#waveStroke)"
           strokeWidth="1"
-          strokeOpacity="0.3"
+          strokeOpacity="0.4"
           className="animate-pulse"
           style={{ animationDelay: '0.5s' }}
-        />
+        >
+          <animateTransform attributeName="transform" type="translate" values="0,0;-80,0;0,0" dur="15s" repeatCount="indefinite"/>
+        </path>
+
+        {/* Tertiary wave layer */}
+        <path
+          d="M0,50 Q150,10 300,50 T600,50 Q900,30 1200,50"
+          fill="none"
+          stroke="url(#waveGradient2)"
+          strokeWidth="2"
+          strokeOpacity="0.25"
+          className="animate-pulse"
+          style={{ animationDelay: '1s' }}
+        >
+          <animateTransform attributeName="transform" type="translate" values="0,0;120,0;0,0" dur="18s" repeatCount="indefinite"/>
+        </path>
       </svg>
 
-      {/* Floating dream particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-4 left-8 w-1 h-1 bg-primary-foreground/30 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-8 left-20 w-0.5 h-0.5 bg-accent/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-6 right-16 w-1 h-1 bg-secondary/30 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-8 left-32 w-0.5 h-0.5 bg-primary-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        <div className="absolute bottom-6 right-8 w-1 h-1 bg-primary/30 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+      {/* Enhanced floating dream particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Constellation particles */}
+        <div className="absolute top-4 left-[8%] w-1 h-1 bg-primary-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute top-8 left-[20%] w-0.5 h-0.5 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-6 left-[35%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-10 left-[50%] w-0.5 h-0.5 bg-primary/50 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-5 left-[65%] w-1 h-1 bg-accent/40 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+        <div className="absolute top-9 left-[80%] w-0.5 h-0.5 bg-primary-foreground/50 rounded-full animate-pulse" style={{ animationDelay: '2.3s' }}></div>
+        <div className="absolute top-7 right-[10%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }}></div>
+        
+        {/* Bottom particles */}
+        <div className="absolute bottom-8 left-[15%] w-0.5 h-0.5 bg-primary-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-6 left-[30%] w-1 h-1 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-10 left-[45%] w-0.5 h-0.5 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '2.8s' }}></div>
+        <div className="absolute bottom-7 left-[60%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.2s' }}></div>
+        <div className="absolute bottom-9 left-[75%] w-0.5 h-0.5 bg-primary-foreground/50 rounded-full animate-pulse" style={{ animationDelay: '3.5s' }}></div>
+        <div className="absolute bottom-5 right-[8%] w-1 h-1 bg-accent/40 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+
+        {/* Connecting lines for constellation effect */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <line x1="8" y1="20" x2="20" y2="40" stroke="hsl(var(--primary-foreground))" strokeWidth="0.1" opacity="0.2" className="animate-pulse" style={{ animationDelay: '4s' }}/>
+          <line x1="35" y1="30" x2="50" y2="50" stroke="hsl(var(--accent))" strokeWidth="0.1" opacity="0.15" className="animate-pulse" style={{ animationDelay: '5s' }}/>
+          <line x1="65" y1="25" x2="80" y2="45" stroke="hsl(var(--secondary))" strokeWidth="0.1" opacity="0.2" className="animate-pulse" style={{ animationDelay: '6s' }}/>
+        </svg>
       </div>
     </div>
   );
