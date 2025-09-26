@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { GoogleIcon } from "@/components/GoogleIcon";
 import { useToast } from "@/hooks/use-toast";
+import { DreamWave } from "@/components/DreamWave";
+import { GeometricBrackets } from "@/components/GeometricBrackets";
 
 
 
@@ -80,11 +82,17 @@ const Index = () => {
             </div>
           </div>
 
+          {/* Dream Wave Visualization */}
+          <div className="my-8 md:my-16">
+            <DreamWave />
+          </div>
+
 
            
            {/* Mobile CTA - In thumb zone before terms */}
            <div className="md:hidden mt-8">
-             <Button
+             <GeometricBrackets>
+               <Button
                onClick={handleGoogleSignIn}
                disabled={isLoading}
                size="lg"
@@ -97,9 +105,10 @@ const Index = () => {
                  <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
                    {isLoading ? "Signing in..." : "Continue with Google"}
                  </span>
-               </div>
-             </Button>
-           </div>
+                </div>
+              </Button>
+             </GeometricBrackets>
+            </div>
            
            {/* Mobile Terms Links - Below CTA */}
            <p className="text-xs text-primary-foreground/30 mt-4 text-center md:hidden">
@@ -114,10 +123,11 @@ const Index = () => {
 
            {/* Desktop CTA - Hidden on mobile */}
           <div className="hidden md:block relative">
-            {/* Cosmic glow effect behind button */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            <Button
+            <GeometricBrackets>
+              {/* Cosmic glow effect behind button */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <Button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
               size="lg"
@@ -140,10 +150,11 @@ const Index = () => {
                   {isLoading ? "Signing in..." : "Continue with Google"}
                 </span>
                 <div className="ml-3 w-2 h-2 rounded-full bg-purple-400/50 group-hover:bg-purple-400 animate-pulse group-hover:shadow-[0_0_10px_rgba(147,51,234,0.8)]"></div>
-              </div>
-            </Button>
-            
-            <p className="text-xs text-primary-foreground/40 mt-3 text-center">
+               </div>
+             </Button>
+            </GeometricBrackets>
+             
+             <p className="text-xs text-primary-foreground/40 mt-3 text-center">
               <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
                 Terms of Use
               </Link>
