@@ -287,7 +287,7 @@ export const DreamJournal = () => {
                   }}
                   variant="outline"
                   size="default"
-                  className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20"
+                  className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/5"
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
                   Type Manually
