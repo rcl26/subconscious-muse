@@ -9,7 +9,6 @@ import { DreamWave } from "@/components/DreamWave";
 import { GeometricBrackets } from "@/components/GeometricBrackets";
 import { GeometricOverlay } from "@/components/GeometricOverlay";
 import { FloatingShapes } from "@/components/FloatingShapes";
-import { MouseStarTrail } from "@/components/MouseStarTrail";
 
 
 
@@ -64,7 +63,6 @@ const Index = () => {
       {/* Geometric overlays */}
       <GeometricOverlay />
       <FloatingShapes />
-      <MouseStarTrail />
       
 
 
