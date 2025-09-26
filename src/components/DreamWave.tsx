@@ -47,20 +47,20 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
           <animateTransform id="waveAnim2" attributeName="transform" type="translate" values="0,0;-30,0;0,0" dur="12s" repeatCount="indefinite"/>
         </defs>
 
-        {/* Primary wave layer */}
+        {/* Primary theta wave layer - gentle, rolling hills */}
         <path
-          d="M-100,80 Q100,40 300,80 Q500,60 700,80 Q900,40 1100,80 Q1300,60 1500,80 L1500,140 L-100,140 Z"
+          d="M-100,80 Q150,60 400,80 Q650,100 900,80 Q1150,60 1400,80 L1400,140 L-100,140 Z"
           fill="url(#waveGradient1)"
           stroke="url(#waveStroke)"
           strokeWidth="1.5"
           className="animate-pulse"
         >
-          <animateTransform attributeName="transform" type="translate" values="0,0;100,0;0,0" dur="10s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;150,0;0,0" dur="14s" repeatCount="indefinite"/>
         </path>
         
-        {/* Secondary wave layer */}
+        {/* Secondary theta wave layer - harmonious rhythm */}
         <path
-          d="M-150,90 Q150,50 450,90 Q750,70 1050,90 Q1350,50 1650,90"
+          d="M-150,90 Q200,70 500,90 Q800,110 1100,90 Q1400,70 1700,90"
           fill="none"
           stroke="url(#waveStroke)"
           strokeWidth="1"
@@ -68,12 +68,12 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
           className="animate-pulse"
           style={{ animationDelay: '0.5s' }}
         >
-          <animateTransform attributeName="transform" type="translate" values="0,0;-80,0;0,0" dur="15s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;-120,0;0,0" dur="18s" repeatCount="indefinite"/>
         </path>
 
-        {/* Tertiary wave layer */}
+        {/* Tertiary theta wave layer - subtle meditative flow */}
         <path
-          d="M-200,70 Q50,30 250,70 Q450,50 650,70 Q850,30 1050,70 Q1250,50 1450,70"
+          d="M-200,70 Q100,55 400,70 Q700,85 1000,70 Q1300,55 1600,70"
           fill="none"
           stroke="url(#waveGradient2)"
           strokeWidth="2"
@@ -81,7 +81,7 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
           className="animate-pulse"
           style={{ animationDelay: '1s' }}
         >
-          <animateTransform attributeName="transform" type="translate" values="0,0;120,0;0,0" dur="18s" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" type="translate" values="0,0;180,0;0,0" dur="22s" repeatCount="indefinite"/>
         </path>
       </svg>
 

@@ -66,7 +66,7 @@ const Index = () => {
       
 
 
-      <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
+      <div className="relative min-h-screen flex flex-col items-center justify-start p-4 pt-20 z-10 font-helvetica">
         {/* Title Section - with proper spacing */}
         <div className="text-center max-w-2xl mx-auto mb-8">
           <div className="relative">
@@ -103,7 +103,7 @@ const Index = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center max-w-2xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mt-20 md:mt-32">
            {/* Mobile CTA */}
            <div className="md:hidden">
              <GeometricBrackets>
