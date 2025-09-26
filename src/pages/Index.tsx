@@ -97,12 +97,12 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Dream Wave Section - standalone with breathing room */}
+        {/* Dream Wave Section - positioned between subtitle and CTA */}
         <div className="relative mb-16 md:mb-20 w-full">
           <DreamWave fullWidth={true} />
         </div>
 
-        {/* CTA Section - with generous top spacing */}
+        {/* CTA Section */}
         <div className="text-center max-w-2xl mx-auto">
            {/* Mobile CTA */}
            <div className="md:hidden">
