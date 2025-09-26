@@ -67,8 +67,8 @@ const Index = () => {
 
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
-        {/* Clean header */}
-        <div className="text-center space-y-4 md:space-y-8 max-w-2xl mx-auto">
+        {/* Title Section - with proper spacing */}
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
           <div className="relative">
             {/* Main title with gradient effect and interactive hover states */}
             <div className="group relative cursor-default">
@@ -95,16 +95,17 @@ const Index = () => {
               <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-4 md:mb-8"></div>
             </div>
           </div>
+        </div>
 
-          {/* Dream wave positioned between subtitle and CTA */}
-          <div className="my-12 md:my-16 relative">
-            <DreamWave fullWidth={true} />
-          </div>
+        {/* Dream Wave Section - standalone with breathing room */}
+        <div className="relative mb-16 md:mb-20 w-full">
+          <DreamWave fullWidth={true} />
+        </div>
 
-
-           
+        {/* CTA Section - with generous top spacing */}
+        <div className="text-center max-w-2xl mx-auto">
            {/* Mobile CTA */}
-           <div className="md:hidden mt-12">
+           <div className="md:hidden">
              <GeometricBrackets>
                <Button
                onClick={handleGoogleSignIn}
@@ -125,7 +126,7 @@ const Index = () => {
             </div>
 
            {/* Desktop CTA */}
-          <div className="hidden md:block relative mt-16">
+          <div className="hidden md:block relative">
             <GeometricBrackets>
               {/* Cosmic glow effect behind button */}
               <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
