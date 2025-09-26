@@ -67,34 +67,39 @@ const Index = () => {
 
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
-        {/* Title Section with DreamWave */}
-        <div className="text-center max-w-2xl mx-auto">
+        {/* Title Section - with proper spacing */}
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
           <div className="relative">
             {/* Main title with gradient effect and interactive hover states */}
             <div className="group relative cursor-default">
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold bg-gradient-to-br from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3 md:mb-6 transition-all duration-500 group-hover:scale-105 group-hover:from-purple-300 group-hover:via-blue-300 group-hover:to-indigo-300">
+              <h1 className="text-4xl md:text-7xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider shooting-star transition-all duration-300 transform-gpu group-hover:animate-shimmer group-hover:drop-shadow-[0_0_20px_rgba(147,51,234,0.5)] will-change-transform">
                 Oneira
               </h1>
-              {/* Floating orbs that respond to hover */}
-              <div className="absolute -top-4 -left-4 w-3 h-3 bg-purple-400/30 rounded-full blur-sm group-hover:bg-purple-300/50 transition-all duration-700 group-hover:animate-pulse"></div>
-              <div className="absolute top-1/2 -right-6 w-2 h-2 bg-blue-400/40 rounded-full blur-sm group-hover:bg-blue-300/60 transition-all duration-500 group-hover:animate-bounce"></div>
-              <div className="absolute -bottom-2 left-1/3 w-1.5 h-1.5 bg-indigo-400/35 rounded-full blur-sm group-hover:bg-indigo-300/55 transition-all duration-600"></div>
+              
+              {/* Shooting star trail effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute top-1/4 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-purple-400 to-transparent group-hover:animate-[shooting-star-trail_1.5s_ease-out] overflow-hidden"></div>
+              </div>
             </div>
             
-            {/* Subtitle with elegant styling */}
+            {/* Mystical subtitle */}
             <div className="relative">
-              <p className="text-lg md:text-xl text-primary-foreground/80 font-light tracking-wide leading-relaxed">
-                Track your dreams, explore your subconscious
+              <p className="text-lg md:text-3xl text-primary-foreground/80 leading-relaxed font-light tracking-wide">
+                Track Your Dreams,
               </p>
-              {/* Decorative underline */}
+              <p className="text-lg md:text-3xl text-primary-foreground leading-relaxed font-light tracking-wide mb-2 md:mb-4">
+                Explore Your Subconscious
+              </p>
+              
+              {/* Subtle line decoration */}
               <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary-foreground/50 to-transparent mx-auto mb-4 md:mb-8"></div>
             </div>
           </div>
-          
-          {/* Dream wave positioned between subtitle and CTA */}
-          <div className="my-12 md:my-16 relative">
-            <DreamWave fullWidth={true} />
-          </div>
+        </div>
+
+        {/* Dream Wave Section - standalone with breathing room */}
+        <div className="relative mb-16 md:mb-20 w-full">
+          <DreamWave fullWidth={true} />
         </div>
 
         {/* CTA Section - with generous top spacing */}
