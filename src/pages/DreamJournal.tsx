@@ -215,9 +215,9 @@ export const DreamJournal = () => {
         </div>
 
         {/* Recording Interface */}
-        <div className="text-center mb-12 space-y-6">
+        <div className="text-center mb-8 space-y-4">
           {/* Primary Voice Recording Option */}
-          <div className="flex flex-col items-center space-y-4">
+          <div className="flex flex-col items-center space-y-2">
             <button
               onClick={() => {
                 trackEvent('record_dream_clicked');
@@ -237,7 +237,7 @@ export const DreamJournal = () => {
           </div>
           
           {/* "or" separator text */}
-          <p className="text-white/60 text-sm tracking-wide">or</p>
+          <p className="text-white/60 text-sm tracking-wide -my-1">or</p>
           
           {/* Secondary Manual Entry Option */}
           <div>
