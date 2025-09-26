@@ -10,7 +10,7 @@ import { AuthModal } from "@/components/AuthModal";
 
 
 import { DreamRecorder } from "@/components/DreamRecorder";
-import { VoiceRecorder } from "@/components/VoiceRecorder";
+import { InlineVoiceRecorder } from "@/components/InlineVoiceRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { DreamSearchFilter } from "@/components/DreamSearchFilter";
@@ -33,7 +33,7 @@ export const DreamJournal = () => {
     hasFilters
   } = useDreamFilters(dreams);
   const [showRecorder, setShowRecorder] = useState(false);
-  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+  const [showInlineVoiceRecorder, setShowInlineVoiceRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   
@@ -187,37 +187,6 @@ export const DreamJournal = () => {
     );
   }
 
-  if (showVoiceRecorder) {
-    return (
-      <div 
-        className="min-h-screen p-4 relative"
-        style={{
-          background: `linear-gradient(rgba(55, 35, 85, 0.8), rgba(70, 45, 100, 0.85)), url('/cosmic-background-low.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="max-w-md mx-auto space-y-6">
-          <div className="flex items-center justify-start">
-            <Button
-              onClick={() => setShowVoiceRecorder(false)}
-              variant="ghost"
-              size="sm"
-              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
-          </div>
-
-          <VoiceRecorder 
-            onDreamRecorded={handleDreamRecorded} 
-            onCancel={() => setShowVoiceRecorder(false)}
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div 
@@ -289,7 +258,7 @@ export const DreamJournal = () => {
                   if (!user) {
                     setShowAuthModal(true);
                   } else {
-                    setShowVoiceRecorder(true);
+                    setShowInlineVoiceRecorder(true);
                   }
                 }}
                 size="lg"
@@ -320,6 +289,17 @@ export const DreamJournal = () => {
               </div>
             </div>
           </>
+        )}
+
+        {/* Inline Voice Recorder */}
+        {showInlineVoiceRecorder && (
+          <InlineVoiceRecorder
+            onDreamRecorded={(dreamText, title) => {
+              handleDreamRecorded(dreamText, title);
+              setShowInlineVoiceRecorder(false);
+            }}
+            onCancel={() => setShowInlineVoiceRecorder(false)}
+          />
         )}
 
         {/* Search and Filter */}
