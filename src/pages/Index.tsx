@@ -81,32 +81,6 @@ const Index = () => {
           </div>
 
 
-          {/* Feature showcase - More compact on mobile */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 my-4 md:my-16">
-            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
-                <Moon className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
-              </div>
-              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Capture</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">Journal entries that preserve your dreams</p>
-            </div>
-            
-            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-accent/15 to-secondary/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
-                <Sparkles className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
-              </div>
-              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Analyze</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">AI-guided insights into hidden meanings</p>
-            </div>
-            
-            <div className="p-3 md:p-6 rounded-xl bg-primary-foreground/3 border border-primary-foreground/5">
-              <div className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-gradient-to-br from-secondary/15 to-primary/15 flex items-center justify-center mb-2 md:mb-4 mx-auto">
-                <Compass className="h-5 md:h-6 w-5 md:w-6 text-primary-foreground/70" />
-              </div>
-              <h3 className="text-base md:text-lg font-medium text-primary-foreground mb-1 md:mb-2">Discover</h3>
-              <p className="text-xs md:text-sm text-primary-foreground/50">Reveal the deeper story of your psyche</p>
-            </div>
-           </div>
            
            {/* Mobile CTA - In thumb zone before terms */}
            <div className="md:hidden mt-8">
