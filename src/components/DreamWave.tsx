@@ -49,8 +49,8 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
 
         {/* Primary wave layer */}
         <path
-          d="M0,60 Q200,20 400,60 T800,60 Q1000,40 1200,60 L1200,120 L0,120 Z"
-          fill="url(#waveGradient1)"
+          d="M-100,60 Q100,20 300,60 Q500,40 700,60 Q900,20 1100,60 Q1300,40 1500,60"
+          fill="none"
           stroke="url(#waveStroke)"
           strokeWidth="1.5"
           className="animate-pulse"
@@ -60,11 +60,11 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
         
         {/* Secondary wave layer */}
         <path
-          d="M0,70 Q300,30 600,70 T1200,70"
+          d="M-150,70 Q150,30 450,70 Q750,50 1050,70 Q1350,30 1650,70"
           fill="none"
           stroke="url(#waveStroke)"
           strokeWidth="1"
-          strokeOpacity="0.15"
+          strokeOpacity="0.08"
           className="animate-pulse"
           style={{ animationDelay: '0.5s' }}
         >
@@ -73,11 +73,11 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
 
         {/* Tertiary wave layer */}
         <path
-          d="M0,50 Q150,10 300,50 T600,50 Q900,30 1200,50"
+          d="M-200,50 Q50,10 250,50 Q450,30 650,50 Q850,10 1050,50 Q1250,30 1450,50"
           fill="none"
           stroke="url(#waveGradient2)"
           strokeWidth="2"
-          strokeOpacity="0.1"
+          strokeOpacity="0.05"
           className="animate-pulse"
           style={{ animationDelay: '1s' }}
         >

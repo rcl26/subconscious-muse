@@ -96,7 +96,7 @@ const Index = () => {
 
 
            
-           {/* Mobile CTA - In thumb zone before terms */}
+           {/* Mobile CTA */}
            <div className="md:hidden mt-8">
              <GeometricBrackets>
                <Button
@@ -116,19 +116,8 @@ const Index = () => {
               </Button>
              </GeometricBrackets>
             </div>
-           
-           {/* Mobile Terms Links - Below CTA */}
-           <p className="text-xs text-primary-foreground/30 mt-4 text-center md:hidden">
-             <Link to="/terms" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Terms of Use
-             </Link>
-             {" | "}
-             <Link to="/privacy" className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-               Privacy Policy
-             </Link>
-           </p>
 
-           {/* Desktop CTA - Hidden on mobile */}
+           {/* Desktop CTA */}
           <div className="hidden md:block relative">
             <GeometricBrackets>
               {/* Cosmic glow effect behind button */}
@@ -160,21 +149,22 @@ const Index = () => {
                </div>
              </Button>
             </GeometricBrackets>
-             
-             <p className="text-xs text-primary-foreground/40 mt-3 text-center">
-              <Link to="/terms" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Terms of Use
-              </Link>
-              {" | "}
-              <Link to="/privacy" className="text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
-                Privacy Policy
-              </Link>
-            </p>
           </div>
         </div>
       </div>
 
-      
+      {/* Footer with Terms and Privacy */}
+      <footer className="absolute bottom-0 left-0 right-0 bg-black/20 backdrop-blur-sm border-t border-white/10 z-20">
+        <div className="flex justify-center space-x-6 py-4 text-sm text-white/60">
+          <Link to="/terms" className="hover:text-white/80 transition-colors">
+            Terms of Use
+          </Link>
+          <span>•</span>
+          <Link to="/privacy" className="hover:text-white/80 transition-colors">
+            Privacy Policy
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 };
