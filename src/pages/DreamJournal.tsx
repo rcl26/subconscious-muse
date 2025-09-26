@@ -271,6 +271,9 @@ export const DreamJournal = () => {
                 </p>
               </div>
               
+              {/* "or" separator text */}
+              <p className="text-white/60 text-xs tracking-wide">or</p>
+              
               {/* Secondary Manual Entry Option */}
               <div>
                 <Button
@@ -284,7 +287,7 @@ export const DreamJournal = () => {
                   }}
                   variant="outline"
                   size="default"
-                  className="text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+                  className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20"
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
                   Type Manually
