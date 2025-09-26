@@ -153,18 +153,18 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Footer with Terms and Privacy */}
-      <footer className="absolute bottom-0 left-0 right-0 bg-black/20 backdrop-blur-sm border-t border-white/10 z-20">
-        <div className="flex justify-center space-x-6 py-4 text-sm text-white/60">
-          <Link to="/terms" className="hover:text-white/80 transition-colors">
+      {/* Terms and Privacy at bottom */}
+      <div className="absolute bottom-4 left-0 right-0 z-20">
+        <p className="text-xs text-primary-foreground/30 md:text-primary-foreground/40 text-center">
+          <Link to="/terms" className="text-primary-foreground/30 md:text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 md:decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
             Terms of Use
           </Link>
-          <span>•</span>
-          <Link to="/privacy" className="hover:text-white/80 transition-colors">
+          {" | "}
+          <Link to="/privacy" className="text-primary-foreground/30 md:text-primary-foreground/40 hover:text-primary-foreground/60 transition-colors underline decoration-primary-foreground/30 md:decoration-primary-foreground/40 hover:decoration-primary-foreground/60 underline-offset-2 relative z-20 cursor-pointer">
             Privacy Policy
           </Link>
-        </div>
-      </footer>
+        </p>
+      </div>
     </div>
   );
 };
