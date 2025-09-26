@@ -252,21 +252,24 @@ export const DreamJournal = () => {
 
             <div className="text-center mb-8 space-y-4">
               {/* Primary Voice Recording Option */}
-              <Button
-                onClick={() => {
-                  trackEvent('record_dream_clicked');
-                  if (!user) {
-                    setShowAuthModal(true);
-                  } else {
-                    setShowInlineVoiceRecorder(true);
-                  }
-                }}
-                size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-16 px-8 text-lg font-medium w-full max-w-sm"
-              >
-                <Mic className="h-6 w-6 mr-3" />
-                Record by Voice
-              </Button>
+              <div className="flex flex-col items-center space-y-3">
+                <button
+                  onClick={() => {
+                    trackEvent('record_dream_clicked');
+                    if (!user) {
+                      setShowAuthModal(true);
+                    } else {
+                      setShowInlineVoiceRecorder(true);
+                    }
+                  }}
+                  className="relative group w-16 h-16 rounded-full bg-white/10 border-2 border-white/30 flex items-center justify-center hover:bg-white/20 hover:border-white/40 transition-all duration-300 hover:scale-105"
+                >
+                  <Mic className="h-6 w-6 text-primary" />
+                </button>
+                <p className="text-white/80 text-sm font-light tracking-wide" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+                  Record new dream
+                </p>
+              </div>
               
               {/* Secondary Manual Entry Option */}
               <div>
