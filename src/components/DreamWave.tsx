@@ -22,25 +22,25 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
         {/* Enhanced gradient definitions */}
         <defs>
           <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
-            <stop offset="20%" stopColor="hsl(var(--accent))" stopOpacity="0.25" />
-            <stop offset="40%" stopColor="hsl(var(--secondary))" stopOpacity="0.2" />
-            <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-            <stop offset="80%" stopColor="hsl(var(--accent))" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.06" />
+            <stop offset="20%" stopColor="hsl(var(--accent))" stopOpacity="0.10" />
+            <stop offset="40%" stopColor="hsl(var(--secondary))" stopOpacity="0.08" />
+            <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.12" />
+            <stop offset="80%" stopColor="hsl(var(--accent))" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.06" />
           </linearGradient>
           
           <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="0.1" />
-            <stop offset="33%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-            <stop offset="66%" stopColor="hsl(var(--accent))" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="hsl(var(--secondary))" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="0.04" />
+            <stop offset="33%" stopColor="hsl(var(--primary))" stopOpacity="0.08" />
+            <stop offset="66%" stopColor="hsl(var(--accent))" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="hsl(var(--secondary))" stopOpacity="0.04" />
           </linearGradient>
           
           <linearGradient id="waveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.3" />
+            <stop offset="0%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="hsl(var(--primary-foreground))" stopOpacity="0.12" />
           </linearGradient>
 
           <animateTransform id="waveAnim1" attributeName="transform" type="translate" values="0,0;50,0;0,0" dur="8s" repeatCount="indefinite"/>
@@ -64,7 +64,7 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
           fill="none"
           stroke="url(#waveStroke)"
           strokeWidth="1"
-          strokeOpacity="0.4"
+          strokeOpacity="0.15"
           className="animate-pulse"
           style={{ animationDelay: '0.5s' }}
         >
@@ -77,7 +77,7 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
           fill="none"
           stroke="url(#waveGradient2)"
           strokeWidth="2"
-          strokeOpacity="0.25"
+          strokeOpacity="0.1"
           className="animate-pulse"
           style={{ animationDelay: '1s' }}
         >
@@ -88,27 +88,27 @@ export const DreamWave: React.FC<DreamWaveProps> = ({ className = "", fullWidth 
       {/* Enhanced floating dream particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Constellation particles */}
-        <div className="absolute top-4 left-[8%] w-1 h-1 bg-primary-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-8 left-[20%] w-0.5 h-0.5 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-6 left-[35%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-10 left-[50%] w-0.5 h-0.5 bg-primary/50 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        <div className="absolute top-5 left-[65%] w-1 h-1 bg-accent/40 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
-        <div className="absolute top-9 left-[80%] w-0.5 h-0.5 bg-primary-foreground/50 rounded-full animate-pulse" style={{ animationDelay: '2.3s' }}></div>
-        <div className="absolute top-7 right-[10%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }}></div>
+        <div className="absolute top-4 left-[8%] w-1 h-1 bg-primary-foreground/20 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute top-8 left-[20%] w-0.5 h-0.5 bg-accent/25 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-6 left-[35%] w-1 h-1 bg-secondary/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-10 left-[50%] w-0.5 h-0.5 bg-primary/25 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-5 left-[65%] w-1 h-1 bg-accent/20 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+        <div className="absolute top-9 left-[80%] w-0.5 h-0.5 bg-primary-foreground/25 rounded-full animate-pulse" style={{ animationDelay: '2.3s' }}></div>
+        <div className="absolute top-7 right-[10%] w-1 h-1 bg-secondary/20 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }}></div>
         
         {/* Bottom particles */}
-        <div className="absolute bottom-8 left-[15%] w-0.5 h-0.5 bg-primary-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute bottom-6 left-[30%] w-1 h-1 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute bottom-10 left-[45%] w-0.5 h-0.5 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '2.8s' }}></div>
-        <div className="absolute bottom-7 left-[60%] w-1 h-1 bg-secondary/40 rounded-full animate-pulse" style={{ animationDelay: '1.2s' }}></div>
-        <div className="absolute bottom-9 left-[75%] w-0.5 h-0.5 bg-primary-foreground/50 rounded-full animate-pulse" style={{ animationDelay: '3.5s' }}></div>
-        <div className="absolute bottom-5 right-[8%] w-1 h-1 bg-accent/40 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+        <div className="absolute bottom-8 left-[15%] w-0.5 h-0.5 bg-primary-foreground/20 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-6 left-[30%] w-1 h-1 bg-primary/20 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-10 left-[45%] w-0.5 h-0.5 bg-accent/25 rounded-full animate-pulse" style={{ animationDelay: '2.8s' }}></div>
+        <div className="absolute bottom-7 left-[60%] w-1 h-1 bg-secondary/20 rounded-full animate-pulse" style={{ animationDelay: '1.2s' }}></div>
+        <div className="absolute bottom-9 left-[75%] w-0.5 h-0.5 bg-primary-foreground/25 rounded-full animate-pulse" style={{ animationDelay: '3.5s' }}></div>
+        <div className="absolute bottom-5 right-[8%] w-1 h-1 bg-accent/20 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
 
         {/* Connecting lines for constellation effect */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <line x1="8" y1="20" x2="20" y2="40" stroke="hsl(var(--primary-foreground))" strokeWidth="0.1" opacity="0.2" className="animate-pulse" style={{ animationDelay: '4s' }}/>
-          <line x1="35" y1="30" x2="50" y2="50" stroke="hsl(var(--accent))" strokeWidth="0.1" opacity="0.15" className="animate-pulse" style={{ animationDelay: '5s' }}/>
-          <line x1="65" y1="25" x2="80" y2="45" stroke="hsl(var(--secondary))" strokeWidth="0.1" opacity="0.2" className="animate-pulse" style={{ animationDelay: '6s' }}/>
+          <line x1="8" y1="20" x2="20" y2="40" stroke="hsl(var(--primary-foreground))" strokeWidth="0.1" opacity="0.08" className="animate-pulse" style={{ animationDelay: '4s' }}/>
+          <line x1="35" y1="30" x2="50" y2="50" stroke="hsl(var(--accent))" strokeWidth="0.1" opacity="0.06" className="animate-pulse" style={{ animationDelay: '5s' }}/>
+          <line x1="65" y1="25" x2="80" y2="45" stroke="hsl(var(--secondary))" strokeWidth="0.1" opacity="0.08" className="animate-pulse" style={{ animationDelay: '6s' }}/>
         </svg>
       </div>
     </div>
