@@ -68,12 +68,19 @@ const Index = () => {
 
       <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
         {/* Clean header */}
-        <div className="text-center space-y-6 md:space-y-12 max-w-2xl mx-auto">
+        <div className="text-center space-y-4 md:space-y-8 max-w-2xl mx-auto">
           <div className="relative">
-            {/* Main title with gradient effect */}
-            <h1 className="text-4xl md:text-7xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider">
-              Oneira
-            </h1>
+            {/* Main title with gradient effect and interactive hover states */}
+            <div className="group relative cursor-default">
+              <h1 className="text-4xl md:text-7xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider shooting-star transition-all duration-300 transform-gpu group-hover:animate-shimmer group-hover:drop-shadow-[0_0_20px_rgba(147,51,234,0.5)] will-change-transform">
+                Oneira
+              </h1>
+              
+              {/* Shooting star trail effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute top-1/4 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-purple-400 to-transparent group-hover:animate-[shooting-star-trail_1.5s_ease-out] overflow-hidden"></div>
+              </div>
+            </div>
             
             {/* Mystical subtitle */}
             <div className="relative">
@@ -90,14 +97,14 @@ const Index = () => {
           </div>
 
           {/* Dream wave positioned between subtitle and CTA */}
-          <div className="my-8 md:my-12 relative">
+          <div className="my-12 md:my-16 relative">
             <DreamWave fullWidth={true} />
           </div>
 
 
            
            {/* Mobile CTA */}
-           <div className="md:hidden mt-8">
+           <div className="md:hidden mt-12">
              <GeometricBrackets>
                <Button
                onClick={handleGoogleSignIn}
@@ -118,7 +125,7 @@ const Index = () => {
             </div>
 
            {/* Desktop CTA */}
-          <div className="hidden md:block relative">
+          <div className="hidden md:block relative mt-16">
             <GeometricBrackets>
               {/* Cosmic glow effect behind button */}
               <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
