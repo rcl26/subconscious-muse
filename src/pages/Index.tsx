@@ -66,9 +66,9 @@ const Index = () => {
       
 
 
-      <div className="relative min-h-screen flex flex-col items-center justify-start p-4 pt-20 z-10 font-helvetica">
+      <div className="relative min-h-screen flex flex-col items-center justify-center p-4 z-10 font-helvetica">
         {/* Title Section - with proper spacing */}
-        <div className="text-center max-w-2xl mx-auto mb-8">
+        <div className="text-center max-w-2xl mx-auto mb-4">
           <div className="relative">
             {/* Main title with gradient effect and interactive hover states */}
             <div className="group relative cursor-default">
@@ -97,13 +97,13 @@ const Index = () => {
           </div>
 
           {/* Dream Wave positioned after subtitle */}
-          <div className="relative mt-8 mb-12 w-full">
+          <div className="relative mt-4 mb-6 w-full">
             <DreamWave fullWidth={true} />
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="text-center max-w-2xl mx-auto mt-20 md:mt-32">
+        <div className="text-center max-w-2xl mx-auto mt-8 md:mt-12">
            {/* Mobile CTA */}
            <div className="md:hidden">
              <GeometricBrackets>
