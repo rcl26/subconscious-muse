@@ -72,7 +72,7 @@ const Index = () => {
           <div className="relative">
             {/* Main title with gradient effect and interactive hover states */}
             <div className="group relative cursor-default">
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider shooting-star transition-all duration-300 transform-gpu group-hover:animate-shimmer group-hover:drop-shadow-[0_0_20px_rgba(147,51,234,0.5)] will-change-transform">
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-cormorant text-transparent bg-clip-text bg-gradient-to-b from-primary-foreground via-primary-foreground/90 to-primary-foreground/70 mb-3 md:mb-6 tracking-wider shooting-star transition-all duration-300 transform-gpu group-hover:animate-shimmer group-hover:drop-shadow-[0_0_20px_rgba(147,51,234,0.5)] will-change-transform">
                 Oneira
               </h1>
               
