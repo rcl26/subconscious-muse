@@ -21,7 +21,6 @@ import { useDreams, Dream } from "@/hooks/useDreams";
 import { useDreamFilters } from "@/hooks/useDreamFilters";
 import { useSubscriptionSuccess } from "@/hooks/useSubscriptionSuccess";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const DreamJournal = () => {
   const { dreams, isLoading, saveDream, deleteDream, updateDreamConversation } = useDreams();
@@ -38,7 +37,6 @@ export const DreamJournal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
   
   const { user, profile, signOut, loading, profileLoading } = useAuth();
   const { toast } = useToast();
@@ -202,34 +200,9 @@ export const DreamJournal = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           {user && (
-            <Popover open={feedbackOpen} onOpenChange={setFeedbackOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-white/80 border-white/30 bg-transparent"
-                >
-                  Feedback
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent 
-                side="bottom" 
-                align="start" 
-                className="w-80 p-6"
-                sideOffset={8}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Heart className="h-5 w-5 text-primary" />
-                    <h3 className="font-semibold text-lg">We'd Love to Hear From You!</h3>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Feedback is always more than welcome. You can contact us at{' '}
-                    <span className="font-medium text-foreground">oneiradreamteam@gmail.com</span>
-                  </p>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <h1 className="text-lg font-cormorant font-semibold text-primary-foreground">
+              {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
+            </h1>
           )}
           
           <div className="flex items-center space-x-4">
@@ -241,61 +214,51 @@ export const DreamJournal = () => {
           </div>
         </div>
 
-        {/* Title and Record Button - Only show when user has dreams */}
-        {dreams.length > 0 && (
-          <>
-            <div className="text-center space-y-2 mb-8">
-              <h1 className="text-2xl font-cormorant font-semibold text-primary-foreground">
-                {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
-              </h1>
-            </div>
-
-            <div className="text-center mb-8 space-y-4">
-              {/* Primary Voice Recording Option */}
-              <div className="flex flex-col items-center space-y-3">
-                <button
-                  onClick={() => {
-                    trackEvent('record_dream_clicked');
-                    if (!user) {
-                      setShowAuthModal(true);
-                    } else {
-                      setShowInlineVoiceRecorder(true);
-                    }
-                  }}
-                  className="relative group w-16 h-16 rounded-full bg-white/10 border-2 border-white/60 flex items-center justify-center hover:bg-white/20 hover:border-white/70 transition-all duration-300 hover:scale-105"
-                >
-                  <Mic className="h-6 w-6 text-primary" />
-                </button>
-                <p className="text-white/90 text-sm font-light tracking-wide" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
-                  Record new dream
-                </p>
-              </div>
-              
-              {/* "or" separator text */}
-              <p className="text-white/60 text-xs tracking-wide">or</p>
-              
-              {/* Secondary Manual Entry Option */}
-              <div>
-                <Button
-                  onClick={() => {
-                    trackEvent('record_dream_clicked');
-                    if (!user) {
-                      setShowAuthModal(true);
-                    } else {
-                      setShowRecorder(true);
-                    }
-                  }}
-                  variant="outline"
-                  size="default"
-                  className="bg-transparent text-white/80 border-primary-foreground/30 hover:bg-primary-foreground/5 hover:text-white/80"
-                >
-                  <Edit3 className="h-4 w-4 mr-2" />
-                  Type manually
-                </Button>
-              </div>
-            </div>
-          </>
-        )}
+        {/* Recording Interface */}
+        <div className="text-center mb-12 space-y-6">
+          {/* Primary Voice Recording Option */}
+          <div className="flex flex-col items-center space-y-4">
+            <button
+              onClick={() => {
+                trackEvent('record_dream_clicked');
+                if (!user) {
+                  setShowAuthModal(true);
+                } else {
+                  setShowInlineVoiceRecorder(true);
+                }
+              }}
+              className="relative group w-20 h-20 rounded-full bg-white/10 border-2 border-white/60 flex items-center justify-center hover:bg-white/20 hover:border-white/70 transition-all duration-300 hover:scale-105"
+            >
+              <Mic className="h-7 w-7 text-primary" />
+            </button>
+            <p className="text-white/90 text-base font-light tracking-wide" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+              Record new dream
+            </p>
+          </div>
+          
+          {/* "or" separator text */}
+          <p className="text-white/60 text-sm tracking-wide">or</p>
+          
+          {/* Secondary Manual Entry Option */}
+          <div>
+            <Button
+              onClick={() => {
+                trackEvent('record_dream_clicked');
+                if (!user) {
+                  setShowAuthModal(true);
+                } else {
+                  setShowRecorder(true);
+                }
+              }}
+              variant="outline"
+              size="default"
+              className="bg-transparent text-white/80 border-primary-foreground/30 hover:bg-primary-foreground/5 hover:text-white/80"
+            >
+              <Edit3 className="h-4 w-4 mr-2" />
+              Type manually
+            </Button>
+          </div>
+        </div>
 
         {/* Inline Voice Recorder */}
         {showInlineVoiceRecorder && (
