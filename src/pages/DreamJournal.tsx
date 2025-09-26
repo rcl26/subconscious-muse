@@ -266,7 +266,7 @@ export const DreamJournal = () => {
                 >
                   <Mic className="h-6 w-6 text-primary" />
                 </button>
-                <p className="text-white/80 text-sm font-light tracking-wide" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+                <p className="text-white/90 text-sm font-light tracking-wide" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
                   Record new dream
                 </p>
               </div>
@@ -287,10 +287,10 @@ export const DreamJournal = () => {
                   }}
                   variant="outline"
                   size="default"
-                  className="bg-transparent text-white/90 border-primary-foreground/30 hover:bg-primary-foreground/5 hover:text-white/90"
+                  className="bg-transparent text-white/80 border-primary-foreground/30 hover:bg-primary-foreground/5 hover:text-white/80"
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
-                  Type Manually
+                  Type manually
                 </Button>
               </div>
             </div>
