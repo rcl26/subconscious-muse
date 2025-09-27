@@ -27,6 +27,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   const [manualText, setManualText] = useState("");
   
   const MAX_RECORDING_TIME = 60; // 60 seconds limit
+  const [hasAutoStopped, setHasAutoStopped] = useState(false);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -96,11 +97,20 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
           }
           
           // Auto-stop at 60 seconds
-          if (newTime >= MAX_RECORDING_TIME) {
-            stopRecording();
-            toast.info("Recording stopped at 60 second limit", {
-              duration: 3000
-            });
+          if (newTime >= MAX_RECORDING_TIME && !hasAutoStopped) {
+            setHasAutoStopped(true);
+            // Clear timer immediately to prevent multiple executions
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+              timerRef.current = null;
+            }
+            // Stop recording and show single notification
+            setTimeout(() => {
+              stopRecording();
+              toast.info("Time limit reached - processing your dream...", {
+                duration: 3000
+              });
+            }, 100);
             return MAX_RECORDING_TIME;
           }
           
@@ -224,6 +234,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
     setRecordingState('idle');
     setRecordingTime(0);
     setAudioLevel(0);
+    setHasAutoStopped(false);
     
     // Stop any ongoing recording
     if (mediaRecorderRef.current && recordingState === 'recording') {
