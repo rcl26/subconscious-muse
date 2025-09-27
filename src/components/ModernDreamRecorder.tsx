@@ -206,7 +206,15 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   // Transcribed state - show editing interface
   if (recordingState === 'transcribed') {
     return (
-      <Card className="p-8 bg-card shadow-dream border-0 backdrop-blur-sm">
+      <Card className="p-8 bg-card shadow-dream border-0 backdrop-blur-sm relative">
+        {/* X Button in top-right corner */}
+        <button
+          onClick={handleCancel}
+          className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground hover:text-card-foreground"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
         <div className="space-y-6">
           <div className="text-center">
             <h3 className="text-xl font-semibold text-card-foreground mb-2">
@@ -236,22 +244,14 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               />
             </div>
 
-            <div className="flex gap-3 pt-4">
+            <div className="pt-4">
               <Button
                 onClick={handleSave}
                 disabled={isManualEntry ? !manualText.trim() : !transcribedText.trim()}
-                className="flex-1 bg-primary hover:bg-primary/90 transition-magical"
+                className="w-full bg-primary hover:bg-primary/90 transition-magical"
               >
                 <Save className="w-4 h-4 mr-2" />
                 Save Dream
-              </Button>
-              <Button
-                onClick={handleCancel}
-                variant="outline"
-                className="px-6"
-              >
-                <X className="w-4 h-4 mr-2" />
-                Cancel
               </Button>
             </div>
           </div>
