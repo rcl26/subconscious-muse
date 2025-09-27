@@ -140,7 +140,15 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           if (error) throw error;
 
-          setTranscribedText(data.text);
+          // Check if transcription is empty or only whitespace
+          const transcribedText = data.text?.trim() || '';
+          if (!transcribedText) {
+            setRecordingState('idle');
+            toast.error("No speech detected. Please try recording again.");
+            return;
+          }
+
+          setTranscribedText(transcribedText);
           setRecordingState('transcribed');
           
         } catch (error) {
