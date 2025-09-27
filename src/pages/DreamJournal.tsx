@@ -214,8 +214,8 @@ export const DreamJournal = () => {
           </div>
         </div>
 
-        {/* Recording Interface or Sign-in Prompt */}
-        {user ? (
+        {/* Recording Interface */}
+        {user && (
           <div className="text-center mb-8 space-y-4">
             {/* Primary Voice Recording Option */}
             <div className="flex flex-col items-center space-y-2">
@@ -249,24 +249,6 @@ export const DreamJournal = () => {
               >
                 <Edit3 className="h-4 w-4 mr-2" />
                 Type manually
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center mb-8 space-y-4">
-            <div className="flex flex-col items-center space-y-4">
-              <h3 className="text-white/90 text-xl font-medium">
-                Sign in to access your dream journal
-              </h3>
-              <p className="text-white/60 text-sm max-w-md">
-                Start recording and exploring your dreams with AI-powered insights
-              </p>
-              <Button
-                onClick={() => setShowAuthModal(true)}
-                variant="outline"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20 transition-all duration-300 px-8 py-3 text-lg font-medium rounded-full backdrop-blur-sm"
-              >
-                Sign In
               </Button>
             </div>
           </div>
