@@ -23,6 +23,8 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   const [title, setTitle] = useState("");
   const [recordingTime, setRecordingTime] = useState(0);
   const [audioLevel, setAudioLevel] = useState(0);
+  const [isManualEntry, setIsManualEntry] = useState(false);
+  const [manualText, setManualText] = useState("");
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -160,20 +162,31 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   };
 
   const handleSave = () => {
-    if (transcribedText.trim()) {
-      onDreamRecorded(transcribedText.trim(), title.trim() || undefined);
+    const dreamText = isManualEntry ? manualText : transcribedText;
+    if (dreamText.trim()) {
+      onDreamRecorded(dreamText.trim(), title.trim() || undefined);
       // Reset state
       setTranscribedText("");
       setTitle("");
+      setManualText("");
+      setIsManualEntry(false);
       setRecordingState('idle');
       setRecordingTime(0);
     }
+  };
+
+  const handleManualEntry = () => {
+    setIsManualEntry(true);
+    setRecordingState('transcribed');
+    setTranscribedText(manualText);
   };
 
   const handleCancel = () => {
     // Reset state
     setTranscribedText("");
     setTitle("");
+    setManualText("");
+    setIsManualEntry(false);
     setRecordingState('idle');
     setRecordingTime(0);
     setAudioLevel(0);
@@ -218,17 +231,17 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             
             <div>
               <Textarea
-                value={transcribedText}
-                onChange={(e) => setTranscribedText(e.target.value)}
+                value={isManualEntry ? manualText : transcribedText}
+                onChange={(e) => isManualEntry ? setManualText(e.target.value) : setTranscribedText(e.target.value)}
                 className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
-                placeholder="Your transcribed dream will appear here..."
+                placeholder={isManualEntry ? "Type your dream here..." : "Your transcribed dream will appear here..."}
               />
             </div>
 
             <div className="flex gap-3 pt-4">
               <Button
                 onClick={handleSave}
-                disabled={!transcribedText.trim()}
+                disabled={isManualEntry ? !manualText.trim() : !transcribedText.trim()}
                 className="flex-1 bg-primary hover:bg-primary/90 transition-magical"
               >
                 <Save className="w-4 h-4 mr-2" />
@@ -274,15 +287,44 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             </p>
           </div>
 
-          {/* Main Recording Orb */}
-          <div className="relative flex justify-center">
-            <FloatingRecordOrb
-              state={recordingState}
-              audioLevel={audioLevel}
-              onStartRecording={startRecording}
-              onStopRecording={stopRecording}
-            />
-          </div>
+          {/* Main Recording Orb or Manual Entry Button */}
+          {!isManualEntry ? (
+            <div className="relative flex justify-center">
+              <FloatingRecordOrb
+                state={recordingState}
+                audioLevel={audioLevel}
+                onStartRecording={startRecording}
+                onStopRecording={stopRecording}
+              />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Textarea
+                value={manualText}
+                onChange={(e) => setManualText(e.target.value)}
+                className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
+                placeholder="Type your dream here..."
+              />
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleManualEntry}
+                  disabled={!manualText.trim()}
+                  className="flex-1 bg-primary hover:bg-primary/90 transition-magical"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  Continue to Review
+                </Button>
+                <Button
+                  onClick={() => setIsManualEntry(false)}
+                  variant="outline"
+                  className="px-6"
+                >
+                  <Mic className="w-4 h-4 mr-2" />
+                  Use Voice
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Audio Visualizer */}
           {(recordingState === 'recording' || recordingState === 'processing') && (
@@ -335,10 +377,15 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             </div>
           )}
 
-          {/* Quick tips */}
-          {recordingState === 'idle' && (
-            <div className="text-xs text-muted-foreground max-w-md mx-auto">
-              <p>💡 Speak clearly and take your time. The app will automatically transcribe your voice into text.</p>
+          {/* Manual Entry Option */}
+          {recordingState === 'idle' && !isManualEntry && (
+            <div className="text-center">
+              <button
+                onClick={() => setIsManualEntry(true)}
+                className="text-sm text-muted-foreground hover:text-card-foreground transition-colors underline-offset-4 hover:underline"
+              >
+                or enter your dream manually
+              </button>
             </div>
           )}
         </div>
