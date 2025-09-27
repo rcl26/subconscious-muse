@@ -209,12 +209,12 @@ export const DreamJournal = () => {
           <div className="flex items-center space-x-4">
             {user && dreams.length > 0 && (
               <Button
-                onClick={() => setShowSearch(!showSearch)}
+                onClick={() => setShowSearch(true)}
                 variant="ghost"
                 size="sm"
                 className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
               >
-                {showSearch ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+                <Search className="h-5 w-5" />
               </Button>
             )}
           </div>
@@ -278,6 +278,7 @@ export const DreamJournal = () => {
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
               onClearFilters={clearFilters}
+              onCloseSearch={() => setShowSearch(false)}
               resultsCount={filteredDreams.length}
               totalCount={dreams.length}
             />

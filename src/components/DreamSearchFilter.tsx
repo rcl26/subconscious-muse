@@ -7,6 +7,7 @@ interface DreamSearchFilterProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   onClearFilters: () => void;
+  onCloseSearch: () => void;
   resultsCount: number;
   totalCount: number;
 }
@@ -15,6 +16,7 @@ export const DreamSearchFilter = ({
   searchTerm,
   onSearchChange,
   onClearFilters,
+  onCloseSearch,
   resultsCount,
   totalCount
 }: DreamSearchFilterProps) => {
@@ -33,16 +35,17 @@ export const DreamSearchFilter = ({
             onChange={(e) => onSearchChange(e.target.value)}
             className="pl-12 pr-4 py-3 bg-primary-foreground/5 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:bg-primary-foreground/10 focus:border-primary-foreground/40 rounded-xl text-base transition-all duration-200"
           />
-          {searchTerm && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onSearchChange("")}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 text-primary-foreground/60 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-lg"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              onSearchChange("");
+              onCloseSearch();
+            }}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 text-primary-foreground/60 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-lg"
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
