@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart, Mic, Edit3 } from "lucide-react";
+import { ArrowLeft, Moon, Plus, User, LogOut, Zap, CreditCard, Sparkles, MessageSquare, Heart, Mic, Edit3, Search, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -35,6 +35,7 @@ export const DreamJournal = () => {
   const [showInlineVoiceRecorder, setShowInlineVoiceRecorder] = useState(false);
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -206,10 +207,15 @@ export const DreamJournal = () => {
           )}
           
           <div className="flex items-center space-x-4">
-            {user && (
-              <ProfileDropdown 
-                onSignOut={handleSignOut}
-              />
+            {user && dreams.length > 0 && (
+              <Button
+                onClick={() => setShowSearch(!showSearch)}
+                variant="ghost"
+                size="sm"
+                className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
+              >
+                {showSearch ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+              </Button>
             )}
           </div>
         </div>
@@ -265,9 +271,9 @@ export const DreamJournal = () => {
           />
         )}
 
-        {/* Search and Filter */}
-        <div className="mt-4">
-          {dreams.length > 0 && (
+        {/* Search and Filter - Only show when activated */}
+        {showSearch && dreams.length > 0 && (
+          <div className="mb-6 animate-fade-in">
             <DreamSearchFilter
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
@@ -275,8 +281,8 @@ export const DreamJournal = () => {
               resultsCount={filteredDreams.length}
               totalCount={dreams.length}
             />
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Dreams list */}
         <div className="space-y-4">
@@ -326,6 +332,15 @@ export const DreamJournal = () => {
           )}
         </div>
       </div>
+
+      {/* Profile Dropdown - Bottom Left */}
+      {user && (
+        <div className="fixed bottom-6 left-6 z-50">
+          <ProfileDropdown 
+            onSignOut={handleSignOut}
+          />
+        </div>
+      )}
 
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
