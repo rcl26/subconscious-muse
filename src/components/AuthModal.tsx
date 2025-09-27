@@ -69,7 +69,7 @@ export const AuthModal = ({ open, onOpenChange, onAuthSuccess }: AuthModalProps)
 
         <p className="text-xs text-center text-muted-foreground">
           By continuing, you agree to our{' '}
-          <a href="/terms" className="underline hover:text-foreground">Terms of Use</a>{' '}
+          <a href="/terms" className="underline hover:text-foreground">terms of use</a>{' '}
           and{' '}
           <a href="/privacy" className="underline hover:text-foreground">privacy policy</a>
         </p>
