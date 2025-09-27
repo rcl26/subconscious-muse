@@ -269,20 +269,20 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           <div className="space-y-4">
             <div>
-              <Input
-                placeholder="Dream title (optional)"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-            
-            <div>
               <Textarea
                 value={isManualEntry ? manualText : transcribedText}
                 onChange={(e) => isManualEntry ? setManualText(e.target.value) : setTranscribedText(e.target.value)}
                 className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
                 placeholder={isManualEntry ? "Type your dream here..." : "Your transcribed dream will appear here..."}
+              />
+            </div>
+            
+            <div>
+              <Input
+                placeholder="Dream title (optional)"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="bg-card border-muted text-card-foreground placeholder:text-muted-foreground"
               />
             </div>
 
