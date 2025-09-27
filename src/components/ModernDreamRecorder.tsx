@@ -277,7 +277,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
           {/* Header */}
           <div className="space-y-2">
             <h2 className="text-2xl font-semibold text-card-foreground">
-              Capture Your Dream
+              Describe Your Dream
             </h2>
             <p className="text-muted-foreground">
               {recordingState === 'idle' && "Tap the orb to start recording"}
