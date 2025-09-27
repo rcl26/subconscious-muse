@@ -165,10 +165,10 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
           });
 
           if (error) {
-            // Handle file size limit specifically
-            if (error.message?.includes('Audio file too large')) {
+            // Handle 413 Payload Too Large error specifically
+            if (error.status === 413 || error.message?.includes('Audio file too large')) {
               setRecordingState('idle');
-              toast.error("Recording too long. Please keep dreams under 2 minutes or use manual entry.", {
+              toast.error("Audio file too large. Please keep recordings under one minute.", {
                 duration: 4000
               });
               return;
