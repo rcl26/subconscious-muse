@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AudioVisualizer } from "./AudioVisualizer";
+
 import { FloatingRecordOrb } from "./FloatingRecordOrb";
 import { triggerHapticFeedback } from "@/hooks/useMobileDetection";
 import { supabase } from "@/integrations/supabase/client";
@@ -385,15 +385,6 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             </div>
           )}
 
-          {/* Audio Visualizer */}
-          {(recordingState === 'recording' || recordingState === 'processing') && (
-            <div className="flex justify-center">
-              <AudioVisualizer 
-                audioLevel={audioLevel} 
-                isRecording={recordingState === 'recording'}
-              />
-            </div>
-          )}
 
           {/* Recording Timer with Progress */}
           {recordingState === 'recording' && (
