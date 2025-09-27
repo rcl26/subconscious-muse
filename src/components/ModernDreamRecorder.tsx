@@ -26,6 +26,8 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   const [isManualEntry, setIsManualEntry] = useState(false);
   const [manualText, setManualText] = useState("");
   
+  const MAX_RECORDING_TIME = 60; // 60 seconds limit
+  
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -81,9 +83,29 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
       setRecordingState('recording');
       setRecordingTime(0);
       
-      // Start timer
+      // Start timer with auto-stop at limit
       timerRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 1);
+        setRecordingTime(prev => {
+          const newTime = prev + 1;
+          
+          // Show warning at 50 seconds
+          if (newTime === 50) {
+            toast.warning("10 seconds remaining", {
+              duration: 2000
+            });
+          }
+          
+          // Auto-stop at 60 seconds
+          if (newTime >= MAX_RECORDING_TIME) {
+            stopRecording();
+            toast.info("Recording stopped at 60 second limit", {
+              duration: 3000
+            });
+            return MAX_RECORDING_TIME;
+          }
+          
+          return newTime;
+        });
       }, 1000);
 
       // Start audio analysis
@@ -367,15 +389,39 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             </div>
           )}
 
-          {/* Recording Timer */}
+          {/* Recording Timer with Progress */}
           {recordingState === 'recording' && (
-            <div className="text-center">
+            <div className="text-center space-y-3">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full">
                 <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                <span className="text-lg font-mono text-card-foreground">
+                <span className={`text-lg font-mono transition-colors ${
+                  recordingTime >= 50 ? 'text-orange-500' : 'text-card-foreground'
+                }`}>
                   {formatTime(recordingTime)}
                 </span>
+                <span className="text-sm text-muted-foreground">
+                  / {formatTime(MAX_RECORDING_TIME)}
+                </span>
               </div>
+              
+              {/* Progress bar */}
+              <div className="w-48 h-1 bg-muted/30 rounded-full mx-auto overflow-hidden">
+                <div 
+                  className={`h-full transition-all duration-1000 rounded-full ${
+                    recordingTime >= 50 ? 'bg-orange-500' : 'bg-primary'
+                  }`}
+                  style={{ 
+                    width: `${Math.min((recordingTime / MAX_RECORDING_TIME) * 100, 100)}%` 
+                  }}
+                />
+              </div>
+              
+              {/* Warning message */}
+              {recordingTime >= 50 && (
+                <p className="text-sm text-orange-500 animate-pulse">
+                  Recording will stop automatically at 60 seconds
+                </p>
+              )}
             </div>
           )}
 
@@ -410,13 +456,16 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           {/* Manual Entry Option */}
           {recordingState === 'idle' && !isManualEntry && (
-            <div className="text-center mt-8">
+            <div className="text-center mt-8 space-y-2">
               <button
                 onClick={() => setIsManualEntry(true)}
                 className="text-sm text-muted-foreground hover:text-card-foreground transition-colors underline underline-offset-4"
               >
                 or enter your dream manually
               </button>
+              <p className="text-xs text-muted-foreground">
+                Audio recordings are limited to 60 seconds for optimal performance
+              </p>
             </div>
           )}
         </div>
