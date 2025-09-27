@@ -426,6 +426,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               <Button
                 onClick={() => setRecordingState('idle')}
                 variant="outline"
+                className="text-foreground"
               >
                 Try Again
               </Button>
