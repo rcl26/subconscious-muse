@@ -141,10 +141,17 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
           });
 
           if (error) {
-            // Handle 413 Payload Too Large error specifically
-            if (error.status === 413 || error.message?.includes('Audio file too large')) {
+            console.log('Transcription error:', error);
+            
+            // Handle file too large error specifically
+            // Check for 413 status code or error message content
+            const isFileTooLarge = error.status === 413 || 
+                                 error.message?.includes('Audio file too large') ||
+                                 (typeof error === 'object' && error?.error?.includes('Audio file too large'));
+            
+            if (isFileTooLarge) {
               setRecordingState('idle');
-              toast.error("Audio file too large. Please keep recordings under one minute.", {
+              toast.error("Audio file too large, please keep recordings under 60 seconds.", {
                 duration: 4000
               });
               return;
