@@ -179,7 +179,7 @@ export const DreamJournal = () => {
 
         {/* Modern Dream Recorder */}
         {user && (
-          <div className="mb-8">
+          <div className="max-w-md mx-auto mb-8">
             <ModernDreamRecorder 
               onDreamRecorded={handleDreamRecorded}
             />
