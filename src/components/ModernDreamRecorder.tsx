@@ -277,6 +277,18 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   // Main recording interface
   return (
     <Card className="p-8 bg-card shadow-dream border-0 backdrop-blur-sm overflow-hidden relative">
+      {/* X button for manual entry - positioned relative to Card */}
+      {isManualEntry && (
+        <Button
+          onClick={handleCancel}
+          variant="ghost"
+          size="icon"
+          className="absolute top-4 right-4 h-8 w-8 rounded-full z-10"
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      )}
+
       {/* Floating background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-4 left-4 w-2 h-2 bg-primary/20 rounded-full animate-pulse" />
@@ -291,13 +303,14 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             <h2 className="text-2xl font-semibold text-card-foreground">
               Describe Your Dream
             </h2>
-            <p className="text-muted-foreground">
-              {!isManualEntry && recordingState === 'idle' && "Tap the orb to start recording"}
-              {!isManualEntry && recordingState === 'recording' && "Listening to your dream..."}
-              {!isManualEntry && recordingState === 'processing' && "Transcribing your dream..."}
-              {!isManualEntry && recordingState === 'error' && "Something went wrong"}
-              {isManualEntry && "Type your dream below"}
-            </p>
+            {!isManualEntry && (
+              <p className="text-muted-foreground">
+                {recordingState === 'idle' && "Tap the orb to start recording"}
+                {recordingState === 'recording' && "Listening to your dream..."}
+                {recordingState === 'processing' && "Transcribing your dream..."}
+                {recordingState === 'error' && "Something went wrong"}
+              </p>
+            )}
           </div>
 
           {/* Main Recording Orb or Manual Entry */}
@@ -311,48 +324,36 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               />
             </div>
           ) : (
-            <div className="relative">
-              {/* Close button for manual entry */}
-              <Button
-                onClick={handleCancel}
-                variant="ghost"
-                size="icon"
-                className="absolute -top-2 -right-2 h-8 w-8 rounded-full z-10"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+            <div className="space-y-4">
+              {/* Dream content textarea comes first */}
+              <Textarea
+                value={manualText}
+                onChange={(e) => setManualText(e.target.value)}
+                className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
+                placeholder="Type your dream here..."
+              />
               
-              <div className="space-y-4">
-                {/* Title input */}
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="bg-card border-muted text-card-foreground"
-                  placeholder="Dream title (optional)"
-                />
-                
-                {/* Dream content textarea */}
-                <Textarea
-                  value={manualText}
-                  onChange={(e) => setManualText(e.target.value)}
-                  className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
-                  placeholder="Type your dream here..."
-                />
-                
-                {/* Single save button */}
-                <Button
-                  onClick={() => {
-                    if (manualText.trim()) {
-                      handleSave();
-                    }
-                  }}
-                  disabled={!manualText.trim()}
-                  className="w-full bg-primary hover:bg-primary/90 transition-magical"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Dream
-                </Button>
-              </div>
+              {/* Title input comes second */}
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="bg-card border-muted text-card-foreground"
+                placeholder="Dream title (optional)"
+              />
+              
+              {/* Save button */}
+              <Button
+                onClick={() => {
+                  if (manualText.trim()) {
+                    handleSave();
+                  }
+                }}
+                disabled={!manualText.trim()}
+                className="w-full bg-primary hover:bg-primary/90 transition-magical"
+              >
+                <Save className="w-4 h-4 mr-2" />
+                Save Dream
+              </Button>
             </div>
           )}
 
