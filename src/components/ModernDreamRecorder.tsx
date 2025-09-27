@@ -319,7 +319,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
         <div className="text-center space-y-8">
           {/* Header */}
           <div className="space-y-2">
-            <h2 className="text-2xl font-semibold text-card-foreground">
+            <h2 className="text-lg sm:text-2xl font-semibold text-card-foreground">
               Describe Your Dream
             </h2>
             {!isManualEntry && (
