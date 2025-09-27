@@ -89,12 +89,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
         setRecordingTime(prev => {
           const newTime = prev + 1;
           
-          // Show warning at 50 seconds
-          if (newTime === 50) {
-            toast.warning("10 seconds remaining", {
-              duration: 2000
-            });
-          }
+          // No warning needed - just auto-stop at limit
           
           // Auto-stop at 60 seconds
           if (newTime >= MAX_RECORDING_TIME && !hasAutoStopped) {
@@ -107,7 +102,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             // Stop recording and show single notification
             setTimeout(() => {
               stopRecording();
-              toast.info("Time limit reached - processing your dream...", {
+              toast.info("Dreams are limited to 60 seconds", {
                 duration: 3000
               });
             }, 100);
@@ -405,9 +400,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             <div className="text-center space-y-3">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 rounded-full">
                 <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                <span className={`text-lg font-mono transition-colors ${
-                  recordingTime >= 50 ? 'text-orange-500' : 'text-card-foreground'
-                }`}>
+                <span className="text-lg font-mono text-card-foreground">
                   {formatTime(recordingTime)}
                 </span>
                 <span className="text-sm text-muted-foreground">
@@ -418,21 +411,12 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               {/* Progress bar */}
               <div className="w-48 h-1 bg-muted/30 rounded-full mx-auto overflow-hidden">
                 <div 
-                  className={`h-full transition-all duration-1000 rounded-full ${
-                    recordingTime >= 50 ? 'bg-orange-500' : 'bg-primary'
-                  }`}
+                  className="h-full transition-all duration-1000 rounded-full bg-primary"
                   style={{ 
                     width: `${Math.min((recordingTime / MAX_RECORDING_TIME) * 100, 100)}%` 
                   }}
                 />
               </div>
-              
-              {/* Warning message */}
-              {recordingTime >= 50 && (
-                <p className="text-sm text-orange-500 animate-pulse">
-                  Recording will stop automatically at 60 seconds
-                </p>
-              )}
             </div>
           )}
 
