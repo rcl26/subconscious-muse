@@ -285,7 +285,6 @@ export const DreamJournal = () => {
               className="text-primary-foreground/70 hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
             >
               <Search className="h-4 w-4" />
-              <span className="ml-2 text-sm">Search dreams</span>
             </Button>
           </div>
         )}
