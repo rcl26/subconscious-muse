@@ -241,12 +241,14 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
     return (
       <Card className="p-8 bg-card shadow-dream border-0 backdrop-blur-sm relative">
         {/* X Button in top-right corner */}
-        <button
+        <Button
           onClick={handleCancel}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground hover:text-card-foreground"
+          variant="ghost"
+          size="icon"
+          className="absolute top-4 right-4 h-8 w-8 rounded-full z-10"
         >
-          <X className="w-4 h-4" />
-        </button>
+          <X className="h-4 w-4" />
+        </Button>
 
         <div className="space-y-6">
           <div className="text-center">
