@@ -235,7 +235,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               Your Dream Has Been Captured
             </h3>
             <p className="text-muted-foreground">
-              Review and edit before saving
+              Review before saving
             </p>
           </div>
 
