@@ -165,11 +165,17 @@ export const DreamJournal = () => {
     >
       <div className="max-w-4xl mx-auto font-helvetica">
         {/* Header */}
-        <div className="flex items-center justify-end mb-8">
-          <div className="flex items-center space-x-4">
-            {user && <ProfileDropdown onSignOut={handleSignOut} />}
+        {user ? (
+          <div className="flex items-center justify-between mb-8">
+            <ProfileDropdown onSignOut={handleSignOut} />
+            <div className="flex items-center space-x-2 text-primary-foreground/80">
+              <Moon className="h-4 w-4" />
+              <span className="text-sm font-medium">100</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="mb-8" />
+        )}
 
         {/* Modern Dream Recorder */}
         {user && (
