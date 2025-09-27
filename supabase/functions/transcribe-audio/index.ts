@@ -64,6 +64,23 @@ serve(async (req) => {
     const binaryAudio = processBase64Chunks(audio)
     console.log('Binary audio size:', binaryAudio.length);
     
+    // Check file size limit (1MB = 1,048,576 bytes)
+    const MAX_FILE_SIZE = 1048576; // 1MB
+    if (binaryAudio.length > MAX_FILE_SIZE) {
+      console.log(`Audio file too large: ${binaryAudio.length} bytes (limit: ${MAX_FILE_SIZE})`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Audio file too large. Please keep recordings under 2 minutes.',
+          fileSize: binaryAudio.length,
+          maxSize: MAX_FILE_SIZE
+        }),
+        {
+          status: 413, // Payload Too Large
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+    
     // Prepare form data
     const formData = new FormData()
     const blob = new Blob([binaryAudio], { type: 'audio/webm' })

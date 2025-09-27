@@ -164,7 +164,17 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
             body: { audio: base64Audio }
           });
 
-          if (error) throw error;
+          if (error) {
+            // Handle file size limit specifically
+            if (error.message?.includes('Audio file too large')) {
+              setRecordingState('idle');
+              toast.error("Recording too long. Please keep dreams under 2 minutes or use manual entry.", {
+                duration: 4000
+              });
+              return;
+            }
+            throw error;
+          }
 
           // Enhanced validation for meaningful transcription
           const transcribedText = data.text?.trim() || '';
