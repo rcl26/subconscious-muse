@@ -140,11 +140,17 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           if (error) throw error;
 
-          // Check if transcription is empty or only whitespace
+          // Enhanced validation for meaningful transcription
           const transcribedText = data.text?.trim() || '';
-          if (!transcribedText) {
+          
+          // Filter out meaningless responses and ensure minimum content
+          const meaninglessPatterns = /^(silence\.?|\.+|,+|\s+|\.{2,}|,{2,})$/i;
+          const cleanText = transcribedText.replace(/[.,!?;]+$/g, '').trim();
+          const wordCount = cleanText.split(/\s+/).filter(word => word.length > 0).length;
+          
+          if (!transcribedText || meaninglessPatterns.test(transcribedText) || cleanText.length < 3 || wordCount < 2) {
             setRecordingState('idle');
-            toast.error("No speech detected. Please try recording again.");
+            toast.error("Unable to detect clear speech. Please try speaking more clearly or use manual entry.");
             return;
           }
 
