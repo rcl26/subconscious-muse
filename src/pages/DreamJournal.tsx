@@ -84,11 +84,11 @@ export const DreamJournal = () => {
     );
   }
 
-  const handleDreamRecorded = (dreamText: string, title?: string) => {
+  const handleDreamRecorded = (dreamText: string, title?: string, showToast: boolean = true) => {
     console.log('📝 DreamJournal: handleDreamRecorded called with:', dreamText, title);
     
     // Save dream with optimistic update (happens instantly)
-    saveDream(dreamText, title);
+    saveDream(dreamText, title, showToast);
     
     console.log('🔙 DreamJournal: Dream added to journal');
   };

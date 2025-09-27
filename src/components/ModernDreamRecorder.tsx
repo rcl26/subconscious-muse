@@ -13,7 +13,7 @@ import { toast } from "sonner";
 type RecordingState = 'idle' | 'recording' | 'processing' | 'transcribed' | 'error';
 
 interface ModernDreamRecorderProps {
-  onDreamRecorded: (dreamText: string, title?: string) => void;
+  onDreamRecorded: (dreamText: string, title?: string, showToast?: boolean) => void;
   onCancel?: () => void;
 }
 
@@ -90,7 +90,6 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
       analyzeAudio();
       
       triggerHapticFeedback('light');
-      toast("Recording started! Speak your dream...");
       
     } catch (error) {
       console.error('Error starting recording:', error);
@@ -143,7 +142,6 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           setTranscribedText(data.text);
           setRecordingState('transcribed');
-          toast.success("Dream transcribed successfully!");
           
         } catch (error) {
           console.error('Transcription error:', error);
@@ -164,7 +162,7 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
   const handleSave = () => {
     const dreamText = isManualEntry ? manualText : transcribedText;
     if (dreamText.trim()) {
-      onDreamRecorded(dreamText.trim(), title.trim() || undefined);
+      onDreamRecorded(dreamText.trim(), title.trim() || undefined, false);
       // Reset state
       setTranscribedText("");
       setTitle("");
