@@ -207,6 +207,7 @@ export const DreamJournal = () => {
           )}
           
           <div className="flex items-center space-x-4">
+            {user && <ProfileDropdown onSignOut={handleSignOut} />}
           </div>
         </div>
 
@@ -338,14 +339,6 @@ export const DreamJournal = () => {
         </div>
       </div>
 
-      {/* Profile Dropdown - Bottom Left */}
-      {user && (
-        <div className="fixed bottom-6 left-6 z-50">
-          <ProfileDropdown 
-            onSignOut={handleSignOut}
-          />
-        </div>
-      )}
 
       {/* Modals */}
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} onAuthSuccess={handleAuthSuccess} />
