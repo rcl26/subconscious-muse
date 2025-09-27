@@ -11,6 +11,7 @@ import { AuthModal } from "@/components/AuthModal";
 
 import { DreamRecorder } from "@/components/DreamRecorder";
 import { InlineVoiceRecorder } from "@/components/InlineVoiceRecorder";
+import { ModernDreamRecorder } from "@/components/ModernDreamRecorder";
 import { DreamEntry } from "@/components/DreamEntry";
 import { DreamConversationModal } from "@/components/DreamConversationModal";
 import { DreamSearchFilter } from "@/components/DreamSearchFilter";
@@ -180,7 +181,10 @@ export const DreamJournal = () => {
             </Button>
           </div>
 
-          <DreamRecorder onDreamRecorded={handleDreamRecorded} />
+          <ModernDreamRecorder 
+            onDreamRecorded={handleDreamRecorded}
+            onCancel={() => setShowRecorder(false)}
+          />
         </div>
       </div>
     );

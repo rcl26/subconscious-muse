@@ -18,6 +18,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        magical: "bg-gradient-to-br from-primary/80 to-accent/60 text-primary-foreground hover:from-primary hover:to-accent/80 shadow-dream transition-magical",
+        orb: "bg-transparent border-0 p-0 hover:bg-transparent transition-magical",
       },
       size: {
         default: "h-10 px-4 py-2",
