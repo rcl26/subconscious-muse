@@ -292,14 +292,15 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               Describe Your Dream
             </h2>
             <p className="text-muted-foreground">
-              {recordingState === 'idle' && "Tap the orb to start recording"}
-              {recordingState === 'recording' && "Listening to your dream..."}
-              {recordingState === 'processing' && "Transcribing your dream..."}
-              {recordingState === 'error' && "Something went wrong"}
+              {!isManualEntry && recordingState === 'idle' && "Tap the orb to start recording"}
+              {!isManualEntry && recordingState === 'recording' && "Listening to your dream..."}
+              {!isManualEntry && recordingState === 'processing' && "Transcribing your dream..."}
+              {!isManualEntry && recordingState === 'error' && "Something went wrong"}
+              {isManualEntry && "Type your dream below"}
             </p>
           </div>
 
-          {/* Main Recording Orb or Manual Entry Button */}
+          {/* Main Recording Orb or Manual Entry */}
           {!isManualEntry ? (
             <div className="relative flex justify-center">
               <FloatingRecordOrb
@@ -310,29 +311,46 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               />
             </div>
           ) : (
-            <div className="space-y-4">
-              <Textarea
-                value={manualText}
-                onChange={(e) => setManualText(e.target.value)}
-                className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
-                placeholder="Type your dream here..."
-              />
-              <div className="flex gap-3">
+            <div className="relative">
+              {/* Close button for manual entry */}
+              <Button
+                onClick={handleCancel}
+                variant="ghost"
+                size="icon"
+                className="absolute -top-2 -right-2 h-8 w-8 rounded-full z-10"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              
+              <div className="space-y-4">
+                {/* Title input */}
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="bg-card border-muted text-card-foreground"
+                  placeholder="Dream title (optional)"
+                />
+                
+                {/* Dream content textarea */}
+                <Textarea
+                  value={manualText}
+                  onChange={(e) => setManualText(e.target.value)}
+                  className="min-h-[200px] bg-card border-muted text-card-foreground resize-none"
+                  placeholder="Type your dream here..."
+                />
+                
+                {/* Single save button */}
                 <Button
-                  onClick={handleManualEntry}
+                  onClick={() => {
+                    if (manualText.trim()) {
+                      handleSave();
+                    }
+                  }}
                   disabled={!manualText.trim()}
-                  className="flex-1 bg-primary hover:bg-primary/90 transition-magical"
+                  className="w-full bg-primary hover:bg-primary/90 transition-magical"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Continue to Review
-                </Button>
-                <Button
-                  onClick={() => setIsManualEntry(false)}
-                  variant="outline"
-                  className="px-6"
-                >
-                  <Mic className="w-4 h-4 mr-2" />
-                  Use Voice
+                  Save Dream
                 </Button>
               </div>
             </div>
