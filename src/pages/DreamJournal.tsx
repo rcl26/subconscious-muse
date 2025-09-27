@@ -165,13 +165,7 @@ export const DreamJournal = () => {
     >
       <div className="max-w-4xl mx-auto font-helvetica">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          {user && (
-            <h1 className="text-lg font-cormorant font-semibold text-primary-foreground">
-              {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
-            </h1>
-          )}
-          
+        <div className="flex items-center justify-end mb-8">
           <div className="flex items-center space-x-4">
             {user && <ProfileDropdown onSignOut={handleSignOut} />}
           </div>
@@ -200,17 +194,23 @@ export const DreamJournal = () => {
           </div>
         )}
 
-        {/* Search Section */}
-        {user && dreams.length > 0 && !showSearch && (
-          <div className="flex justify-end mb-4">
-            <Button
-              onClick={() => setShowSearch(true)}
-              variant="ghost"
-              size="sm"
-              className="text-primary-foreground/70 hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
-            >
-              <Search className="h-4 w-4" />
-            </Button>
+        {/* Dreams Section Header */}
+        {user && dreams.length > 0 && (
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-cormorant font-semibold text-primary-foreground">
+              {profile?.preferred_name ? `${profile.preferred_name}'s Journal` : 'Your Journal'}
+            </h2>
+            
+            {!showSearch && (
+              <Button
+                onClick={() => setShowSearch(true)}
+                variant="ghost"
+                size="sm"
+                className="text-primary-foreground/70 hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         )}
 
