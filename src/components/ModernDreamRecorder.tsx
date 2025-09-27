@@ -99,13 +99,12 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               clearInterval(timerRef.current);
               timerRef.current = null;
             }
-            // Stop recording and show single notification
-            setTimeout(() => {
-              stopRecording();
-              toast.info("Dreams are limited to 60 seconds", {
-                duration: 3000
-              });
-            }, 100);
+            // Show toast immediately and stop recording
+            toast.info("Dreams are limited to 60 seconds", {
+              duration: 3000
+            });
+            // Stop recording immediately - this will trigger transcription
+            stopRecording();
             return MAX_RECORDING_TIME;
           }
           
