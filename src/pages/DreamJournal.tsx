@@ -207,16 +207,6 @@ export const DreamJournal = () => {
           )}
           
           <div className="flex items-center space-x-4">
-            {user && dreams.length > 0 && (
-              <Button
-                onClick={() => setShowSearch(true)}
-                variant="ghost"
-                size="sm"
-                className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            )}
           </div>
         </div>
 
@@ -282,6 +272,21 @@ export const DreamJournal = () => {
               resultsCount={filteredDreams.length}
               totalCount={dreams.length}
             />
+          </div>
+        )}
+
+        {/* Search Section */}
+        {user && dreams.length > 0 && !showSearch && (
+          <div className="flex justify-end mb-4">
+            <Button
+              onClick={() => setShowSearch(true)}
+              variant="ghost"
+              size="sm"
+              className="text-primary-foreground/70 hover:bg-primary-foreground/10 hover:text-primary-foreground p-2 rounded-lg"
+            >
+              <Search className="h-4 w-4" />
+              <span className="ml-2 text-sm">Search dreams</span>
+            </Button>
           </div>
         )}
 
