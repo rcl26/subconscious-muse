@@ -474,9 +474,6 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
               >
                 or enter your dream manually
               </button>
-              <p className="text-xs text-muted-foreground">
-                Audio recordings are limited to 60 seconds for optimal performance
-              </p>
             </div>
           )}
         </div>
