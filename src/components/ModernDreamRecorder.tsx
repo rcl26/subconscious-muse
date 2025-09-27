@@ -379,10 +379,10 @@ export const ModernDreamRecorder = ({ onDreamRecorded, onCancel }: ModernDreamRe
 
           {/* Manual Entry Option */}
           {recordingState === 'idle' && !isManualEntry && (
-            <div className="text-center">
+            <div className="text-center mt-8">
               <button
                 onClick={() => setIsManualEntry(true)}
-                className="text-sm text-muted-foreground hover:text-card-foreground transition-colors underline-offset-4 hover:underline"
+                className="text-sm text-muted-foreground hover:text-card-foreground transition-colors underline underline-offset-4"
               >
                 or enter your dream manually
               </button>

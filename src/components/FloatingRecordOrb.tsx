@@ -114,15 +114,6 @@ export const FloatingRecordOrb = ({
         </div>
       </Button>
       
-      {/* Action label */}
-      <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-        <span className="text-xs text-muted-foreground bg-card/80 px-3 py-1 rounded-full backdrop-blur-sm">
-          {state === 'idle' && "Tap to record"}
-          {state === 'recording' && "Tap to stop"}
-          {state === 'processing' && "Processing..."}
-          {state === 'error' && "Error occurred"}
-        </span>
-      </div>
     </div>
   );
 };
